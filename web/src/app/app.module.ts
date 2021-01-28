@@ -21,12 +21,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { HomeComponent } from './componentes/home/home.component';
 import { AppConfigService } from './core/config.service';
 import { GrupoComponent } from './componentes/grupo/grupo.component';
+import { BarraMenuComponent } from './barra-menu/barra-menu.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GrupoComponent,
+    BarraMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,8 +54,12 @@ import { GrupoComponent } from './componentes/grupo/grupo.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatOptionModule,
-    MatSelectModule
-    
+    MatSelectModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
+
   ],
   providers: [
     AppConfigService,
@@ -59,6 +69,7 @@ import { GrupoComponent } from './componentes/grupo/grupo.component';
 })
 export class AppModule { }
 
+// tslint:disable-next-line:typedef
 export function loadConfig(config: AppConfigService) {
   return () => config.load();
 }
