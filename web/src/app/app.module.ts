@@ -26,6 +26,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { ConfirmarComponent } from './confirmar/confirmar.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatListModule } from '@angular/material/list';
     HomeComponent,
     GrupoComponent,
     BarraMenuComponent,
+    ConfirmarComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+<mat-card style="width: 100%;">
 <div [hidden]="mostrarFormulario">
     <table mat-table [dataSource]='grupos' class="mat-elevation-z8" #tabla>
     
@@ -7,28 +8,35 @@
         <!-- Position Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>
-            <div style="color: rgb(79, 23, 143);"><h3><b>ID Grupo</b></h3></div></th>
+            <div style="color:#2271b3;"><h3><b>ID Grupo</b></h3></div></th>
           <td mat-cell *matCellDef="let grupo"> <b>{{grupo.grupId}} </b></td>
         </ng-container>
       
         <!-- Name Column -->
         <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef>
-            <div style="color: rgb(79, 23, 143);"><h3><b>Nombre Grupo</b> </h3></div></th>
+            <div style="color: #2271b3;"><h3><b>Nombre Grupo</b> </h3></div></th>
           <td mat-cell *matCellDef="let grupo"> <b>{{grupo.grupNombre}} </b> </td>
         </ng-container>
       
         <!-- Weight Column -->
         <ng-container matColumnDef="descripcion">
           <th mat-header-cell *matHeaderCellDef> 
-            <div style="color: rgb(79, 23, 143);"><h3><b>Descripcion </b></h3></div></th>
+            <div style="color: #2271b3;"><h3><b>Descripcion </b></h3></div></th>
           <td mat-cell *matCellDef="let grupo"> <b>{{grupo.grupDescripcion}}</b> </td>
         </ng-container>
-    
-        <ng-container matColumnDef="fecha">
-          <th mat-header-cell *matHeaderCellDef> 
-            <div style="color: rgb(79, 23, 143);"><h3><b>Fecha Alta </b></h3></div></th>
-          <td mat-cell *matCellDef="let grupo"> <b>{{grupo.grupFechaAlta | date:'dd-LL-yyyy'}}</b> </td>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let producto">
+             
+            <button title="editar" (click)="edit(producto)">
+                  <mat-icon>brush</mat-icon>
+              </button>
+
+              <button title="borrar" (click)="delete(producto)">
+                  <mat-icon>delete_sweep</mat-icon>
+              </button>
         </ng-container>
     
       
@@ -36,4 +44,4 @@
         <tr mat-row *matRowDef='let row; columns: columna'></tr>
       </table>
   </div>
- 
+</mat-card>

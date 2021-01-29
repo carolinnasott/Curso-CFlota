@@ -10,8 +10,10 @@
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
+.mat-toolbar.mat-success {
   position: sticky;
   top: 0;
   z-index: 1;
+  color: #f0fff3;
+  background-color: #145e9b
 }
