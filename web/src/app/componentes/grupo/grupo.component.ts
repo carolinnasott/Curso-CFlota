@@ -23,14 +23,15 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Grupo>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'acciones'];
+  date: Date = new Date();
 
   @ViewChild(MatTable) tabla: MatTable<Grupo> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  dialog: any;
   
-  
-  constructor( private grupoService: GrupoService, private formBuilder: FormBuilder) { }
+  constructor(private grupoService: GrupoService,
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog) { }
 
   // tslint:disable-next-line:typedef
   ngAfterViewInit() {
@@ -65,25 +66,24 @@ export class GrupoComponent implements OnInit, AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
+  agregar() {
+    this.form.reset();
+    this.seleccionado = new Grupo();
+    this.mostrarFormulario = true;
+  }
+  // tslint:disable-next-line:typedef
   delete(row: Grupo) {
 
     const dialogRef = this.dialog.open(ConfirmarComponent);
 
-    dialogRef.afterClosed().subscribe((result: any) => {
+    dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
         this.grupoService.delete(row.grupId)
           .subscribe(() => {
 
-            this.grupos = this.grupos.filter((grupos) => {
-              if (grupos.grupId !== row.grupId) {
-                return true
-              } else {
-                return false
-              }
-            });
+            this.grupos = this.grupos.filter( x => x !== row);
 
             this.actualizarTabla();
           });
@@ -98,5 +98,33 @@ export class GrupoComponent implements OnInit, AfterViewInit {
     this.form.setValue(seleccionado);
   }
 
+  // tslint:disable-next-line:typedef
+  guardar() {
+    if (!this.form.valid) {
+      return;
+    }
+
+    Object.assign(this.seleccionado, this.form.value);
+
+    if (this.seleccionado.grupId) {
+      this.grupoService.put(this.seleccionado)
+        .subscribe((grupo) => {
+        });
+
+    } else {
+      this.grupoService.post(this.seleccionado)
+        .subscribe((grupo: Grupo) => {
+          this.grupos.push(grupo);
+          //this.mostrarFormulario = false;
+          this.actualizarTabla();
+        });
+    }
+
+  }
+
+  // tslint:disable-next-line:typedef
+  cancelar() {
+    this.mostrarFormulario = false;
+  }
 
 }

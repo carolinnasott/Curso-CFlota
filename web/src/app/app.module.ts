@@ -26,6 +26,9 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import {MatStepperModule} from '@angular/material/stepper';
+
+
 import { ConfirmarComponent } from './confirmar/confirmar.component';
 
 @NgModule({
@@ -60,7 +63,8 @@ import { ConfirmarComponent } from './confirmar/confirmar.component';
     LayoutModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatStepperModule
 
   ],
   providers: [

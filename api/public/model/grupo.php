@@ -13,7 +13,7 @@ class Grupo
     
     public function get ($db) {
         $sql = "SELECT $this->fields FROM $this->table
-                $this->join
+                
                 WHERE grupBorrado = 0";
 
         $stmt = SQL::query($db, $sql, null);
