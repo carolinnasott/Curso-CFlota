@@ -1,11 +1,11 @@
 
-### PEDIDO
+### Test grupos
 
 GET http://localhost:8888/index.php/grupo HTTP/1.1
 
 ###
 
-DELETE http://localhost:8888/index.php/grupo/1 HTTP/1.1
+DELETE http://localhost:8888/index.php/grupo/6 HTTP/1.1
 
 
 ###
