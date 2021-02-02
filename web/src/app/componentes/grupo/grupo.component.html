@@ -5,13 +5,11 @@
      <mat-label><i><b> Filtrar</b></i></mat-label>
      <input matInput (keyup)="filter($event)" placeholder="..." #input>
     </mat-form-field>
+    
 <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Grupo</button>
 
     <table mat-table [dataSource]='grupos' class="mat-elevation-z8" #tabla>
     
-        <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-      
         <!-- Position Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>

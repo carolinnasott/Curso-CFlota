@@ -1,5 +1,5 @@
 
-### Test grupos
+### ---------------- Test grupos
 
 GET http://localhost:8888/index.php/grupo HTTP/1.1
 
@@ -27,5 +27,34 @@ PUT http://localhost:8888/index.php/grupo HTTP/1.1
     "grupId": 1,
     "grupNombre": "Camionetas",
     "grupDescripcion": "Camionetas Toyota modelo nuevo"
+  }
+
+
+
+###-------------------- Test Servicio
+
+GET http://localhost:8888/index.php/servicio HTTP/1.1
+
+###
+
+DELETE http://localhost:8888/index.php/servicio/3 HTTP/1.1
+
+
+###
+
+POST http://localhost:8888/index.php/servicio HTTP/1.1
+Content-Type: application/json
+
+{
+
+}
+
+
+###
+
+PUT http://localhost:8888/index.php/servicio HTTP/1.1
+
+{
+ 
   }
 

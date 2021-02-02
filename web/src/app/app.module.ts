@@ -30,6 +30,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 
 
 import { ConfirmarComponent } from './confirmar/confirmar.component';
+import { ServicioComponent } from './componentes/servicio/servicio.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ConfirmarComponent } from './confirmar/confirmar.component';
     GrupoComponent,
     BarraMenuComponent,
     ConfirmarComponent,
+    ServicioComponent,
   ],
   imports: [
     BrowserModule,
