@@ -55,60 +55,46 @@
 
   <!-- Formulario-->
 <div *ngIf="mostrarFormulario">
-    <mat-horizontal-stepper linear style="color:#2271b3;">
-  
-        <mat-step [stepControl]="form" [editable]="false">
-  
-          <form [formGroup]="form">
-  
-              <ng-template matStepLabel>Nombre y Descripcion de Grupo</ng-template>
-              <div>
-                  <div>
-                      <mat-form-field appearance="outline">
-                          <mat-label>Nombre</mat-label>
-                          <input matInput formControlName="grupNombre" required>
-                          <mat-error>El campo no puede ser vacio</mat-error>
-                      </mat-form-field>
-                  </div>
-                 <div>
-                      <mat-form-field appearance="outline">
-                          <mat-label>Descripcion</mat-label>
-                          <input matInput formControlName="grupDescripcion" required>
-                          <mat-error>El campo no puede ser vacio</mat-error>
-                      </mat-form-field>
-                  </div>
-                  
-                  <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-                  <button mat-raised-button color="success" matStepperNext >Siguiente</button>
-              </div>
-          </form>
-        </mat-step >
-  
-        <mat-step [editable]="false">
-          <ng-template matStepLabel>Fecha de Alta</ng-template>
+  <mat-horizontal-stepper linear style="color:#2271b3;">
+    <mat-step [stepControl]="form" [editable]="false">
+      <form [formGroup]="form">
+        <ng-template matStepLabel>Nombre</ng-template>
           <div>
-            <div>
-              <mat-form-field appearance="outline">
-                  <mat-label>Fecha</mat-label>
-                  <input matInput [min]="date" [matDatepicker]="picker" formControlName="grupFecha" required>
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker disabled="false"></mat-datepicker>
-                  <mat-error>El campo no puede ser vacio</mat-error>
-              </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre</mat-label>
+              <input matInput formControlName="grupNombre" required>
+              <mat-error>El campo no puede ser vacio</mat-error>
+            </mat-form-field>
           </div>
-              <button mat-raised-button matStepperPrevious style="margin-right: 10px;">Atras</button>
-              <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-              <button mat-raised-button color="success" (click)="guardar()" matStepperNext>Guardar</button>
+          <div>
+            <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
+            <button mat-raised-button color="success" matStepperNext>Siguiente</button>
           </div>
-        </mat-step>
+      </form>
+    </mat-step >
 
+    <mat-step [stepControl]="form" [editable]="false">
+      <form [formGroup]="form">
+      <ng-template matStepLabel>Descripcion de Grupo</ng-template>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Descripcion</mat-label>
+            <input matInput formControlName="grupDescripcion" required>
+            <mat-error>El campo no puede ser vacio</mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button matStepperPrevious style="margin-right: 10px;">Atras</button>
+          <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
+          <button mat-raised-button color="success" (click)="guardar()" matStepperNext>Guardar</button>
+        </div>
+      </form>
+    </mat-step>
 
-        <mat-step [editable]="false">
-          <ng-template matStepLabel>Finalizar</ng-template>
-          <h3>Los datos se guardaron con exito</h3>
-  
-          <button mat-raised-button (click)="cancelar()">Salir</button>
-          
-        </mat-step>
-    </mat-horizontal-stepper>
+    <mat-step [editable]="false">
+      <ng-template matStepLabel>Finalizar</ng-template>
+      <h3>Los datos se guardaron con exito</h3>
+      <button mat-raised-button (click)="cancelar()">Salir</button>
+    </mat-step>
+  </mat-horizontal-stepper>
 </div>

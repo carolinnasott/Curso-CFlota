@@ -6,59 +6,59 @@
          <input matInput (keyup)="filter($event)" placeholder="..." #input>
         </mat-form-field>
         
-    <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Servicio</button>
+    <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Tarea</button>
     
-        <table mat-table [dataSource]='servicios' class="mat-elevation-z8" #tabla>
+        <table mat-table [dataSource]='tareas' class="mat-elevation-z8" #tabla>
         
             <!-- Position Column -->
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>
-                <div style="color:#2271b3;"><h3><b>ID Servicio</b></h3></div></th>
-              <td mat-cell *matCellDef="let servicio"> <b>{{servicio.servId}} </b></td>
+                <div style="color:#2271b3;"><h3><b>ID Tarea</b></h3></div></th>
+              <td mat-cell *matCellDef="let tarea"> <b>{{tarea.tareId}} </b></td>
             </ng-container>
           
             <!-- Name Column -->
             <ng-container matColumnDef="nombre">
               <th mat-header-cell *matHeaderCellDef>
-                <div style="color: #2271b3;"><h3><b>Nombre Servicio</b> </h3></div></th>
-              <td mat-cell *matCellDef="let servicio"> <b>{{servicio.servNombre}} </b> </td>
+                <div style="color: #2271b3;"><h3><b>Nombre Tarea</b> </h3></div></th>
+              <td mat-cell *matCellDef="let tarea"> <b>{{tarea.tareNombre}} </b> </td>
             </ng-container>
           
             <!-- Weight Column -->
             <ng-container matColumnDef="descripcion">
               <th mat-header-cell *matHeaderCellDef> 
                 <div style="color: #2271b3;"><h3><b>Descripcion </b></h3></div></th>
-              <td mat-cell *matCellDef="let servicio"> <b>{{servicio.servDescripcion}}</b> </td>
+              <td mat-cell *matCellDef="let tarea"> <b>{{tarea.tareDescripcion}}</b> </td>
             </ng-container>
     
-            <ng-container matColumnDef="periodo">
+            <ng-container matColumnDef="unidad">
                 <th mat-header-cell *matHeaderCellDef> 
-                  <div style="color: #2271b3;"><h3><b>Periodo </b></h3></div></th>
-                <td mat-cell *matCellDef="let servicio"> <b>{{servicio.servPeriodo}}</b> </td>
+                  <div style="color: #2271b3;"><h3><b>Unidad Medida </b></h3></div></th>
+                <td mat-cell *matCellDef="let tarea"> <b>{{tarea.tareUnidadMedida}}</b> </td>
               </ng-container>
 
-              <ng-container matColumnDef="km">
+              <ng-container matColumnDef="cantidad">
                 <th mat-header-cell *matHeaderCellDef> 
-                  <div style="color: #2271b3;"><h3><b>Kilometros </b></h3></div></th>
-                <td mat-cell *matCellDef="let servicio"> <b>{{servicio.servKM}}</b> </td>
+                  <div style="color: #2271b3;"><h3><b>Cantidad </b></h3></div></th>
+                <td mat-cell *matCellDef="let tarea"> <b>{{tarea.tareCantidad}}</b> </td>
               </ng-container>
 
-              <ng-container matColumnDef="fecha">
+              <ng-container matColumnDef="costo">
                 <th mat-header-cell *matHeaderCellDef> 
-                  <div style="color: #2271b3;"><h3><b>Fecha Limite </b></h3></div></th>
-                <td mat-cell *matCellDef="let servicio"> <b>{{servicio.servFecha}}</b> </td>
+                  <div style="color: #2271b3;"><h3><b>Costo </b></h3></div></th>
+                <td mat-cell *matCellDef="let tarea"> <b>{{tarea.tareCosto}}</b> </td>
               </ng-container>
 
               <!-- ACCIONES -->
             <ng-container matColumnDef="acciones">
               <th mat-header-cell *matHeaderCellDef> </th>
-              <td mat-cell *matCellDef="let servicio">
+              <td mat-cell *matCellDef="let tarea">
                  
-                <button title="editar" (click)="edit(servicio)">
+                <button title="editar" (click)="edit(tarea)">
                       <mat-icon>brush</mat-icon>
                   </button>
     
-                  <button title="borrar" (click)="delete(servicio)">
+                  <button title="borrar" (click)="delete(tarea)">
                       <mat-icon>delete_sweep</mat-icon>
                   </button>
             </ng-container>
@@ -77,51 +77,51 @@
       <mat-horizontal-stepper linear style="color:#2271b3;">
         <mat-step [stepControl]="form" [editable]="false">
           <form [formGroup]="form">
-            <ng-template matStepLabel>Nombre y Descripcion de Servicio</ng-template>
+            <ng-template matStepLabel>Nombre y Descripcion de tarea</ng-template>
               <div>
                 <mat-form-field appearance="outline">
                   <mat-label>Nombre</mat-label>
-                  <input matInput formControlName="servNombre" required>
+                  <input matInput formControlName="tareNombre" required>
                   <mat-error>El campo no puede ser vacio</mat-error>
                 </mat-form-field>
               </div>
               <div>
                 <mat-form-field appearance="outline">
                   <mat-label>Descripcion</mat-label>
-                  <input matInput formControlName="servDescripcion" required>
+                  <input matInput formControlName="tareDescripcion" required>
                   <mat-error>El campo no puede ser vacio</mat-error>
                 </mat-form-field>
               </div>
-              <div> 
-                <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-                <button mat-raised-button color="success" matStepperNext >Siguiente</button>
-              </div>
-          </form>
-        </mat-step >
-      
-        <mat-step [stepControl]="form" [editable]="false">
-          <form [formGroup]="form">
-            <ng-template matStepLabel>Kilometro y Periodo</ng-template>
-              <div>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Kilometros</mat-label>
-                    <input matInput formControlName="servKM" required>
-                    <mat-error>El campo no puede ser vacio</mat-error>
-                  </mat-form-field>
-              </div>
               <div>
                 <mat-form-field appearance="outline">
-                    <mat-label>Periodo</mat-label>
-                    <input matInput formControlName="servPeriodo" required>
-                    <mat-error>El campo no puede ser vacio</mat-error>
+                  <mat-label>Unidad Medida</mat-label>
+                  <input matInput formControlName="tareUnidadMedida" required>
+                  <mat-error>El campo no puede ser vacio</mat-error>
                 </mat-form-field>
               </div>
               <div>
-                 <mat-form-field appearance="outline">
-                    <mat-label>Fecha Limite</mat-label>
-                    <input matInput formControlName="servFecha" required>
-                    <mat-error>El campo no puede ser vacio</mat-error>
-                 </mat-form-field>
+                <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
+                <button mat-raised-button color="success" matStepperNext>Siguiente</button>
+              </div>
+          </form>
+        </mat-step>
+      
+        <mat-step [stepControl]="form" [editable]="false">
+          <form [formGroup]="form">
+            <ng-template matStepLabel>Cantidad y Costo</ng-template>
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Cantidad</mat-label>
+                  <input matInput formControlName="tareCantidad" required>
+                  <mat-error>El campo no puede ser vacio</mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Costo</mat-label>
+                  <input matInput formControlName="tareCosto" required>
+                  <mat-error>El campo no puede ser vacio</mat-error>
+                </mat-form-field>
               </div>
               <div>
                 <button mat-raised-button matStepperPrevious style="margin-right: 10px;">Atras</button>
@@ -130,10 +130,11 @@
               </div>
           </form>
         </mat-step>
-        <mat-step [editable]="false">
-          <ng-template matStepLabel>Finalizar</ng-template>
-          <h3>Los datos se guardaron con exito</h3>
-          <button mat-raised-button (click)="cancelar()">Salir</button>
-        </mat-step>
+    
+         <mat-step [editable]="false">
+            <ng-template matStepLabel>Finalizar</ng-template>
+            <h3>Los datos se guardaron con exito</h3>
+            <button mat-raised-button (click)="cancelar()">Salir</button>
+         </mat-step>
       </mat-horizontal-stepper>
     </div>

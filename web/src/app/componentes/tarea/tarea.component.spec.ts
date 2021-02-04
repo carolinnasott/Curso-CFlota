@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfirmarComponent } from './confirmar.component';
+import { TareaComponent } from './tarea.component';
 
-describe('ConfirmarComponent', () => {
-  let component: ConfirmarComponent;
-  let fixture: ComponentFixture<ConfirmarComponent>;
+describe('TareaComponent', () => {
+  let component: TareaComponent;
+  let fixture: ComponentFixture<TareaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConfirmarComponent ]
+      declarations: [ TareaComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfirmarComponent);
+    fixture = TestBed.createComponent(TareaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

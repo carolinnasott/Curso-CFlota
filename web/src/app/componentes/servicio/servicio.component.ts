@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
-import { ConfirmarComponent } from 'src/app/confirmar/confirmar.component';
+import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
 import { Servicio } from 'src/app/modelo/servicio';
 import { ServicioService } from 'src/app/servicios/servicio.service';
 
@@ -53,7 +53,7 @@ export class ServicioComponent implements OnInit, AfterViewInit {
     });
 
     this.servicioService.get().subscribe(
-      (servicios: Servicio[]) => {
+      (servicios) => {
         this.servicios = servicios;
         this.actualizarTabla();
       }
@@ -84,7 +84,7 @@ export class ServicioComponent implements OnInit, AfterViewInit {
 
       if (result) {
         this.servicioService.delete(row.servId)
-          .subscribe(() => {
+          .subscribe((servicio) => {
 
             this.servicios = this.servicios.filter( x => x !== row);
 

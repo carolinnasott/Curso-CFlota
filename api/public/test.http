@@ -58,3 +58,31 @@ PUT http://localhost:8888/index.php/servicio HTTP/1.1
  
   }
 
+###-------------------- Test Tarea
+GET http://localhost:8888/index.php/tarea HTTP/1.1
+
+###
+
+POST http://localhost:8888/index.php/tarea HTTP/1.1
+Content-Type: application/json
+
+{
+  "tareNombre": "xxx",
+  "tareDescripcion": "xxx",
+  "tareUnidadMedida": 22,
+  "tareCantidad": 22,
+  "tareCosto":1
+}
+
+###
+
+PUT http://localhost:8888/index.php/tarea HTTP/1.1
+
+{
+  "tareId": 7,
+  "tareNombre": "xxx",
+  "tareDescripcion": "xxx",
+  "tareUnidadMedida": 22,
+  "tareCantidad": 22,
+  "tareCosto":1
+  }

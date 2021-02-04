@@ -50,7 +50,7 @@ class Servicio
         VALUES (?,?,?,?,?,GETDATE(),0);
 
         SELECT @@IDENTITY servId, CONVERT(VARCHAR, GETDATE(), 126) servFechaAlta;",
-        [DATA["servNombre"], DATA["servDescripcion"]] );
+        [DATA["servNombre"], DATA["servDescripcion"],DATA["servPeriodo"],DATA["servKM"],DATA["servFecha"]] );
 
         sqlsrv_fetch($stmt); // INSERT
         sqlsrv_next_result($stmt);// SELECT @@IDENTITY

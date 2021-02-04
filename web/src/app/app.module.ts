@@ -20,7 +20,6 @@ import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { HomeComponent } from './componentes/home/home.component';
 import { AppConfigService } from './core/config.service';
-import { GrupoComponent } from './componentes/grupo/grupo.component';
 import { BarraMenuComponent } from './barra-menu/barra-menu.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -29,8 +28,10 @@ import { MatListModule } from '@angular/material/list';
 import {MatStepperModule} from '@angular/material/stepper';
 
 
-import { ConfirmarComponent } from './confirmar/confirmar.component';
+import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
 import { ServicioComponent } from './componentes/servicio/servicio.component';
+import { GrupoComponent } from './componentes/grupo/grupo.component';
+import { TareaComponent } from './componentes/tarea/tarea.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ServicioComponent } from './componentes/servicio/servicio.component';
     BarraMenuComponent,
     ConfirmarComponent,
     ServicioComponent,
+    TareaComponent,
   ],
   imports: [
     BrowserModule,
