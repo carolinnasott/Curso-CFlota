@@ -86,3 +86,7 @@ PUT http://localhost:8888/index.php/tarea HTTP/1.1
   "tareCantidad": 22,
   "tareCosto":1
   }
+
+
+###-------------------- Test Servicio Tarea
+GET http://localhost:8888/index.php/servicio-tarea HTTP/1.1
