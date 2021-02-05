@@ -29,10 +29,9 @@ export class ServicioComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTable) tabla: MatTable<Servicio> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
   constructor(private servicioService: ServicioService,
-    private formBuilder: FormBuilder,
-    public dialog: MatDialog) { }
+              private formBuilder: FormBuilder,
+              public dialog: MatDialog) { }
 
   // tslint:disable-next-line:typedef
   ngAfterViewInit() {
