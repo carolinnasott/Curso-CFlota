@@ -18,7 +18,8 @@ import { TareaService } from 'src/app/servicios/tarea.service';
 export class TareaComponent implements OnInit, AfterViewInit {
   tareas: Tarea[] = [];
   seleccionado = new Tarea();
-  form = new FormGroup({});
+  firstFormGroup = new FormGroup({});
+  secondFormGroup = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Tarea>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'unidad', 'cantidad', 'costo', 'acciones'];
@@ -41,11 +42,12 @@ export class TareaComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.form = this.formBuilder.group({
+    this.firstFormGroup = this.formBuilder.group({
       tareId: [''],
       tareNombre: ['', Validators.required],
       tareDescripcion: ['', Validators.required],
-      tareUnidadMedida: ['', Validators.required],
+      tareUnidadMedida: ['', Validators.required]});
+    this.secondFormGroup = this.formBuilder.group({
       tareCantidad: ['', Validators.required],
       tareCosto: ['', Validators.required],
       tareFechaAlta: [''],
@@ -72,7 +74,8 @@ export class TareaComponent implements OnInit, AfterViewInit {
   }
   // tslint:disable-next-line:typedef
   agregar() {
-    this.form.reset();
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
     this.seleccionado = new Tarea();
     this.mostrarFormulario = true;
   }
@@ -100,16 +103,17 @@ export class TareaComponent implements OnInit, AfterViewInit {
   edit(seleccionado: Tarea) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-    this.form.setValue(seleccionado);
+    this.firstFormGroup.setValue(seleccionado);
+    this.secondFormGroup.setValue(seleccionado);
   }
 
   // tslint:disable-next-line:typedef
   guardar() {
-    if (!this.form.valid) {
+    if (!this.firstFormGroup.valid && !this.secondFormGroup.valid) {
       return;
     }
 
-    Object.assign(this.seleccionado, this.form.value);
+    Object.assign(this.seleccionado, this.firstFormGroup.value, this.secondFormGroup.value);
 
     if (this.seleccionado.tareId) {
       this.tareaService.put(this.seleccionado)

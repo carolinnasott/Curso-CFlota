@@ -119,7 +119,7 @@ export class GrupoComponent implements OnInit, AfterViewInit {
       this.grupoService.post(this.seleccionado)
         .subscribe((grupo: Grupo) => {
           this.grupos.push(grupo);
-          //this.mostrarFormulario = false;
+          // this.mostrarFormulario = false;
           this.actualizarTabla();
         });
     }

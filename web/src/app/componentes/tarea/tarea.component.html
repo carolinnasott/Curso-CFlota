@@ -75,8 +75,8 @@
       <!-- Formulario-->
     <div *ngIf="mostrarFormulario">
       <mat-horizontal-stepper linear style="color:#2271b3;">
-        <mat-step [stepControl]="form" [editable]="false">
-          <form [formGroup]="form">
+        <mat-step [stepControl]="firstFormGroup" [editable]="false">
+          <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Nombre y Descripcion de tarea</ng-template>
               <div>
                 <mat-form-field appearance="outline">
@@ -106,8 +106,8 @@
           </form>
         </mat-step>
       
-        <mat-step [stepControl]="form" [editable]="false">
-          <form [formGroup]="form">
+        <mat-step [stepControl]="secondFormGroup" [editable]="false">
+          <form [formGroup]="secondFormGroup">
             <ng-template matStepLabel>Cantidad y Costo</ng-template>
               <div>
                 <mat-form-field appearance="outline">

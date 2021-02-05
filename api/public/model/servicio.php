@@ -46,7 +46,7 @@ class Servicio
         ,servKM
         ,servFecha
         ,servFechaAlta
-        ,servBorrado')
+        ,servBorrado)
         VALUES (?,?,?,?,?,GETDATE(),0);
 
         SELECT @@IDENTITY servId, CONVERT(VARCHAR, GETDATE(), 126) servFechaAlta;",

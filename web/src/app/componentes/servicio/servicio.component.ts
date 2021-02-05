@@ -19,7 +19,8 @@ export class ServicioComponent implements OnInit, AfterViewInit {
   
   servicios: Servicio[] = [];
   seleccionado = new Servicio();
-  form = new FormGroup({});
+  firstFormGroup = new FormGroup({});
+  secondFormGroup = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Servicio>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'periodo', 'km', 'fecha', 'acciones'];
@@ -41,10 +42,11 @@ export class ServicioComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.form = this.formBuilder.group({
+    this.firstFormGroup = this.formBuilder.group({
       servId: [''],
       servNombre: ['', Validators.required],
-      servDescripcion: ['', Validators.required],
+      servDescripcion: ['', Validators.required]});
+    this.secondFormGroup = this.formBuilder.group({
       servPeriodo: ['', Validators.required],
       servKM: ['', Validators.required],
       servFecha: ['', Validators.required],
@@ -70,7 +72,8 @@ export class ServicioComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   agregar() {
-    this.form.reset();
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
     this.seleccionado = new Servicio();
     this.mostrarFormulario = true;
   }
@@ -98,16 +101,17 @@ export class ServicioComponent implements OnInit, AfterViewInit {
   edit(seleccionado: Servicio) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-    this.form.setValue(seleccionado);
+    this.firstFormGroup.setValue(seleccionado);
+    this.secondFormGroup.setValue(seleccionado);
   }
 
   // tslint:disable-next-line:typedef
   guardar() {
-    if (!this.form.valid) {
+    if (!this.firstFormGroup.valid && !this.secondFormGroup.valid) {
       return;
     }
 
-    Object.assign(this.seleccionado, this.form.value);
+    Object.assign(this.seleccionado, this.firstFormGroup.value, this.secondFormGroup.value);
 
     if (this.seleccionado.servId) {
       this.servicioService.put(this.seleccionado)
@@ -118,7 +122,7 @@ export class ServicioComponent implements OnInit, AfterViewInit {
       this.servicioService.post(this.seleccionado)
         .subscribe((servicio: Servicio) => {
           this.servicios.push(servicio);
-          //this.mostrarFormulario = false;
+          // this.mostrarFormulario = false;
           this.actualizarTabla();
         });
     }
