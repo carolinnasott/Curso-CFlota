@@ -16,10 +16,11 @@ import { GrupoService } from 'src/app/servicios/grupo.service';
   styleUrls: ['./grupo.component.css']
 })
 export class GrupoComponent implements OnInit, AfterViewInit {
-  
   grupos: Grupo[] = [];
   seleccionado = new Grupo();
-  form = new FormGroup({});
+  firstFormGroup = new FormGroup({});
+  secondFormGroup = new FormGroup({});
+
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Grupo>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'acciones'];
@@ -27,7 +28,7 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTable) tabla: MatTable<Grupo> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+
   constructor(private grupoService: GrupoService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog) { }
@@ -40,10 +41,11 @@ export class GrupoComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.form = this.formBuilder.group({
+    this.firstFormGroup = this.formBuilder.group({
       grupId: [''],
-      grupNombre: ['', Validators.required],
-      grupDescripcion: ['', Validators.required],
+      grupNombre: ['', Validators.required]});
+    this.secondFormGroup = this.formBuilder.group({
+      grupDescripcion: [''],
       grupFechaAlta: [''],
       grupBorrado: ['']
     });
@@ -65,8 +67,10 @@ export class GrupoComponent implements OnInit, AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  // tslint:disable-next-line:typedef
   agregar() {
-    this.form.reset();
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
     this.seleccionado = new Grupo();
     this.mostrarFormulario = true;
   }
@@ -94,16 +98,17 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   edit(seleccionado: Grupo) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-    this.form.setValue(seleccionado);
+    this.firstFormGroup.setValue(seleccionado);
+    this.secondFormGroup.setValue(seleccionado);
   }
 
   // tslint:disable-next-line:typedef
   guardar() {
-    if (!this.form.valid) {
+    if (!this.firstFormGroup.valid && !this.secondFormGroup.valid) {
       return;
     }
 
-    Object.assign(this.seleccionado, this.form.value);
+    Object.assign(this.seleccionado, this.firstFormGroup.value, this.secondFormGroup.value);
 
     if (this.seleccionado.grupId) {
       this.grupoService.put(this.seleccionado)
