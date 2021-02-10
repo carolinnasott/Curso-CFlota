@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
-import { FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { FormGroup, FormBuilder  } from '@angular/forms';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -24,7 +24,7 @@ import { GlobalService } from 'src/app/servicios/global.service';
 })
 
 
-export class ServicioTareaComponent implements OnInit, AfterViewInit {
+export class ServicioTareaComponent implements OnInit{
   serviciotareas: ServicioTarea[] = [];
   tareas: Tarea[] = [];
   servicios: Servicio[] = [];
@@ -48,11 +48,6 @@ export class ServicioTareaComponent implements OnInit, AfterViewInit {
               private globalService: GlobalService) { }
 
   // tslint:disable-next-line:typedef
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       setaId: [''],
@@ -78,7 +73,7 @@ export class ServicioTareaComponent implements OnInit, AfterViewInit {
   
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.globalService.sertar.filter(borrado => borrado.setaBorrado==false);
+    this.dataSource.data = this.globalService.sertar.filter(borrado => borrado.setaBorrado === false);
   }
 
   // tslint:disable-next-line:typedef
@@ -95,18 +90,22 @@ export class ServicioTareaComponent implements OnInit, AfterViewInit {
     this.mostrarFormulario = true;
   }
   // tslint:disable-next-line:typedef
-  delete(fila: ServicioTarea) {
+  delete(row: ServicioTarea) {
 
     const dialogRef = this.dialog.open(ConfirmarComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
 
-      if (result){
-        fila.setaBorrado = true;
-        this.actualizarTabla();
-      }
+      if (result) {
+        this.serviciotareaService.delete(row.setaId)
+          .subscribe((serviciotarea) => {
 
+            this.serviciotareas = this.serviciotareas.filter( x => x !== row);
+
+            this.actualizarTabla();
+          });
+      }
     });
   }
 
@@ -124,20 +123,18 @@ export class ServicioTareaComponent implements OnInit, AfterViewInit {
     }
 
     Object.assign(this.seleccionado, this.form.value);
-
+    // tslint:disable-next-line:no-non-null-assertion
+    this.seleccionado.tareNombre = this.tareas.find(tarea => tarea.tareId === this.seleccionado.setaTareId)!.tareNombre;
     if (this.seleccionado.setaId > 0) {
       const elemento = this.serviciotareas.find(sertar => sertar.setaId === this.seleccionado.setaId);
       // tslint:disable-next-line:no-non-null-assertion
       this.serviciotareas.splice(this.seleccionado.setaId, 1, elemento!);
 
     } else {
-      this.serviciotareaService.post(this.seleccionado)
-        .subscribe((serviciotareas: ServicioTarea) => {
-          this.serviciotareas.push(serviciotareas);
-          // this.mostrarFormulario = false;
-          this.actualizarTabla();
-        });
+      this.globalService.sertar.push(this.seleccionado);
     }
+    this.mostrarFormulario = false;
+    this.actualizarTabla();
 
   }
 

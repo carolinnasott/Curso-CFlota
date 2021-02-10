@@ -69,12 +69,12 @@
           </table>
           <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
     
-  </div>
+    </div>
 </mat-card>
     
       <!-- Formulario-->
-    <div *ngIf="mostrarFormulario">
-      <mat-horizontal-stepper linear style="color:#2271b3;">
+<div *ngIf="mostrarFormulario">
+  <mat-horizontal-stepper linear style="color:#2271b3;">
         <mat-step [stepControl]="firstFormGroup" [editable]="false">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Nombre y Descripcion de Servicio</ng-template>
@@ -129,12 +129,18 @@
                 <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
                 <button mat-raised-button color="success" (click)="guardar()" matStepperNext>Guardar</button>
               </div>
+
           </form>
+          
+
+          <div [hidden]="!mostrarServicio()">
+            <app-servicio-tarea [servId]="seleccionado.servId"></app-servicio-tarea> 
+          </div>
         </mat-step>
         <mat-step [editable]="false">
           <ng-template matStepLabel>Finalizar</ng-template>
           <h3>Los datos se guardaron con exito</h3>
           <button mat-raised-button (click)="cancelar()">Salir</button>
         </mat-step>
-      </mat-horizontal-stepper>
-    </div>
+  </mat-horizontal-stepper>
+</div>

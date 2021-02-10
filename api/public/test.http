@@ -90,3 +90,19 @@ PUT http://localhost:8888/index.php/tarea HTTP/1.1
 
 ###-------------------- Test Servicio Tarea
 GET http://localhost:8888/index.php/servicio-tarea HTTP/1.1
+
+###
+
+POST http://localhost:8888/index.php/servicio-tarea  HTTP/1.1
+Content-Type: application/json
+
+{
+  "setaServId": 1,
+  "setaTareId": 1,
+  "tareNombre": "test1",
+}
+
+###
+
+DELETE http://localhost:8888/index.php/servicio-tarea/19  HTTP/1.1
+Content-Type: application/json
