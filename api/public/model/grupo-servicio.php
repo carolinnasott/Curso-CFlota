@@ -46,8 +46,7 @@ class GrupoServicio
     }
 
     public function post ($db) {
-        $stmt = SQL::query($db,
-        "INSERT INTO $this->table
+        $sql = "INSERT INTO $this->table
             (grusGrupId
             ,grusServId
             ,grusPeriodo
@@ -56,13 +55,14 @@ class GrupoServicio
             ,grusFechaAlta
             ,grusBorrado)
         VALUES (?,?,?,?,?,GETDATE(),0);
-        SELECT @@IDENTITY grusId, CONVERT(VARCHAR, GETDATE(), 126) grusFechaAlta;",
-        [ DATA["grusGrupId"]
+        SELECT @@IDENTITY grusId, CONVERT(VARCHAR, GETDATE(),126 ) grusFechaAlta;";        
+        $params = [ DATA["grusGrupId"]
         ,DATA["grusServId"]
         ,DATA["grusPeriodo"]
         ,DATA["grusKM"]
-        ,DATA["grusFecha"]] );
+        ,DATA["grusFecha"]];
 
+        $stmt = SQL ::query($db,$sql, $params);
         sqlsrv_fetch($stmt); // INSERT
         sqlsrv_next_result($stmt);// SELECT @@IDENTITY
         $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
@@ -71,7 +71,7 @@ class GrupoServicio
         $results["grusId"] = $row["grusId"];
         $results["grusFechaAlta"] = $row["grusFechaAlta"];
         $results["grusBorrado"] = 0;
-        return $results;
+        return DATA;
     }
 
     public function put ($db) {
