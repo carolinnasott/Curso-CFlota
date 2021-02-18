@@ -33,6 +33,8 @@ import { ServicioComponent } from './componentes/servicio/servicio.component';
 import { GrupoComponent } from './componentes/grupo/grupo.component';
 import { TareaComponent } from './componentes/tarea/tarea.component';
 import { ServicioTareaComponent } from './componentes/servicio-tarea/servicio-tarea.component';
+import { GrupoServicioComponent } from './componentes/grupo-servicio/grupo-servicio.component';
+import { MovilComponent } from './componentes/movil/movil.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { ServicioTareaComponent } from './componentes/servicio-tarea/servicio-ta
     ServicioComponent,
     TareaComponent,
     ServicioTareaComponent,
+    GrupoServicioComponent,
+    MovilComponent,
   ],
   imports: [
     BrowserModule,
