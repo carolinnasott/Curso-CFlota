@@ -93,16 +93,38 @@ GET http://localhost:8888/index.php/servicio-tarea HTTP/1.1
 
 ###
 
-POST http://localhost:8888/index.php/servicio-tarea  HTTP/1.1
+POST http://localhost:8888/index.php/servicio-tarea HTTP/1.1
 Content-Type: application/json
 
 {
-  "setaServId": 1,
-  "setaTareId": 1,
-  "tareNombre": "test1",
+    "setaServId":20,
+    "setaTareId":6,
 }
 
 ###
 
-DELETE http://localhost:8888/index.php/servicio-tarea/19  HTTP/1.1
+DELETE http://localhost:8888/index.php/servicio-tarea/64  HTTP/1.1
 Content-Type: application/json
+
+###-------------------- Test Grupo Servicio
+GET http://localhost:8888/index.php/grupo-servicio HTTP/1.1
+
+###
+
+POST http://localhost:8888/index.php/grupo-servicio HTTP/1.1
+Content-Type: application/json
+
+{
+    "grusGrupId": 1,
+    "grusServId": 1,
+    "grusPeriodo": 1,
+    "grusKM":1,
+    "grusFecha": 1 
+}
+
+###  -------------------- Test Movil
+
+
+GET http://localhost:8888/index.php/movil HTTP/1.1
+
+###
