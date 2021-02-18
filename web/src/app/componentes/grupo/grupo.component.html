@@ -55,9 +55,7 @@
 
   <!-- Formulario-->
 <div *ngIf="mostrarFormulario">
-  <mat-horizontal-stepper [linear]="true" style="color:#2271b3;" #stepper>
-    <mat-step [stepControl]="firstFormGroup" [editable]="false">
-      <form [formGroup]="firstFormGroup">
+      <form [formGroup]="form">
         <ng-template matStepLabel>Nombre</ng-template>
           <div>
             <mat-form-field appearance="outline">
@@ -66,15 +64,7 @@
               <mat-error>El campo no puede ser vacio</mat-error>
             </mat-form-field>
           </div>
-                 
 
-                  <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-                  <button mat-raised-button color="success" matStepperNext >Siguiente</button>
-      </form>
-    </mat-step >
-
-    <mat-step [stepControl]="secondFormGroup" [editable]="false">
-      <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Descripcion de Grupo</ng-template>
         <div>
           <mat-form-field appearance="outline">
@@ -84,17 +74,11 @@
           </mat-form-field>
         </div>
         <div>
-          <button mat-raised-button matStepperPrevious style="margin-right: 10px;">Atras</button>
           <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-          <button mat-raised-button color="success" (click)="guardar()" matStepperNext>Guardar</button>
+          <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
         </div>
       </form>
-    </mat-step>
-
-    <mat-step [editable]="false">
-      <ng-template matStepLabel>Finalizar</ng-template>
-      <h3>Los datos se guardaron con exito</h3>
-      <button mat-raised-button (click)="cancelar()">Salir</button>
-    </mat-step>
-  </mat-horizontal-stepper>
+      <div [hidden]="!mostrarServicio()">
+        <app-grupo-servicio [grupId]="seleccionado.grupId"></app-grupo-servicio> 
+      </div>
 </div>

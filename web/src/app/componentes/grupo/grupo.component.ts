@@ -9,7 +9,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
 import { Grupo } from 'src/app/modelo/grupo';
 import { GrupoService } from 'src/app/servicios/grupo.service';
-
+import { GlobalService } from 'src/app/servicios/global.service';
+import { GrupoServicioService } from 'src/app/servicios/grupo-servicio.service';
 @Component({
   selector: 'app-grupo',
   templateUrl: './grupo.component.html',
@@ -18,9 +19,8 @@ import { GrupoService } from 'src/app/servicios/grupo.service';
 export class GrupoComponent implements OnInit, AfterViewInit {
   grupos: Grupo[] = [];
   seleccionado = new Grupo();
-  firstFormGroup = new FormGroup({});
-  secondFormGroup = new FormGroup({});
-
+  form = new FormGroup({});
+  label = '' ;
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Grupo>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'acciones'];
@@ -30,8 +30,10 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private grupoService: GrupoService,
-    private formBuilder: FormBuilder,
-    public dialog: MatDialog) { }
+              private formBuilder: FormBuilder,
+              public dialog: MatDialog,
+              public globalService: GlobalService,
+              public grupoServicioService: GrupoServicioService) { }
 
   // tslint:disable-next-line:typedef
   ngAfterViewInit() {
@@ -41,10 +43,9 @@ export class GrupoComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.firstFormGroup = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       grupId: [''],
-      grupNombre: ['', Validators.required]});
-    this.secondFormGroup = this.formBuilder.group({
+      grupNombre: ['', Validators.required],
       grupDescripcion: [''],
       grupFechaAlta: [''],
       grupBorrado: ['']
@@ -63,14 +64,38 @@ export class GrupoComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  // tslint:disable-next-line:typedef
+  actualizarGruposerv(grupId: number){
+    this.globalService.gruser.forEach((i) => {
+      i.grusGrupId = grupId;
+
+      if (i.grusBorrado){
+        this.grupoServicioService.delete(i.grusId).subscribe();
+      }
+
+      if (i.grusId < 0){
+        this.grupoServicioService.post(i).subscribe();
+      }
+
+      if (i.grusId > 0){
+        this.grupoServicioService.put(i).subscribe();
+      }
+    });
+
+    this.mostrarFormulario = false;
+    this.actualizarTabla();
+
+  }
+
+
   filter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   // tslint:disable-next-line:typedef
   agregar() {
-    this.firstFormGroup.reset();
-    this.secondFormGroup.reset();
+    this.label = 'Agregar grupo';
+    this.form.reset();
     this.seleccionado = new Grupo();
     this.mostrarFormulario = true;
   }
@@ -98,27 +123,28 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   edit(seleccionado: Grupo) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-    this.firstFormGroup.setValue(seleccionado);
-    this.secondFormGroup.setValue(seleccionado);
+    this.form.setValue(seleccionado);
   }
 
   // tslint:disable-next-line:typedef
   guardar() {
-    if (!this.firstFormGroup.valid && !this.secondFormGroup.valid) {
+    if (!this.form.valid) {
       return;
     }
 
-    Object.assign(this.seleccionado, this.firstFormGroup.value, this.secondFormGroup.value);
+    Object.assign(this.seleccionado, this.form.value);
 
     if (this.seleccionado.grupId) {
       this.grupoService.put(this.seleccionado)
-        .subscribe((grupo) => {
+        .subscribe(() => {
+          this.actualizarGruposerv(this.seleccionado.grupId);
         });
 
     } else {
       this.grupoService.post(this.seleccionado)
         .subscribe((grupo: Grupo) => {
           this.grupos.push(grupo);
+          this.actualizarGruposerv(this.seleccionado.grupId);
           // this.mostrarFormulario = false;
           this.actualizarTabla();
         });
@@ -131,4 +157,12 @@ export class GrupoComponent implements OnInit, AfterViewInit {
     this.mostrarFormulario = false;
   }
 
+  // tslint:disable-next-line:ban-types
+  mostrarServicio(): Boolean{
+    if (this.seleccionado.grupId){
+      return this.mostrarFormulario = true;
+    }else{
+      return this.mostrarFormulario = false;
+    }
+  }
 }
