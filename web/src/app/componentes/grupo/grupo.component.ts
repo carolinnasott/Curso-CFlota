@@ -94,7 +94,6 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   }
   // tslint:disable-next-line:typedef
   agregar() {
-    this.label = 'Agregar grupo';
     this.form.reset();
     this.seleccionado = new Grupo();
     this.mostrarFormulario = true;
