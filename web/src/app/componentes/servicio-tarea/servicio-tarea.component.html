@@ -1,22 +1,28 @@
 <br>
 <mat-card style="width: 95%;">
+
     <div [hidden]="mostrarFormulario">
-        <table mat-table [dataSource]="serviciotareas" #tabla>
+
+        <table mat-table [dataSource]="dataSource" #tabla>
+
             <ng-container matColumnDef="idservicio">
                 <th mat-header-cell *matHeaderCellDef>
                 <div style="color:#2271b3;"><h3><b>ID Servicio</b></h3></div></th>
-                <td mat-cell *matCellDef="let serviciotareas"> <b>{{serviciotareas.setaServId}} </b></td>
+                <td mat-cell *matCellDef="let serviciotarea"> <b>{{serviciotarea.setaServId}} </b></td>
             </ng-container>
+
             <ng-container matColumnDef="idtarea">
                 <th mat-header-cell *matHeaderCellDef>
                 <div style="color:#2271b3;"><h3><b>ID Tarea</b></h3></div></th>
-                <td mat-cell *matCellDef="let serviciotareas"> <b>{{serviciotareas.setaTareId}} </b></td>
+                <td mat-cell *matCellDef="let serviciotarea"> <b>{{serviciotarea.setaTareId}} </b></td>
             </ng-container>
+
             <ng-container matColumnDef="nombretarea">
                 <th mat-header-cell *matHeaderCellDef>
                 <div style="color:#2271b3;"><h3><b>Nombre</b></h3></div></th>
-                <td mat-cell *matCellDef="let serviciotareas"> <b>{{serviciotareas.tareNombre}} </b></td>
+                <td mat-cell *matCellDef="let serviciotarea"> <b>{{serviciotarea.tareNombre}} </b></td>
             </ng-container>
+            
             <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let sertar">
@@ -35,7 +41,6 @@
                 <td class="mat-cell" colspan="4">Sin items todavia...</td>
             </tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
 
         <div style="text-align: center;">
             <button mat-raised-button color="success" (click)="agregar()">Agregar Tarea</button>

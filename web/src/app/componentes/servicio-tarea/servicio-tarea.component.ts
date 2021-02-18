@@ -45,7 +45,7 @@ export class ServicioTareaComponent implements OnInit{
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
               private tareaService: TareaService,
-              private globalService: GlobalService) { }
+              private global: GlobalService) { }
 
   // tslint:disable-next-line:typedef
   ngOnInit(): void {
@@ -59,23 +59,23 @@ export class ServicioTareaComponent implements OnInit{
     });
 
     this.serviciotareaService.get(`setaServId=${this.servId}`).subscribe(
-      (servicioTarea) => {
-        this.globalService.sertar = servicioTarea;
+      (serviciotareas) => {
+        this.global.sertar = serviciotareas;
         this.actualizarTabla();
       }
     );
     this.tareaService.get().subscribe(
-      (productos) => {
-        this.tareas = productos;
+      (tareas) => {
+        this.tareas = tareas;
       }
-    )
-  }
-  
-  // tslint:disable-next-line:typedef
-  actualizarTabla() {
-    this.dataSource.data = this.globalService.sertar.filter(borrado => borrado.setaBorrado === false);
+    );
   }
 
+  // tslint:disable-next-line:typedef
+  actualizarTabla() {
+    this.dataSource.data = this.global.sertar.filter(borrado => borrado.setaBorrado === false);
+    debugger
+  }
   // tslint:disable-next-line:typedef
   filter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -131,7 +131,7 @@ export class ServicioTareaComponent implements OnInit{
       this.serviciotareas.splice(this.seleccionado.setaId, 1, elemento!);
 
     } else {
-      this.globalService.sertar.push(this.seleccionado);
+      this.global.sertar.push(this.seleccionado);
     }
     this.mostrarFormulario = false;
     this.actualizarTabla();

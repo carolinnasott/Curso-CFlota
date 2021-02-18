@@ -73,8 +73,8 @@
 </mat-card>
     
       <!-- Formulario-->
-<div *ngIf="mostrarFormulario">
-  <mat-horizontal-stepper linear style="color:#2271b3;">
+    <div *ngIf="mostrarFormulario">
+      <mat-horizontal-stepper linear style="color:#2271b3;">
         <mat-step [stepControl]="firstFormGroup" [editable]="false">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>Nombre y Descripcion de Servicio</ng-template>
@@ -142,5 +142,5 @@
           <h3>Los datos se guardaron con exito</h3>
           <button mat-raised-button (click)="cancelar()">Salir</button>
         </mat-step>
-  </mat-horizontal-stepper>
-</div>
+      </mat-horizontal-stepper>
+    </div>

@@ -10,7 +10,7 @@ class ServicioTarea
             ,setaBorrado
             ,tareNombre'; 
 
-    public $join = " LEFT OUTER JOIN Tarea ON setaTareId = tareId";
+    public $join = " LEFT OUTER JOIN Tarea  ON setaTareId  = tareId";
     
     public function get ($db) {
         $sql = "SELECT TOP (1000) $this->fields FROM $this->table
@@ -43,17 +43,17 @@ class ServicioTarea
     }
 
     public function post ($db) {
-        $stmt = SQL::query($db,
-        "INSERT INTO $this->table
+        $sql = "INSERT INTO $this->table
             (setaServId
             ,setaTareId
             ,setaFechaAlta
             ,setaBorrado)
         VALUES (?,?,GETDATE(),0);
-        SELECT @@IDENTITY setaId, CONVERT(VARCHAR, GETDATE(), 126) setaFechaAlta;",
-        [ DATA["setaServId"]
-        ,DATA["setaTareId"]] );
+        SELECT @@IDENTITY setaId, CONVERT(VARCHAR, GETDATE(),126 ) setaFechaAlta;";        
+        $params = [ DATA["setaServId"]
+        ,DATA["setaTareId"]];
 
+        $stmt = SQL ::query($db,$sql, $params);
         sqlsrv_fetch($stmt); // INSERT
         sqlsrv_next_result($stmt);// SELECT @@IDENTITY
         $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
@@ -68,8 +68,8 @@ class ServicioTarea
     public function put ($db) {
         $stmt = SQL::query($db,
         "UPDATE $this->table
-        SET setaTareId = ?
-        WHERE setaId = ?",
+        SET setaTareId  = ?
+        WHERE setaId  = ?",
         [
             DATA["setaServId"],
             DATA["setaId"]
