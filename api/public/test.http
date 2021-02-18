@@ -128,3 +128,9 @@ Content-Type: application/json
 GET http://localhost:8888/index.php/movil HTTP/1.1
 
 ###
+###  -------------------- Test Movil servicio
+
+
+GET http://localhost:8888/index.php/movil-servicio HTTP/1.1
+
+###
