@@ -1,8 +1,8 @@
 <mat-card style="width: 95%;">
     <div [hidden]="mostrarFormulario">
     
-       <mat-form-field id="filtro" style="width: 50%;">
-         <mat-label><i><b> Filtrar</b></i></mat-label>
+       <mat-form-field style="width: 50%;">
+         <mat-label><i><b> Buscar</b></i></mat-label>
          <input matInput (keyup)="filter($event)" placeholder="..." #input>
         </mat-form-field>
         
@@ -73,19 +73,18 @@
 </mat-card>
     
       <!-- Formulario-->
-    <div *ngIf="mostrarFormulario">
-      <mat-horizontal-stepper linear style="color:#2271b3;">
-        <mat-step [stepControl]="firstFormGroup" [editable]="false">
-          <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>Nombre y Descripcion de tarea</ng-template>
+<mat-card style="width: 95%;">
+<div *ngIf="mostrarFormulario">
+  <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Ingrese datos de la nueva Tarea</b></h3></div></div>
+
+          <form [formGroup]="form">
               <div>
                 <mat-form-field appearance="outline">
                   <mat-label>Nombre</mat-label>
                   <input matInput formControlName="tareNombre" required>
                   <mat-error>El campo no puede ser vacio</mat-error>
                 </mat-form-field>
-              </div>
-              <div>
+                &nbsp;&nbsp;&nbsp;
                 <mat-form-field appearance="outline">
                   <mat-label>Descripcion</mat-label>
                   <input matInput formControlName="tareDescripcion" required>
@@ -98,18 +97,7 @@
                   <input matInput formControlName="tareUnidadMedida" required>
                   <mat-error>El campo no puede ser vacio</mat-error>
                 </mat-form-field>
-              </div>
-              <div>
-                <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-                <button mat-raised-button color="success" matStepperNext>Siguiente</button>
-              </div>
-          </form>
-        </mat-step>
-      
-        <mat-step [stepControl]="secondFormGroup" [editable]="false">
-          <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Cantidad y Costo</ng-template>
-              <div>
+                &nbsp;&nbsp;&nbsp;
                 <mat-form-field appearance="outline">
                   <mat-label>Cantidad</mat-label>
                   <input matInput formControlName="tareCantidad" required>
@@ -124,17 +112,9 @@
                 </mat-form-field>
               </div>
               <div>
-                <button mat-raised-button matStepperPrevious style="margin-right: 10px;">Atras</button>
                 <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-                <button mat-raised-button color="success" (click)="guardar()" matStepperNext>Guardar</button>
-              </div>
+                <button mat-raised-button color="success" (click)="guardar()">Guardar</button>              </div>
           </form>
-        </mat-step>
-    
-         <mat-step [editable]="false">
-            <ng-template matStepLabel>Finalizar</ng-template>
-            <h3>Los datos se guardaron con exito</h3>
-            <button mat-raised-button (click)="cancelar()">Salir</button>
-         </mat-step>
-      </mat-horizontal-stepper>
-    </div>
+
+</div>
+</mat-card>

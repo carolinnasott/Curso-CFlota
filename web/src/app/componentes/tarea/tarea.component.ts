@@ -18,12 +18,10 @@ import { TareaService } from 'src/app/servicios/tarea.service';
 export class TareaComponent implements OnInit, AfterViewInit {
   tareas: Tarea[] = [];
   seleccionado = new Tarea();
-  firstFormGroup = new FormGroup({});
-  secondFormGroup = new FormGroup({});
+  form = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Tarea>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'unidad', 'cantidad', 'costo', 'acciones'];
-  date: Date = new Date();
 
   @ViewChild(MatTable) tabla: MatTable<Tarea> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
@@ -42,12 +40,11 @@ export class TareaComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.firstFormGroup = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       tareId: [''],
       tareNombre: ['', Validators.required],
       tareDescripcion: ['', Validators.required],
-      tareUnidadMedida: ['', Validators.required]});
-    this.secondFormGroup = this.formBuilder.group({
+      tareUnidadMedida: ['', Validators.required],
       tareCantidad: ['', Validators.required],
       tareCosto: ['', Validators.required],
       tareFechaAlta: [''],
@@ -74,8 +71,7 @@ export class TareaComponent implements OnInit, AfterViewInit {
   }
   // tslint:disable-next-line:typedef
   agregar() {
-    this.firstFormGroup.reset();
-    this.secondFormGroup.reset();
+    this.form.reset();
     this.seleccionado = new Tarea();
     this.mostrarFormulario = true;
   }
@@ -103,30 +99,31 @@ export class TareaComponent implements OnInit, AfterViewInit {
   edit(seleccionado: Tarea) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-    this.firstFormGroup.setValue(seleccionado);
-    this.secondFormGroup.setValue(seleccionado);
-  }
+    this.form.setValue(seleccionado);
+    }
 
   // tslint:disable-next-line:typedef
   guardar() {
-    if (!this.firstFormGroup.valid && !this.secondFormGroup.valid) {
+    if (!this.form.valid) {
       return;
     }
 
-    Object.assign(this.seleccionado, this.firstFormGroup.value, this.secondFormGroup.value);
+    Object.assign(this.seleccionado, this.form.value);
 
     if (this.seleccionado.tareId) {
       this.tareaService.put(this.seleccionado)
-        .subscribe(() => {
+        .subscribe((tarea) => {
+          this.mostrarFormulario = false;
         });
 
     } else {
       this.tareaService.post(this.seleccionado)
-        .subscribe((tarea: Tarea) => {
+        .subscribe((tarea) => {
           this.tareas.push(tarea);
-          // this.mostrarFormulario = false;
+          this.mostrarFormulario = false;
           this.actualizarTabla();
         });
+
     }
 
   }
