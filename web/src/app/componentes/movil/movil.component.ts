@@ -43,14 +43,14 @@ export class MovilComponent implements OnInit, AfterViewInit {
     this.form = this.formBuilder.group({
       moviId: [''],
       moviModoFecha: ['', Validators.required],
-      moviModoOdometro: [''],
+      moviModoOdometro: ['', Validators.required],
       moviFechaAlta: [''],
       moviBorrado: ['']
     });
 
     this.movilService.get().subscribe(
-      (items) => {
-        this.items = items;
+      (movil) => {
+        this.items = movil;
         this.actualizarTabla();
       }
     );
