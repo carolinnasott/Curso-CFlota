@@ -1,8 +1,8 @@
 <mat-card style="width: 95%;">
 <div [hidden]="mostrarFormulario">
 
-   <mat-form-field id="filtro" style="width: 50%;">
-     <mat-label><i><b> Filtrar</b></i></mat-label>
+   <mat-form-field style="width: 50%;">
+     <mat-label><i><b> Buscar</b></i></mat-label>
      <input matInput (keyup)="filter($event)" placeholder="..." #input>
     </mat-form-field>
     
@@ -54,19 +54,18 @@
 </mat-card>
 
   <!-- Formulario-->
+<mat-card style="width: 100%;">
 <div *ngIf="mostrarFormulario">
+  <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Ingrese datos del nuevo Grupo</b></h3></div></div>
+
       <form [formGroup]="form">
-        <ng-template matStepLabel>Nombre</ng-template>
           <div>
             <mat-form-field appearance="outline">
               <mat-label>Nombre</mat-label>
               <input matInput formControlName="grupNombre">
               <mat-error>El campo no puede ser vacio</mat-error>
             </mat-form-field>
-          </div>
-
-      <ng-template matStepLabel>Descripcion de Grupo</ng-template>
-        <div>
+            &nbsp;&nbsp;&nbsp;
           <mat-form-field appearance="outline">
             <mat-label>Descripcion</mat-label>
             <input matInput formControlName="grupDescripcion" required>
@@ -78,7 +77,8 @@
           <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
         </div>
       </form>
-      <div [hidden]="!mostrarServicio()">
+      <div *ngIf="seleccionado && seleccionado.grupId && mostrarFormulario">
         <app-grupo-servicio [grupId]="seleccionado.grupId"></app-grupo-servicio> 
       </div>
 </div>
+</mat-card>

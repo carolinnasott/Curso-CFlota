@@ -121,13 +121,9 @@ export class GrupoServicioComponent implements OnInit {
     Object.assign(this.seleccionado, this.form.value);
 
     // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId === this.seleccionado.grusServId)!.servNombre;
-    // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.grusPeriodo = this.servicios.find(servicio  => servicio.servId === this.seleccionado.grusServId)!.servPeriodo;
-    // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.grusKM = this.servicios.find(servicio  => servicio.servId === this.seleccionado.grusServId)!.servKM;
-    // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.grusFecha = this.servicios.find(servicio  => servicio.servId === this.seleccionado.grusServId)!.servFecha;
+    this.seleccionado.servNombre = this.servicios.find(serv => serv.servId === this.seleccionado.grusServId)!.servNombre;
+    this.globalService.gruser = this.globalService.gruser.filter(x => x.grusId !== this.seleccionado.grusId);
+    this.globalService.gruser.push(this.seleccionado);
 
     if (this.seleccionado.grusId > 0){
       const elemento = this.gruposervicios.find(gruser => gruser.grusId === this.seleccionado.grusId);
@@ -140,6 +136,7 @@ export class GrupoServicioComponent implements OnInit {
     this.mostrarFormulario = false;
     this.actualizarTabla();
   }
+
   // tslint:disable-next-line:typedef
   cancelar() {
     this.mostrarFormulario = false;

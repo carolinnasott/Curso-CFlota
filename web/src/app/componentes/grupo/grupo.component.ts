@@ -20,7 +20,6 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   grupos: Grupo[] = [];
   seleccionado = new Grupo();
   form = new FormGroup({});
-  label = '' ;
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Grupo>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'acciones'];
@@ -65,22 +64,19 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   }
 
   // tslint:disable-next-line:typedef
-  actualizarGruposerv(grupId: number){
+  actualizarGruposerv(Id: number){
     this.globalService.gruser.forEach((i) => {
-      i.grusGrupId = grupId;
-
+      i.grusGrupId = Id;
       if (i.grusBorrado){
         this.grupoServicioService.delete(i.grusId).subscribe();
-      }
-
+      }else
       if (i.grusId < 0){
         this.grupoServicioService.post(i).subscribe();
+      // tslint:disable-next-line:no-unused-expression
+      }else { (i.grusId > 0); }
+      this.grupoServicioService.put(i).subscribe();
       }
-
-      if (i.grusId > 0){
-        this.grupoServicioService.put(i).subscribe();
-      }
-    });
+    );
 
     this.mostrarFormulario = false;
     this.actualizarTabla();
@@ -135,15 +131,15 @@ export class GrupoComponent implements OnInit, AfterViewInit {
 
     if (this.seleccionado.grupId) {
       this.grupoService.put(this.seleccionado)
-        .subscribe(() => {
-          this.actualizarGruposerv(this.seleccionado.grupId);
+        .subscribe((grupo) => {
+          this.actualizarGruposerv(grupo.grupId);
         });
 
     } else {
       this.grupoService.post(this.seleccionado)
         .subscribe((grupo: Grupo) => {
           this.grupos.push(grupo);
-          this.actualizarGruposerv(this.seleccionado.grupId);
+          this.actualizarGruposerv(grupo.grupId);
           // this.mostrarFormulario = false;
           this.actualizarTabla();
         });
@@ -154,14 +150,5 @@ export class GrupoComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line:typedef
   cancelar() {
     this.mostrarFormulario = false;
-  }
-
-  // tslint:disable-next-line:ban-types
-  mostrarServicio(): Boolean{
-    if (this.seleccionado.grupId){
-      return this.mostrarFormulario = true;
-    }else{
-      return this.mostrarFormulario = false;
-    }
   }
 }
