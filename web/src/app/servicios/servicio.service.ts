@@ -9,7 +9,7 @@ import { Servicio } from '../modelo/servicio';
 @Injectable({
   providedIn: 'root'
 })
-export class ServicioService 
+export class ServicioService
 extends ApiService<Servicio>{
   constructor(
     protected http: HttpClient,

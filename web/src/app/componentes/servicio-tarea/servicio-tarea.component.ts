@@ -74,7 +74,6 @@ export class ServicioTareaComponent implements OnInit{
   // tslint:disable-next-line:typedef
   actualizarTabla() {
     this.dataSource.data = this.global.sertar.filter(borrado => borrado.setaBorrado === false);
-    debugger
   }
   // tslint:disable-next-line:typedef
   filter(event: Event) {

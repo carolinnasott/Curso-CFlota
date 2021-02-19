@@ -1,8 +1,8 @@
 <mat-card style="width: 95%;">
     <div [hidden]="mostrarFormulario">
     
-       <mat-form-field id="filtro" style="width: 50%;">
-         <mat-label><i><b> Filtrar</b></i></mat-label>
+       <mat-form-field style="width: 50%;">
+         <mat-label><i><b> Buscar</b></i></mat-label>
          <input matInput (keyup)="filter($event)" placeholder="..." #input>
         </mat-form-field>
         
@@ -73,74 +73,53 @@
 </mat-card>
     
       <!-- Formulario-->
-    <div *ngIf="mostrarFormulario">
-      <mat-horizontal-stepper linear style="color:#2271b3;">
-        <mat-step [stepControl]="firstFormGroup" [editable]="false">
-          <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>Nombre y Descripcion de Servicio</ng-template>
-            <div> 
-              <div>
-                <mat-form-field appearance="outline">
-                  <mat-label>Nombre</mat-label>
-                  <input matInput formControlName="servNombre" required>
-                  <mat-error>El campo no puede ser vacio</mat-error>
-                </mat-form-field>
-              </div>
-              <div>
-                <mat-form-field appearance="outline">
-                  <mat-label>Descripcion</mat-label>
-                  <input matInput formControlName="servDescripcion" required>
-                  <mat-error>El campo no puede ser vacio</mat-error>
-                </mat-form-field>
-              </div>
-              
-                <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-                <button mat-raised-button color="success" matStepperNext >Siguiente</button>
-              </div>              
-          </form>
-        </mat-step >
-      
-        <mat-step [stepControl]="secondFormGroup" [editable]="false">
-          <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Kilometro y Periodo</ng-template>
-              <div>
+      <mat-card style="width: 100%;">
+        <div *ngIf="mostrarFormulario">
+          <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Ingrese datos del Servicio</b></h3></div></div>
+        
+              <form [formGroup]="form">
+                  <div>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Nombre</mat-label>
+                      <input matInput formControlName="servNombre">
+                      <mat-error>El campo no puede ser vacio</mat-error>
+                    </mat-form-field>
+                    &nbsp;&nbsp;&nbsp;
                   <mat-form-field appearance="outline">
-                    <mat-label>Kilometros</mat-label>
-                    <input matInput formControlName="servKM">
+                    <mat-label>Descripcion</mat-label>
+                    <input matInput formControlName="servDescripcion" required>
                     <mat-error>El campo no puede ser vacio</mat-error>
                   </mat-form-field>
-              </div>
-              <div>
-                <mat-form-field appearance="outline">
+                </div>
+                <div>
+                  <mat-form-field appearance="outline">
                     <mat-label>Periodo</mat-label>
                     <input matInput formControlName="servPeriodo">
                     <mat-error>El campo no puede ser vacio</mat-error>
+                  </mat-form-field>
+                  &nbsp;&nbsp;&nbsp;
+                <mat-form-field appearance="outline">
+                  <mat-label>Kilometros</mat-label>
+                  <input matInput formControlName="servKM" required>
+                  <mat-error>El campo no puede ser vacio</mat-error>
                 </mat-form-field>
               </div>
               <div>
-                 <mat-form-field appearance="outline">
-                    <mat-label>Fecha Limite</mat-label>
-                    <input matInput formControlName="servFecha" required>
-                    <mat-error>El campo no puede ser vacio</mat-error>
-                 </mat-form-field>
-              </div>
-              <div>
-                <button mat-raised-button matStepperPrevious style="margin-right: 10px;">Atras</button>
-                <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
-                <button mat-raised-button color="success" (click)="guardar()" matStepperNext>Guardar</button>
-              </div>
-
-          </form>
+              <mat-form-field appearance="outline">
+                <mat-label>Fecha</mat-label>
+                <input matInput formControlName="servFecha" required>
+                <mat-error>El campo no puede ser vacio</mat-error>
+              </mat-form-field>
+            </div>
+                <div>
+                  <button mat-raised-button  (click)="cancelar()" style="margin-right: 10px;">Cancelar</button>
+                  <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
+                </div>
+              </form>
           
 
           <div [hidden]="!mostrarServicio()">
             <app-servicio-tarea [servId]="seleccionado.servId"></app-servicio-tarea> 
           </div>
-        </mat-step>
-        <mat-step [editable]="false">
-          <ng-template matStepLabel>Finalizar</ng-template>
-          <h3>Los datos se guardaron con exito</h3>
-          <button mat-raised-button (click)="cancelar()">Salir</button>
-        </mat-step>
-      </mat-horizontal-stepper>
     </div>
+  </mat-card>

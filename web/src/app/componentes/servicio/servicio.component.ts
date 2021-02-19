@@ -21,8 +21,7 @@ export class ServicioComponent implements OnInit, AfterViewInit {
   
   servicios: Servicio[] = [];
   seleccionado = new Servicio();
-  firstFormGroup = new FormGroup({});
-  secondFormGroup = new FormGroup({});
+  form = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Servicio>();
   columna: string[] = ['id', 'nombre', 'descripcion', 'periodo', 'km', 'fecha', 'acciones'];
@@ -44,11 +43,10 @@ export class ServicioComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.firstFormGroup = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       servId: [''],
       servNombre: ['', Validators.required],
-      servDescripcion: ['', Validators.required]});
-    this.secondFormGroup = this.formBuilder.group({
+      servDescripcion: ['', Validators.required],
       servPeriodo: ['', Validators.required],
       servKM: ['', Validators.required],
       servFecha: ['', Validators.required],
@@ -102,10 +100,9 @@ export class ServicioComponent implements OnInit, AfterViewInit {
   }
   // tslint:disable-next-line:typedef
   agregar() {
-    this.mostrarFormulario = true;
-    this.firstFormGroup.reset();
-    this.secondFormGroup.reset();
+    this.form.reset();
     this.seleccionado = new Servicio();
+    this.mostrarFormulario = true;
   }
   // tslint:disable-next-line:typedef
   delete(row: Servicio) {
@@ -131,17 +128,16 @@ export class ServicioComponent implements OnInit, AfterViewInit {
   edit(seleccionado: Servicio) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-    this.firstFormGroup.setValue(seleccionado);
-    this.secondFormGroup.setValue(seleccionado);
+    this.form.setValue(seleccionado);
   }
 
   // tslint:disable-next-line:typedef
   guardar() {
-    if (!this.firstFormGroup.valid && !this.secondFormGroup.valid) {
+    if (!this.form.valid) {
       return;
     }
 
-    Object.assign(this.seleccionado, this.firstFormGroup.value, this.secondFormGroup.value);
+    Object.assign(this.seleccionado, this.form.value);
 
     if (this.seleccionado.servId) {
       this.servicioService.put(this.seleccionado)
