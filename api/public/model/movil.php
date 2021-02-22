@@ -4,12 +4,12 @@ class Movil
 {
     public $table = 'Movil';
     public $fields = 'moviId
-                ,moviModoFecha
+                ,CONVERT(VARCHAR, moviModoFecha, 126) moviModoFecha
                 ,moviModoOdometro
                 ,CONVERT(VARCHAR, moviFechaAlta, 126) moviFechaAlta
                 ,moviBorrado'; 
 
-    public $join = "";
+    public $join = "INNER JOIN AVL_Estructura.dbo.Movil as AVLMOVIL ON Movil.moviId = AVLMOVIL.MovilID ";
     
     public function get ($db) {
         $sql = "SELECT $this->fields FROM $this->table
