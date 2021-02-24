@@ -95,20 +95,20 @@
                   <mat-form-field appearance="outline">
                     <mat-label>Periodo</mat-label>
                     <input matInput formControlName="servPeriodo">
-                    <mat-error>El campo no puede ser vacio</mat-error>
+
                   </mat-form-field>
                   &nbsp;&nbsp;&nbsp;
                 <mat-form-field appearance="outline">
                   <mat-label>Kilometros</mat-label>
-                  <input matInput formControlName="servKM" required>
-                  <mat-error>El campo no puede ser vacio</mat-error>
+                  <input matInput formControlName="servKM" >
+
                 </mat-form-field>
               </div>
               <div>
               <mat-form-field appearance="outline">
                 <mat-label>Fecha</mat-label>
-                <input matInput formControlName="servFecha" required>
-                <mat-error>El campo no puede ser vacio</mat-error>
+                <input matInput formControlName="servFecha">
+
               </mat-form-field>
             </div>
                 <div>
@@ -118,7 +118,7 @@
               </form>
           
 
-          <div [hidden]="!mostrarServicio()">
+              <div *ngIf="seleccionado && seleccionado.servId && mostrarFormulario">
             <app-servicio-tarea [servId]="seleccionado.servId"></app-servicio-tarea> 
           </div>
     </div>

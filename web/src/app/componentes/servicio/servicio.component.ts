@@ -47,9 +47,9 @@ export class ServicioComponent implements OnInit, AfterViewInit {
       servId: [''],
       servNombre: ['', Validators.required],
       servDescripcion: ['', Validators.required],
-      servPeriodo: ['', Validators.required],
-      servKM: ['', Validators.required],
-      servFecha: ['', Validators.required],
+      servPeriodo: [''],
+      servKM: [''],
+      servFecha: [''],
       servFechaAlta: [''],
       servBorrado: ['']
     });
