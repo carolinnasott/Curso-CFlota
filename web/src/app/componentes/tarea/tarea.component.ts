@@ -44,9 +44,9 @@ export class TareaComponent implements OnInit, AfterViewInit {
       tareId: [''],
       tareNombre: ['', Validators.required],
       tareDescripcion: ['', Validators.required],
-      tareUnidadMedida: ['', Validators.required],
-      tareCantidad: ['', Validators.required],
-      tareCosto: ['', Validators.required],
+      tareUnidadMedida: [''],
+      tareCantidad: [''],
+      tareCosto: [''],
       tareFechaAlta: [''],
       tareBorrado: ['']
     });
