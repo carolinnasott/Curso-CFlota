@@ -48,6 +48,10 @@ class Movil
             $sql = $sql . " AND A.descripcion LIKE ? ";
         };
 
+        if (isset( $_GET["activos"])){
+            $sql = $sql . " AND B.moviBorrado = 0";
+        };
+
         if (isset( $_GET["dependencia"])){
             $params = ["%" . $_GET["dependencia"] . "%"];
             $sql = $sql . " AND C.Nombre LIKE ? ";
