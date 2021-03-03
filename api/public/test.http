@@ -128,9 +128,49 @@ Content-Type: application/json
 GET http://localhost:8888/index.php/movil HTTP/1.1
 
 ###
+
+POST http://localhost:8888/index.php/movil HTTP/1.1
+Content-Type: application/json
+
+{
+
+}
+
 ###  -------------------- Test Movil servicio
 
 
 GET http://localhost:8888/index.php/movil-servicio HTTP/1.1
+
+###
+###  -------------------- Test Movil Grupo
+
+
+GET http://localhost:8888/index.php/movil-grupo HTTP/1.1
+
+###
+POST http://localhost:8888/index.php/movil-grupo HTTP/1.1
+Content-Type: application/json
+
+  {
+    "mogrMoviId": 13389,
+    "mogrGrupId": 3
+  }
+
+###  -------------------- Test Movil Odometro
+
+
+GET http://localhost:8888/index.php/movil-odometro HTTP/1.1
+
+###
+###  -------------------- Test Movil Bitacora
+
+
+GET http://localhost:8888/index.php/movil-bitacora HTTP/1.1
+
+###
+###  -------------------- Test Movil Mantenimiento
+
+
+GET http://localhost:8888/index.php/movil-mantenimiento HTTP/1.1
 
 ###
