@@ -6,9 +6,12 @@
     background-color: #145e9b
   }
 
-  .mat-stepper-horizontal {
-    margin-top: 8px;
-    color: #145e9b
+  .mat-icon-button.mat-success {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: #f0fff3;
+    background-color: #d68058
   }
   
   .mat-form-field {

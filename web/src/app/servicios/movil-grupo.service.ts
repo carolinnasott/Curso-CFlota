@@ -3,18 +3,18 @@ import { Injectable } from '@angular/core';
 
 import { ApiService } from '../core/api-service';
 import { AppConfigService } from '../core/config.service';
-import { GrupoServicio } from '../modelo/grupo-servicio';
+import { MovilGrupo } from '../modelo/movil-grupo';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GrupoServicioService  extends ApiService<GrupoServicio>{
+export class MovilGrupoService  extends ApiService<MovilGrupo>{
   constructor(
     protected http: HttpClient,
     protected app: AppConfigService
   ) {
-    super('grupo-servicio', http, app);
+    super('movil-grupo', http, app);
 
 }
-  gruposerv: GrupoServicio[] = [];
+  movilgrup: MovilGrupo[] = [];
 }

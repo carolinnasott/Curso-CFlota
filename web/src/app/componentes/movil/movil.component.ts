@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
-import { GlobalService } from 'src/app/servicios/global.service';
 import { Movil } from 'src/app/modelo/movil';
 import { MovilService } from 'src/app/servicios/movil.service';
 @Component({
@@ -21,16 +20,16 @@ export class MovilComponent implements OnInit, AfterViewInit {
   form = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Movil>();
-  columna: string[] = ['id', 'fecha', 'odometro', 'acciones'];
-
+  columna: string[] = ['patente', 'descripcion', 'dependencia', 'marcamodeloanio', 'patrullaje', 'accion'];
+  minDate: Date = new Date();
+  
   @ViewChild(MatTable) tabla: MatTable<Movil> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private movilService: MovilService,
               private formBuilder: FormBuilder,
-              public dialog: MatDialog,
-              public globalService: GlobalService) { }
+              public dialog: MatDialog) { }
 
   // tslint:disable-next-line:typedef
   ngAfterViewInit() {
@@ -45,7 +44,25 @@ export class MovilComponent implements OnInit, AfterViewInit {
       moviModoFecha: ['', Validators.required],
       moviModoOdometro: ['', Validators.required],
       moviFechaAlta: [''],
-      moviBorrado: ['']
+      moviBorrado: [''],
+      movilID: [''],
+      patente: [''],
+      descripcion: [''],
+      dependencia: [''],
+      dependenciaCompleta: [''],
+      marca: [''],
+      modelo: [''],
+      anio: [''],
+      chasis: [''],
+      tipoMovil: [''],
+      numeroMovil: [''],
+      color: [''],
+      seguro: [''],
+      poliza: [''],
+      numeroMotor: [''],
+      peso: [''],
+      tienePatrullaje: [''],
+      CUIT: ['']
     });
 
     this.movilService.get().subscribe(
@@ -60,71 +77,37 @@ export class MovilComponent implements OnInit, AfterViewInit {
     this.dataSource.data = this.items;
     this.dataSource.sort = this.sort;
   }
-
+  accion(seleccionado: Movil) {
+    this.mostrarFormulario = true;
+    this.seleccionado = seleccionado;
+  }
   filter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   // tslint:disable-next-line:typedef
   agregar() {
-    this.form.reset();
-    this.seleccionado = new Movil();
-    this.mostrarFormulario = true;
+
   }
   // tslint:disable-next-line:typedef
   delete(row: Movil) {
 
-    const dialogRef = this.dialog.open(ConfirmarComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-
-      if (result) {
-        this.movilService.delete(row.moviId)
-          .subscribe(() => {
-
-            this.items = this.items.filter( x => x !== row);
-
-            this.actualizarTabla();
-          });
-      }
-    });
   }
 
   // tslint:disable-next-line:typedef
   edit(seleccionado: Movil) {
-    this.mostrarFormulario = true;
-    this.seleccionado = seleccionado;
-    this.form.setValue(seleccionado);
+
   }
 
   // tslint:disable-next-line:typedef
   guardar() {
-    if (!this.form.valid) {
-      return;
-    }
 
-    Object.assign(this.seleccionado, this.form.value);
-
-    if (this.seleccionado.moviId) {
-      this.movilService.put(this.seleccionado)
-        .subscribe(() => {
-        });
-
-    } else {
-      this.movilService.post(this.seleccionado)
-        .subscribe((movil: Movil) => {
-          this.items.push(movil);
-          // this.mostrarFormulario = false;
-          this.actualizarTabla();
-        });
-    }
 
   }
 
   // tslint:disable-next-line:typedef
   cancelar() {
-    this.mostrarFormulario = false;
+
   }
 }
 

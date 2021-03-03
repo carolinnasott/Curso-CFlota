@@ -1,2 +1,13 @@
-     
-  <app-barra-menu></app-barra-menu>
+<mat-toolbar color ="success">
+  <span class="material-icons">commute</span> &nbsp;
+  <span><h1>Sistema de Control de Flota</h1> </span>
+
+  <div style="flex: 1 1 auto"></div>
+
+  <a routerLink="/home" mat-button>Inicio</a>
+  <a routerLink="/grupos" mat-button>Grupos</a>
+  <a routerLink="/servicios" mat-button>Servicios</a>
+  <a routerLink="/tareas" mat-button>Tareas</a>
+  <a routerLink="/movil" mat-button>Moviles</a>
+</mat-toolbar>
+<router-outlet></router-outlet>   

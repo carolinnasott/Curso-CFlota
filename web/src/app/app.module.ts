@@ -20,7 +20,6 @@ import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { HomeComponent } from './componentes/home/home.component';
 import { AppConfigService } from './core/config.service';
-import { BarraMenuComponent } from './barra-menu/barra-menu.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -35,19 +34,27 @@ import { TareaComponent } from './componentes/tarea/tarea.component';
 import { ServicioTareaComponent } from './componentes/servicio-tarea/servicio-tarea.component';
 import { GrupoServicioComponent } from './componentes/grupo-servicio/grupo-servicio.component';
 import { MovilComponent } from './componentes/movil/movil.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MovilServicioComponent } from './componentes/movil-servicio/movil-servicio.component';
+import { MovilBitacoraComponent } from './componentes/movil-bitacora/movil-bitacora.component';
+import { MovilOdometroComponent } from './componentes/movil-odometro/movil-odometro.component';
+import { MovilGrupoComponent } from './componentes/movil-grupo/movil-grupo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GrupoComponent,
-    BarraMenuComponent,
     ConfirmarComponent,
     ServicioComponent,
     TareaComponent,
     ServicioTareaComponent,
     GrupoServicioComponent,
     MovilComponent,
+    MovilServicioComponent,
+    MovilBitacoraComponent,
+    MovilOdometroComponent,
+    MovilGrupoComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +81,8 @@ import { MovilComponent } from './componentes/movil/movil.component';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    MatStepperModule
+    MatStepperModule,
+    MatGridListModule
 
   ],
   providers: [

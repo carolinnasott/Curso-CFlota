@@ -15,7 +15,6 @@ import { Tarea } from 'src/app/modelo/tarea';
 import { TareaService } from 'src/app/servicios/tarea.service';
 import { Servicio } from 'src/app/modelo/servicio';
 import { ServicioService } from 'src/app/servicios/servicio.service';
-import { GlobalService } from 'src/app/servicios/global.service';
 
 @Component({
   selector: 'app-servicio-tarea',
@@ -44,8 +43,7 @@ export class ServicioTareaComponent implements OnInit{
   constructor(private serviciotareaService: ServicioTareaService,
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
-              private tareaService: TareaService,
-              private global: GlobalService) { }
+              private tareaService: TareaService) { }
 
   // tslint:disable-next-line:typedef
   ngOnInit(): void {
@@ -60,7 +58,7 @@ export class ServicioTareaComponent implements OnInit{
 
     this.serviciotareaService.get(`setaServId=${this.servId}`).subscribe(
       (serviciotareas) => {
-        this.global.sertar = serviciotareas;
+        this.serviciotareaService.serviciotar = serviciotareas;
         this.actualizarTabla();
       }
     );
@@ -73,7 +71,7 @@ export class ServicioTareaComponent implements OnInit{
 
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.global.sertar.filter(borrado => borrado.setaBorrado === false);
+    this.dataSource.data = this.serviciotareaService.serviciotar.filter(borrado => borrado.setaBorrado === false);
   }
   // tslint:disable-next-line:typedef
   filter(event: Event) {
@@ -130,7 +128,7 @@ export class ServicioTareaComponent implements OnInit{
       this.serviciotareas.splice(this.seleccionado.setaId, 1, elemento!);
 
     } else {
-      this.global.sertar.push(this.seleccionado);
+      this.serviciotareaService.serviciotar.push(this.seleccionado);
     }
     this.mostrarFormulario = false;
     this.actualizarTabla();

@@ -17,6 +17,7 @@ extends ApiService<ServicioTarea>{
   ) {
     super('servicio-tarea', http, app);
   }
+  serviciotar: ServicioTarea[] = [];
 
 
 }

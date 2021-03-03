@@ -9,7 +9,6 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
 import { Servicio } from 'src/app/modelo/servicio';
 import { ServicioService } from 'src/app/servicios/servicio.service';
-import { GlobalService } from 'src/app/servicios/global.service';
 import { ServicioTareaService } from 'src/app/servicios/servicio-tarea.service';
 
 @Component({
@@ -18,13 +17,13 @@ import { ServicioTareaService } from 'src/app/servicios/servicio-tarea.service';
   styleUrls: ['./servicio.component.css']
 })
 export class ServicioComponent implements OnInit, AfterViewInit {
-  
+
   servicios: Servicio[] = [];
   seleccionado = new Servicio();
   form = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Servicio>();
-  columna: string[] = ['id', 'nombre', 'descripcion', 'periodo', 'km', 'fecha', 'acciones'];
+  columna: string[] = ['nombre', 'descripcion', 'periodo', 'km', 'fecha', 'acciones'];
 
   @ViewChild(MatTable) tabla: MatTable<Servicio> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
@@ -32,7 +31,6 @@ export class ServicioComponent implements OnInit, AfterViewInit {
   constructor(private servicioService: ServicioService,
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
-              public globalService: GlobalService,
               public serviciotareaService: ServicioTareaService) { }
 
   // tslint:disable-next-line:typedef
@@ -78,14 +76,14 @@ export class ServicioComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line:typedef
   actualizarSerTare(id: number){
-    this.globalService.sertar.forEach( (dato) => { dato.setaServId = id;
-                                                   if (dato.setaBorrado) {
+    this.serviciotareaService.serviciotar.forEach( (dato) => { dato.setaServId = id;
+                                                               if (dato.setaBorrado) {
         this.serviciotareaService.delete(dato.setaId).subscribe();
       }else if (dato.setaId < 0){
         this.serviciotareaService.post(dato).subscribe();
       // tslint:disable-next-line:no-unused-expression
       }else { (dato.setaId > 0 ); }
-                                                   this.serviciotareaService.put(dato).subscribe();
+                                                               this.serviciotareaService.put(dato).subscribe();
       }
    );
 

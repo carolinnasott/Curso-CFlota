@@ -50,6 +50,8 @@ include_once 'controllers/movil.php';
 include_once 'controllers/movil-servicio.php';
 include_once 'controllers/movil-grupo.php';
 include_once 'controllers/movil-odometro.php';
+include_once 'controllers/movil-bitacora.php';
+include_once 'controllers/movil-mantenimiento.php';
 
 $app->get('/', function (Request $request, Response $response, $args) {
     $response->getBody()->write("API");

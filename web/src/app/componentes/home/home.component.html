@@ -1,6 +1,49 @@
 <mat-card style="width: 100%;">
 
-    <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Bienvenido al sistema</b></h3></div></div>
-      
+    <div style="color:#2271b3;">
+        <div style='text-align:center' >
+            <span class="material-icons">accessibility_new</span>
+            <h2><b>Bienvenido al sistema</b></h2> <br>
+            <b>Modulo del SISEP para controlar el mantenimiento de las flotas de moviles.</b></div></div>
+            <mat-card>
+                <mat-grid-list cols="2" rowHeight="4:2">
+                <mat-grid-tile
+                [colspan]="1"
+                [rowspan]="1">
+                <div style = "width: 100%" >
+                <div>
+                     <button mat-icon-button color="success" title="Grupo" a routerLink="/grupos">
+                        <mat-icon>toys</mat-icon>
+                     </button> <b>  Agrupa los servicios que se pueden realizar segun los tipos de moviles</b>
+            </div>
+
+            <br>
+            <div>
+                <button mat-icon-button color="success" title="Servicios" a routerLink="/servicios">
+                    <mat-icon>build</mat-icon>
+                </button> <b>  Diferentes servicios que pueden hacerse a los moviles</b>
+            </div>
+             </div>
+            </mat-grid-tile>
+            <mat-grid-tile
+            [colspan]="1"
+            [rowspan]="1">
+            <div style = "width: 100%" >
+
+            <div>
+                <button mat-icon-button color="success" title="Tareas" a routerLink="/tareas">
+                    <mat-icon>taxi_alert</mat-icon>
+                </button> <b>  Lista opcional de tareas posibles que se realizan en un servicio</b>
+            </div>
+            <br>
+            <div>
+                <button mat-icon-button color="success" title="Movil" a routerLink="/movil">
+                    <mat-icon>directions_car</mat-icon>
+                </button> <b>  Moviles a los que se les va a hacer mantenimiento preventivo</b>
+            </div>
+        </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
 
 </mat-card>

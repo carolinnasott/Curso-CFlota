@@ -71,7 +71,7 @@ class GrupoServicio
         $results["grusId"] = $row["grusId"];
         $results["grusFechaAlta"] = $row["grusFechaAlta"];
         $results["grusBorrado"] = 0;
-        return DATA;
+        return $results;
     }
 
     public function put ($db) {

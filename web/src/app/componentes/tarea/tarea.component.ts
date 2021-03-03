@@ -21,7 +21,7 @@ export class TareaComponent implements OnInit, AfterViewInit {
   form = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Tarea>();
-  columna: string[] = ['id', 'nombre', 'descripcion', 'unidad', 'cantidad', 'costo', 'acciones'];
+  columna: string[] = ['nombre', 'descripcion', 'unidad', 'cantidad', 'costo', 'acciones'];
 
   @ViewChild(MatTable) tabla: MatTable<Tarea> | undefined;
   @ViewChild(MatSort) sort!: MatSort;

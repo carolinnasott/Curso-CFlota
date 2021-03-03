@@ -2,29 +2,29 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { GrupoServicio } from 'src/app/modelo/grupo-servicio';
+import { MovilServicio } from 'src/app/modelo/movil-servicio';
 import { Servicio } from 'src/app/modelo/servicio';
-import { GrupoServicioService } from 'src/app/servicios/grupo-servicio.service';
+import { MovilServicioService } from 'src/app/servicios/movil-servicio.service';
 import { ServicioService } from 'src/app/servicios/servicio.service';
 import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
 
 
 
 @Component({
-  selector: 'app-grupo-servicio',
-  templateUrl: './grupo-servicio.component.html',
-  styleUrls: ['./grupo-servicio.component.css']
+  selector: 'app-movil-servicio',
+  templateUrl: './movil-servicio.component.html',
+  styleUrls: ['./movil-servicio.component.css']
 })
-export class GrupoServicioComponent implements OnInit {
+export class MovilServicioComponent implements OnInit {
 
-  @Input() grupId = 0;
+  @Input() servId = 0;
 
 
-  gruposervicios: GrupoServicio[] = [];
-  seleccionado = new GrupoServicio();
+  movilservicios: MovilServicio[] = [];
+  seleccionado = new MovilServicio();
 
-  columnas: string[] = ['servNombre', 'grusPeriodo', 'grusKM', 'grusFecha', 'acciones'];
-  dataSource = new MatTableDataSource<GrupoServicio>();
+  columnas: string[] = ['servNombre', 'moseMoviId', 'mosePeriodo', 'moseKM', 'moseFecha', 'acciones'];
+  dataSource = new MatTableDataSource<MovilServicio>();
 
 
   form = new FormGroup({});
@@ -34,29 +34,29 @@ export class GrupoServicioComponent implements OnInit {
   idAux = -1;
 
 
-  constructor(private grupoServicioService: GrupoServicioService,
-    private servicioService: ServicioService,
-    private formBuilder: FormBuilder,
-    public dialog: MatDialog) { }
+  constructor(private movilServicioService: MovilServicioService,
+              private servicioService: ServicioService,
+              private formBuilder: FormBuilder,
+              public dialog: MatDialog) { }
 
 
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
-      grusId: [''],
-      grusGrupId: [''],
-      grusServId: ['', Validators.required],
-      grusPeriodo: [''],
-      grusKM: [''],
-      grusFecha: [''],
-      grusBorrado: [''],
-      grusFechaAlta: [''],
+      moseId: [''],
+      moseMoviId: [''],
+      moseServId: [''],
+      mosePeriodo: [''],
+      moseKM: [''],
+      moseFecha: [''],
+      moseFechaAlta: [''],
+      moseBorrado: [''],
       servNombre: ['']
     });
 
-    this.grupoServicioService.get(`grusGrupId=${this.grupId}`).subscribe(
-      (grupoServicio) => {
-        this.grupoServicioService.gruposerv = grupoServicio;
+    this.movilServicioService.get(`moseServId=${this.servId}`).subscribe(
+      (movilServicio) => {
+        this.movilServicioService.movilserv = movilServicio;
         this.actualizarTabla();
       }
     );
@@ -70,14 +70,14 @@ export class GrupoServicioComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.grupoServicioService.gruposerv.filter(borrado => borrado.grusBorrado === false);
+    this.dataSource.data = this.movilServicioService.movilserv.filter(borrado => borrado.moseBorrado === false);
   }
 
   // tslint:disable-next-line:typedef
   agregar() {
     this.idAux--;
-    this.seleccionado = new GrupoServicio();
-    this.seleccionado.grusId = this.idAux;
+    this.seleccionado = new MovilServicio();
+    this.seleccionado.moseId = this.idAux;
 
     this.form.setValue(this.seleccionado);
 
@@ -85,7 +85,7 @@ export class GrupoServicioComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  delete(fila: GrupoServicio) {
+  delete(fila: MovilServicio) {
 
     const dialogRef = this.dialog.open(ConfirmarComponent);
 
@@ -93,7 +93,7 @@ export class GrupoServicioComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-        fila.grusBorrado = true;
+        fila.moseBorrado = true;
         this.actualizarTabla();
       }
 
@@ -101,7 +101,7 @@ export class GrupoServicioComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  editar(seleccionado: GrupoServicio) {
+  editar(seleccionado: MovilServicio) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
 
@@ -118,14 +118,14 @@ export class GrupoServicioComponent implements OnInit {
 
     Object.assign(this.seleccionado, this.form.value);
     // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId === this.seleccionado.grusServId)!.servNombre;
-    if (this.seleccionado.grusId  > 0) {
-      const elemento = this.gruposervicios.find(gruser => gruser.grusId  === this.seleccionado.grusId );
+    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId === this.seleccionado.moseServId)!.servNombre;
+    if (this.seleccionado.moseId  > 0) {
+      const elemento = this.movilservicios.find(movilserv => movilserv.moseId  === this.seleccionado.moseId );
       // tslint:disable-next-line:no-non-null-assertion
-      this.gruposervicios.splice(this.seleccionado.grusId , 1, elemento!);
+      this.movilservicios.splice(this.seleccionado.moseId , 1, elemento!);
 
     } else {
-      this.grupoServicioService.gruposerv.push(this.seleccionado);
+      this.movilServicioService.movilserv.push(this.seleccionado);
     }
     this.mostrarFormulario = false;
     this.actualizarTabla();

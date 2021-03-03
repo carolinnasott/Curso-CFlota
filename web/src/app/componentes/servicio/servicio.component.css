@@ -5,3 +5,25 @@
     color: #f0fff3;
     background-color: #145e9b
   }
+  .mat-icon-button.mat-success {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: #f0fff3;
+    background-color: #d68058
+  }
+
+  .example-h2 {
+    margin: 10px;
+  }
+  
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .example-margin {
+    margin: 0 10px;
+  }

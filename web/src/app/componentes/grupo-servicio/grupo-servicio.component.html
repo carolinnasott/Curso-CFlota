@@ -1,15 +1,9 @@
 <br>
-<mat-card style="width: 95%;">
     <div [hidden]="mostrarFormulario">
             
         <table mat-table [dataSource]="dataSource" #tabla>        
             <!-- Position Column -->
     
-            <ng-container matColumnDef="grusId">
-              <th mat-header-cell *matHeaderCellDef>
-                <div style="color:#2271b3;"><h3><b>ID Grupo</b></h3></div></th>
-              <td mat-cell *matCellDef="let gruposervicio"> <b>{{gruposervicio.grusId}} </b></td>
-            </ng-container>
           
             <!-- Name Column -->
             <ng-container matColumnDef="servNombre">
@@ -40,10 +34,10 @@
             <ng-container matColumnDef="acciones">
               <th mat-header-cell *matHeaderCellDef> </th>
               <td mat-cell *matCellDef="let gruser">
-                  <button title="editar"(click)="editar(gruser)">
+                  <button mat-icon-buttoncolor="success"  title="editar"(click)="editar(gruser)">
                       <mat-icon>brush</mat-icon>
-                  </button>
-                  <button title="borrar" (click)="delete(gruser)">
+                  </button>&nbsp;
+                  <button mat-icon-buttoncolor="success"  title="borrar" (click)="delete(gruser)">
                       <mat-icon>delete_sweep</mat-icon>
                   </button>
               </td>
@@ -57,22 +51,21 @@
       </table>
 
       <div style="text-align: center;">
-          <button mat-raised-button color="success" (click)="agregar()">Agregar Servicio</button>
+          <button mat-raised-button color="success" (click)="agregar()">Agregar</button>
       </div>
   </div>
-</mat-card>
-
     <div *ngIf="mostrarFormulario">
       <form [formGroup]="form">
           <div [hidden]="true">
               <input type="text" formControlName="grusGrupId" [(ngModel)]="grupId"> 
           </div>
-          <div>
+          <div  style="color:#2271b3;">
+            <h3><b>Seleccione:</b></h3>
               <mat-form-field appearance="outline">
                   <mat-label>Servicio</mat-label>
-                  <mat-select formControlName="grusGrupId" required>
+                  <mat-select formControlName="grusServId" required>
                       <mat-option *ngFor="let servicio of servicios" [value]="servicio.servId">
-                          {{servicio.servNombre}}
+                          {{servicio.servNombre}}: {{ servicio.servDescripcion }}
                       </mat-option>
                   </mat-select>
                   <mat-error>Selecciona una opcion valida</mat-error>
@@ -82,7 +75,7 @@
           <div style="text-align: center;">
             <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
             &nbsp;
-            <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+            <button mat-raised-button (click)="cancelar()">Cancelar</button>
         </div>
     </form>
   </div>
