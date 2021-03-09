@@ -72,64 +72,52 @@
     <mat-horizontal-stepper linear>
       <mat-step label="Detalles de Movil">
         <mat-card>
-        <mat-grid-list cols="2" rowHeight="2:2">
-          <mat-grid-tile
-          [colspan]="1"
-          [rowspan]="1">
+
         
         <table style="width: 100%;">
-          <th>Detalle Movil</th>
       
-          <tr><td id="b"><b>Patente</b></td><td>{{seleccionado.patente}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Patente</b></td><td><b>{{seleccionado.patente}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Descripcion</b></td><td>{{seleccionado.descripcion}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Descripcion</b></td><td><b>{{seleccionado.descripcion}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Dependencia</b></td><td>{{seleccionado.dependencia}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Dependencia</b></td><td><b>{{seleccionado.dependencia}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Dependencia Completa</b></td><td>{{seleccionado.dependenciaCompleta}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Dependencia Completa</b></td><td><b>{{seleccionado.dependenciaCompleta}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Marca</b></td><td>{{seleccionado.marca}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Marca</b></td><td><b>{{seleccionado.marca}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Modelo</b></td><td>{{seleccionado.modelo}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Modelo</b></td><td><b>{{seleccionado.modelo}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Año</b></td><td>{{seleccionado.anio}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Año</b></td><td><b>{{seleccionado.anio}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Chasis</b></td><td>{{seleccionado.chasis}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Chasis</b></td><td><b>{{seleccionado.chasis}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Tipo Movil</b></td><td>{{seleccionado.tipoMovil}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Tipo Movil</b></td><td><b>{{seleccionado.tipoMovil}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Color</b></td><td>{{seleccionado.color}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Color</b></td><td><b>{{seleccionado.color}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Seguro</b></td><td>{{seleccionado.seguro}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Seguro</b></td><td><b>{{seleccionado.seguro}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Poliza</b></td><td>{{seleccionado.poliza}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Poliza</b></td><td><b>{{seleccionado.poliza}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Nro Motor</b></td><td>{{seleccionado.numeroMotor}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Nro Motor</b></td><td><b>{{seleccionado.numeroMotor}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Peso</b></td><td>{{seleccionado.peso}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Peso</b></td><td><b>{{seleccionado.peso}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>Patrullaje</b></td><td>{{seleccionado.tienePatrullaje}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>Patrullaje</b></td><td><b>{{seleccionado.tienePatrullaje}}</b></td></tr>
           <mat-divider></mat-divider>
-          <tr><td id="b"><b>CUIT</b></td><td>{{seleccionado.CUIT}}</td></tr>
+          <tr><td style="color: #2271b3;"><b>CUIT</b></td><td><b>{{seleccionado.CUIT}}</b></td></tr>
           <mat-divider></mat-divider>    
         </table>
-          </mat-grid-tile>
-      <mat-grid-tile
-      [colspan]="1"
-      [rowspan]="1">
-      
-      <div style = "width: 100%">
-        <th>Servicios</th>
-        <td id="td">
-          <app-movil-servicio [moviId]="seleccionado.moviId"></app-movil-servicio>
-      </td></div>
       <br>
-      </mat-grid-tile>
-        </mat-grid-list>
+
         </mat-card>
 
       </mat-step>
+      <mat-step label="Servicios">
+        <app-movil-servicio [moviId]="seleccionado.moviId"></app-movil-servicio>
 
+    </mat-step>
       <mat-step label="Bitacora">
         <app-movil-bitacora [moviId]="seleccionado.moviId"></app-movil-bitacora>
 
