@@ -1,13 +1,10 @@
 
     <div [hidden]="mostrarFormulario">
     
-        <mat-form-field style="width: 50%;">
-          <mat-label><i><b> Buscar</b></i></mat-label>
-          <input matInput (keyup)="filter($event)" placeholder="..." #input>
-         </mat-form-field>
+
          
      <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Odometro</button>
-     
+     <br>
          <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
          
            
