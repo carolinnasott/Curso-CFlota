@@ -10,7 +10,7 @@ class MovilOdometro
             ,CONVERT(VARCHAR, modoFechaAlta, 126) modoFechaAlta
             ,modoBorrado'; 
 
-    public $join = " LEFT OUTER JOIN Movil  ON modoMoviId  = movilID";
+    public $join = " LEFT OUTER JOIN Movil  ON modoMoviId  = moviId";
     
     public function get ($db) {
         $sql = "SELECT TOP (1000) $this->fields FROM $this->table

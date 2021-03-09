@@ -17,13 +17,13 @@ import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component
 })
 export class MovilServicioComponent implements OnInit {
 
-  @Input() servId = 0;
+  @Input() moviId = 0;
 
 
   movilservicios: MovilServicio[] = [];
   seleccionado = new MovilServicio();
 
-  columnas: string[] = ['servNombre', 'moseMoviId', 'mosePeriodo', 'moseKM', 'moseFecha', 'acciones'];
+  columnas: string[] = ['servNombre', 'mosePeriodo', 'moseKM', 'acciones'];
   dataSource = new MatTableDataSource<MovilServicio>();
 
 
@@ -54,7 +54,7 @@ export class MovilServicioComponent implements OnInit {
       servNombre: ['']
     });
 
-    this.movilServicioService.get(`moseServId=${this.servId}`).subscribe(
+    this.movilServicioService.get(`moseMoviId=${this.moviId}`).subscribe(
       (movilServicio) => {
         this.movilServicioService.movilserv = movilServicio;
         this.actualizarTabla();
@@ -70,7 +70,7 @@ export class MovilServicioComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.movilServicioService.movilserv.filter(borrado => borrado.moseBorrado === false);
+    this.dataSource.data = this.movilServicioService.movilserv.filter(borrado => borrado.moseBorrado == false);
   }
 
   // tslint:disable-next-line:typedef
@@ -118,9 +118,9 @@ export class MovilServicioComponent implements OnInit {
 
     Object.assign(this.seleccionado, this.form.value);
     // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId === this.seleccionado.moseServId)!.servNombre;
+    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId == this.seleccionado.moseServId)!.servNombre;
     if (this.seleccionado.moseId  > 0) {
-      const elemento = this.movilservicios.find(movilserv => movilserv.moseId  === this.seleccionado.moseId );
+      const elemento = this.movilservicios.find(movilserv => movilserv.moseId  == this.seleccionado.moseId );
       // tslint:disable-next-line:no-non-null-assertion
       this.movilservicios.splice(this.seleccionado.moseId , 1, elemento!);
 

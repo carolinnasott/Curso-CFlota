@@ -1,4 +1,4 @@
-<mat-card style="width: 95%;">
+<mat-card style="width: 97,5%;">
     <div [hidden]="mostrarFormulario">
     
        <mat-form-field style="width: 50%;">
@@ -62,14 +62,15 @@
             <tr mat-header-row *matHeaderRowDef='columna'></tr>
             <tr mat-row *matRowDef='let row; columns: columna'></tr>
           </table>
+          <br>
           <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
     
     </div>
-</mat-card>
+
     
       <!-- Formulario-->
       <div *ngIf="mostrarFormulario">
-        <mat-card>
+      
           <mat-grid-list cols="2" rowHeight="4:2">
           <mat-grid-tile
           [colspan]="1"
@@ -126,5 +127,6 @@
           </div>
         </mat-grid-tile>
       </mat-grid-list>
-    </mat-card> 
+
     </div>
+</mat-card> 

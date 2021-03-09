@@ -54,7 +54,8 @@ import { MovilGrupoComponent } from './componentes/movil-grupo/movil-grupo.compo
     MovilServicioComponent,
     MovilBitacoraComponent,
     MovilOdometroComponent,
-    MovilGrupoComponent,
+    MovilGrupoComponent
+  
   ],
   imports: [
     BrowserModule,

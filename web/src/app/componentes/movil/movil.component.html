@@ -1,5 +1,6 @@
+<mat-card style="width: 97,5%;">
 <div [hidden]="mostrarFormulario">
-      <mat-card style="width: 95%;">
+
     
        <mat-form-field style="width: 50%;">
          <mat-label><i><b>Buscar</b></i></mat-label>
@@ -8,7 +9,8 @@
         
     <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar movil</button>
     
-        <table mat-table [dataSource]= 'dataSource' #tabla>
+    <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
+
         
             <!-- Position Column -->
             <ng-container matColumnDef="patente">
@@ -53,32 +55,90 @@
                       <mat-icon>construction</mat-icon>
                   </button>
             </ng-container>
-        
-          
+
             <tr mat-header-row *matHeaderRowDef='columna'></tr>
             <tr mat-row *matRowDef='let row; columns: columna'></tr>
           </table>
+          <br>
+          <br>
           <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
-        </mat-card>
-  </div>
+       
+</div>
 
     
 <!-- Formulario-->
   <div *ngIf="mostrarFormulario">
-    <mat-card style="width: 95%;">
+  
     <mat-horizontal-stepper linear>
-      <mat-step label="Servicios">
-          <app-movil-servicio>
-          </app-movil-servicio>
+      <mat-step label="Detalles de Movil">
+        <mat-card>
+        <mat-grid-list cols="2" rowHeight="2:2">
+          <mat-grid-tile
+          [colspan]="1"
+          [rowspan]="1">
+        
+        <table style="width: 100%;">
+          <th>Detalle Movil</th>
+      
+          <tr><td id="b"><b>Patente</b></td><td>{{seleccionado.patente}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Descripcion</b></td><td>{{seleccionado.descripcion}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Dependencia</b></td><td>{{seleccionado.dependencia}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Dependencia Completa</b></td><td>{{seleccionado.dependenciaCompleta}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Marca</b></td><td>{{seleccionado.marca}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Modelo</b></td><td>{{seleccionado.modelo}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Año</b></td><td>{{seleccionado.anio}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Chasis</b></td><td>{{seleccionado.chasis}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Tipo Movil</b></td><td>{{seleccionado.tipoMovil}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Color</b></td><td>{{seleccionado.color}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Seguro</b></td><td>{{seleccionado.seguro}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Poliza</b></td><td>{{seleccionado.poliza}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Nro Motor</b></td><td>{{seleccionado.numeroMotor}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Peso</b></td><td>{{seleccionado.peso}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>Patrullaje</b></td><td>{{seleccionado.tienePatrullaje}}</td></tr>
+          <mat-divider></mat-divider>
+          <tr><td id="b"><b>CUIT</b></td><td>{{seleccionado.CUIT}}</td></tr>
+          <mat-divider></mat-divider>    
+        </table>
+          </mat-grid-tile>
+      <mat-grid-tile
+      [colspan]="1"
+      [rowspan]="1">
+      
+      <div style = "width: 100%">
+        <th>Servicios</th>
+        <td id="td">
+          <app-movil-servicio [moviId]="seleccionado.moviId"></app-movil-servicio>
+      </td></div>
+      <br>
+      </mat-grid-tile>
+        </mat-grid-list>
+        </mat-card>
+
       </mat-step>
+
       <mat-step label="Bitacora">
-        <app-movil-bitacora>
-        </app-movil-bitacora>
+        <app-movil-bitacora [moviId]="seleccionado.moviId"></app-movil-bitacora>
+
     </mat-step>
     <mat-step label="Odometro">
-      <app-movil-odometro>
-      </app-movil-odometro>
+      <app-movil-odometro [moviId]="seleccionado.moviId"></app-movil-odometro>
+
   </mat-step>
     </mat-horizontal-stepper>
-  </mat-card>  
+   
   </div>
+</mat-card> 

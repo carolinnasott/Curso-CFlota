@@ -70,7 +70,7 @@ export class GrupoServicioComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.grupoServicioService.gruposerv.filter(borrado => borrado.grusBorrado === false);
+    this.dataSource.data = this.grupoServicioService.gruposerv.filter(borrado => borrado.grusBorrado == false);
   }
 
   // tslint:disable-next-line:typedef
@@ -118,9 +118,9 @@ export class GrupoServicioComponent implements OnInit {
 
     Object.assign(this.seleccionado, this.form.value);
     // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId === this.seleccionado.grusServId)!.servNombre;
+    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servNombre;
     if (this.seleccionado.grusId  > 0) {
-      const elemento = this.gruposervicios.find(gruser => gruser.grusId  === this.seleccionado.grusId );
+      const elemento = this.gruposervicios.find(gruser => gruser.grusId  == this.seleccionado.grusId );
       // tslint:disable-next-line:no-non-null-assertion
       this.gruposervicios.splice(this.seleccionado.grusId , 1, elemento!);
 

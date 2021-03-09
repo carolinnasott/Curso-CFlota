@@ -71,7 +71,7 @@ export class ServicioTareaComponent implements OnInit{
 
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.serviciotareaService.serviciotar.filter(borrado => borrado.setaBorrado === false);
+    this.dataSource.data = this.serviciotareaService.serviciotar.filter(borrado => borrado.setaBorrado == false);
   }
   // tslint:disable-next-line:typedef
   filter(event: Event) {
@@ -121,9 +121,9 @@ export class ServicioTareaComponent implements OnInit{
 
     Object.assign(this.seleccionado, this.form.value);
     // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.tareNombre = this.tareas.find(tarea => tarea.tareId === this.seleccionado.setaTareId)!.tareNombre;
+    this.seleccionado.tareNombre = this.tareas.find(tarea => tarea.tareId == this.seleccionado.setaTareId)!.tareNombre;
     if (this.seleccionado.setaId > 0) {
-      const elemento = this.serviciotareas.find(sertar => sertar.setaId === this.seleccionado.setaId);
+      const elemento = this.serviciotareas.find(sertar => sertar.setaId == this.seleccionado.setaId);
       // tslint:disable-next-line:no-non-null-assertion
       this.serviciotareas.splice(this.seleccionado.setaId, 1, elemento!);
 

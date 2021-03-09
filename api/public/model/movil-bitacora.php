@@ -16,7 +16,8 @@ class MovilBitacora
             ,mobiIdSiguiente
             ,mobiPendiente
             ,CONVERT(VARCHAR, mobiFechaAlta, 126) mobiFechaAlta
-            ,mobiBorrado'; 
+            ,mobiBorrado
+            ,servNombre'; 
 
     public $join = " LEFT OUTER JOIN Servicio  ON mobiServId  = servId
                     LEFT OUTER JOIN Movil  ON mobiMoviId  = moviId

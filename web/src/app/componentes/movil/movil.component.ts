@@ -65,7 +65,7 @@ export class MovilComponent implements OnInit, AfterViewInit {
       CUIT: ['']
     });
 
-    this.movilService.get().subscribe(
+    this.movilService.get("activos=1").subscribe(
       (movil) => {
         this.items = movil;
         this.actualizarTabla();

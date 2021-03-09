@@ -1,1 +1,52 @@
-<p>movil-odometro works!</p>
+
+    <div [hidden]="mostrarFormulario">
+    
+        <mat-form-field style="width: 50%;">
+          <mat-label><i><b> Buscar</b></i></mat-label>
+          <input matInput (keyup)="filter($event)" placeholder="..." #input>
+         </mat-form-field>
+         
+     <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Odometro</button>
+     
+         <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
+         
+           
+             <!-- Name Column -->
+             <ng-container matColumnDef="modoFecha">
+               <th mat-header-cell *matHeaderCellDef>
+                 <div style="color: #2271b3;"><h3><b>Fecha</b> </h3></div></th>
+               <td mat-cell *matCellDef="let movilodometro"> <b>{{movilodometro.modoFecha}} </b> </td>
+             </ng-container>
+           
+             <!-- Weight Column -->
+             <ng-container matColumnDef="modoOdometro">
+               <th mat-header-cell *matHeaderCellDef> 
+                 <div style="color: #2271b3;"><h3><b>Odometro Diario </b></h3></div></th>
+               <td mat-cell *matCellDef="let movilodometro"> <b>{{movilodometro.modoOdometro}}</b> </td>
+             </ng-container>
+ 
+ 
+               <!-- ACCIONES -->
+             <ng-container matColumnDef="acciones">
+               <th mat-header-cell *matHeaderCellDef>                <div style="color: #2271b3;"><h3><b>Acciones </b></h3></div></th>
+ 
+               <td mat-cell *matCellDef="let tarea">
+                  
+                 <button mat-icon-button color="success" title="editar" (click)="edit(tarea)">
+                       <mat-icon>brush</mat-icon>
+                   </button>
+                   &nbsp;
+                   <button mat-icon-button color="success" title="borrar" (click)="delete(tarea)">
+                       <mat-icon>delete_sweep</mat-icon>
+                   </button>
+             </ng-container>
+       
+           
+             <tr mat-header-row *matHeaderRowDef='columnas'></tr>
+             <tr mat-row *matRowDef='let row; columns: columnas'></tr>
+           </table>
+           <br>
+           <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
+     
+   </div>
+ 
