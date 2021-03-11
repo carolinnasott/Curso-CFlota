@@ -39,6 +39,8 @@ import { MovilServicioComponent } from './componentes/movil-servicio/movil-servi
 import { MovilBitacoraComponent } from './componentes/movil-bitacora/movil-bitacora.component';
 import { MovilOdometroComponent } from './componentes/movil-odometro/movil-odometro.component';
 import { MovilGrupoComponent } from './componentes/movil-grupo/movil-grupo.component';
+import { MovilAltaComponent } from './componentes/movil-alta/movil-alta.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -54,8 +56,8 @@ import { MovilGrupoComponent } from './componentes/movil-grupo/movil-grupo.compo
     MovilServicioComponent,
     MovilBitacoraComponent,
     MovilOdometroComponent,
-    MovilGrupoComponent
-  
+    MovilGrupoComponent,
+    MovilAltaComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,8 @@ import { MovilGrupoComponent } from './componentes/movil-grupo/movil-grupo.compo
     MatSidenavModule,
     MatListModule,
     MatStepperModule,
-    MatGridListModule
+    MatGridListModule,
+    MatRadioModule
 
   ],
   providers: [

@@ -79,6 +79,8 @@ export class MovilGrupoComponent implements OnInit {
   }
 
   edit(seleccionado: MovilGrupo) {
+    this.mostrarFormulario = true;
+    this.seleccionado = seleccionado;
    
   }
 

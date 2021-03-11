@@ -6,6 +6,7 @@ import { ServicioComponent } from './componentes/servicio/servicio.component';
 import { TareaComponent } from './componentes/tarea/tarea.component';
 import { MovilComponent } from './componentes/movil/movil.component';
 import { MovilServicioComponent } from './componentes/movil-servicio/movil-servicio.component';
+import { MovilAltaComponent } from './componentes/movil-alta/movil-alta.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,7 +15,7 @@ const routes: Routes = [
   { path: 'servicios', component: ServicioComponent },
   { path: 'tareas', component: TareaComponent },
   { path: 'movil', component: MovilComponent },
-  { path: 'movil-servicio', component: MovilServicioComponent }
+  { path: 'agregar', component: MovilAltaComponent }
 ];
 
 

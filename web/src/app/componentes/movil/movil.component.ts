@@ -15,13 +15,14 @@ import { MovilService } from 'src/app/servicios/movil.service';
   styleUrls: ['./movil.component.css']
 })
 export class MovilComponent implements OnInit, AfterViewInit {
-  items: Movil [] = [];
+  moviles: Movil [] = [];
   seleccionado = new Movil();
   form = new FormGroup({});
   mostrarFormulario = false;
   dataSource = new MatTableDataSource<Movil>();
   columna: string[] = ['patente', 'descripcion', 'dependencia', 'marcamodeloanio', 'patrullaje', 'accion'];
   minDate: Date = new Date();
+  mostrarFormularioGrupo = false;
   
   @ViewChild(MatTable) tabla: MatTable<Movil> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
@@ -67,14 +68,14 @@ export class MovilComponent implements OnInit, AfterViewInit {
 
     this.movilService.get("activos=1").subscribe(
       (movil) => {
-        this.items = movil;
+        this.moviles = movil;
         this.actualizarTabla();
       }
     );
   }
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.items;
+    this.dataSource.data = this.moviles;
     this.dataSource.sort = this.sort;
   }
   accion(seleccionado: Movil) {
@@ -96,6 +97,8 @@ export class MovilComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line:typedef
   edit(seleccionado: Movil) {
+    this.mostrarFormularioGrupo = true;
+    this.seleccionado = seleccionado;
 
   }
 
