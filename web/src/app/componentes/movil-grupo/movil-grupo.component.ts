@@ -5,9 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
 import { MovilGrupo } from '../../modelo/movil-grupo';
-import { MovilGrupoService } from '../../servicios/movil-grupo.service';
 import { Grupo } from '../../modelo/grupo';
 import { GrupoService } from '../../servicios/grupo.service';
+import { MovilService } from 'src/app/servicios/movil.service';
+import { MovilGrupoService } from 'src/app/servicios/movil-grupo.service';
 
 @Component({
   selector: 'app-movil-grupo',
@@ -17,8 +18,8 @@ import { GrupoService } from '../../servicios/grupo.service';
 export class MovilGrupoComponent implements OnInit {
 
   @Input() moviId= 0;
-
-  movilgrupos: MovilGrupo[] = []
+  
+  movilgrupos: MovilGrupo[] = [];
   seleccionado = new MovilGrupo();
 
   columnas: string[] = ['grupNombre','acciones'];
@@ -29,11 +30,11 @@ export class MovilGrupoComponent implements OnInit {
   mostrarFormulario = false;
   grupos: Grupo[] = [];
 
-  constructor(
-    private movilgrupoService: MovilGrupoService,
-    private grupoService: GrupoService,
-    private formBouilder: FormBuilder,
-    private matDialog: MatDialog
+  idAuxiliar = -1;
+  constructor( private movilgrupoService: MovilGrupoService,
+               private grupoService: GrupoService,
+               private formBouilder: FormBuilder,
+               private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -44,12 +45,13 @@ export class MovilGrupoComponent implements OnInit {
       mogrFechaAlta: [''],
       mogrBorrado: [''],
       grupNombre: ['']
+      
 
     });
 
     this.movilgrupoService.get(`mogrMoviId=${this.moviId}`).subscribe(
-      (movil) => {
-        this.movilgrupos = movil;
+      (movilgrupos) => {
+        this.movilgrupoService.movilgrup = movilgrupos;
         this.actualizarTabla();
       }
     );
@@ -62,7 +64,7 @@ export class MovilGrupoComponent implements OnInit {
   }
 
   actualizarTabla() {
-    this.dataSource.data = this.movilgrupos;
+    this.dataSource.data = this.movilgrupoService.movilgrup.filter(borrado => borrado.mogrBorrado==false);
   }
 
   filter(event: Event) {
@@ -71,8 +73,15 @@ export class MovilGrupoComponent implements OnInit {
   }
 
   agregar() {
-    
+    this.idAuxiliar--;
+    this.seleccionado = new MovilGrupo();
+    this.seleccionado.mogrId = this.idAuxiliar;
+
+    this.form.setValue(this.seleccionado);
+
+    this.mostrarFormulario = true;
   }
+
 
   delete(row: MovilGrupo) {
 
@@ -85,12 +94,30 @@ export class MovilGrupoComponent implements OnInit {
   }
 
   guardar() {
+    if (!this.form.valid) {
+      return;
+    }
+
+    Object.assign(this.seleccionado, this.form.value);
+    // tslint:disable-next-line:no-non-null-assertion
+    this.seleccionado.grupNombre = this.grupos.find(grupo => grupo.grupId == this.seleccionado.mogrGrupId)!.grupNombre;
+    if (this.seleccionado.mogrId  > 0) {
+      const elemento = this.movilgrupos.find(movilgrup => movilgrup.mogrId  == this.seleccionado.mogrId );
+      // tslint:disable-next-line:no-non-null-assertion
+      this.movilgrupos.splice(this.seleccionado.mogrId , 1, elemento!);
+
+    } else {
+      this.movilgrupoService.movilgrup.push(this.seleccionado);
+    }
+    this.mostrarFormulario = false;
+    this.actualizarTabla();
 
   }
-
+  // tslint:disable-next-line:typedef
   cancelar() {
     this.mostrarFormulario = false;
   }
+
 
  
 

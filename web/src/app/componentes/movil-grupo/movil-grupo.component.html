@@ -4,7 +4,7 @@
             <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
             
               
-                <!-- Name Column -->
+                <!-- columnas -->
                 <ng-container matColumnDef="grupNombre">
                   <th mat-header-cell *matHeaderCellDef>
                     <div style="color: #2271b3;"><h3><b>Nombre Grupo</b> </h3></div></th>
@@ -31,10 +31,14 @@
               
                 <tr mat-header-row *matHeaderRowDef='columnas'></tr>
                 <tr mat-row *matRowDef='let row; columns: columnas'></tr>
-              </table>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">Sin items todavia...</td>
+                </tr>  
+            </table>
               <br>
-              <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
-        
+              <div style="text-align: center;">
+                <button mat-raised-button color="success" (click)="agregar()">Agregar</button>
+            </div>
       </div>
     
   <div *ngIf="mostrarFormulario">
@@ -47,7 +51,7 @@
                 <mat-label>Grupo</mat-label>
                 <mat-select formControlName="mogrGrupId" required>
                     <mat-option *ngFor="let grupo of grupos" [value]="grupo.grupId">
-                        {{grupo.grupNombre}}
+                        {{grupo.grupNombre}}: {{grupo.grupDescripcion}}
                     </mat-option>
                 </mat-select>
                 <mat-error>Selecciona una opcion valida</mat-error>

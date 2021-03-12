@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,19 +24,21 @@ export class MovilAltaComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   grupos: Grupo[] = []; 
   moviles: Movil [] = [];
+  movil = new Movil();
 
   dataSource = new MatTableDataSource<Movil>();
-  columna: string[] = ['patente', 'descripcion', 'dependencia', 'marcamodeloanio', 'patrullaje'];
+  columna: string[] = ['patente', 'descripcion','dependencia','estado','accion'];
   movilseleccionado = new Movil();
   formularioAlta = false;
   formulario = new FormGroup({});
+  @Input() mogrMoviId= 0;
+
   constructor(private movilServ: MovilService,
                 private grupoServ: GrupoService,
-                private movilGrupoService : MovilGrupoService,
+                private movilgServ: MovilGrupoService,
                 private formBouilder: FormBuilder,
                 private matDialog: MatDialog ){}
   
-
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -48,7 +50,7 @@ export class MovilAltaComponent implements OnInit, AfterViewInit {
       moviModoFecha: ['', Validators.required],
       moviModoOdometro: ['', Validators.required],
       moviBorrado: [''],
-      moviFechaAlta: [''],
+      moviFechaAlta: ['']
     });
 
     this.movilServ.get().subscribe(
@@ -57,38 +59,48 @@ export class MovilAltaComponent implements OnInit, AfterViewInit {
         this.actualizarTabla();
       }
     );
-        this.grupoServ.get().subscribe(
+    this.grupoServ.get().subscribe(
       (grupo) => {
-        this.grupos = grupo;
+      this.grupos = grupo;
       }
     );
 
   }
+  // tslint:disable-next-line:typedef
   filter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 // tslint:disable-next-line:typedef
 agregar(movilseleccionado: Movil) {
-    const dialogRef = this.matDialog.open(ConfirmarComponent);
-      dialogRef.afterClosed().subscribe(
-      result => {console.log(`Dialog result: ${result}`);
+  this.formulario.reset();
+  this.movilseleccionado = movilseleccionado;
+  this.movil.moviId = movilseleccionado.movilID;
+  this.movilServ.post(this.movilseleccionado).subscribe();
 
-      if (result) {
+  this.formularioAlta = true;
+  
+}
 
-        this.formularioAlta = true;
-
-        this.movilseleccionado = movilseleccionado;
-        this.movilseleccionado.moviId = this.movilseleccionado.movilID;
-        this.movilServ.post(this.movilseleccionado).subscribe();
-
-      }
-    });
-    
+  accion(movilseleccionado: Movil) {
+    this.formularioAlta = true;
+    this.movilseleccionado = movilseleccionado;
   }
-  actualizarTabla() {
-    this.dataSource.data = this.moviles.filter(
-      borrado => !(borrado.moviBorrado)
-    );
+  
+// tslint:disable-next-line:typedef
+actualizarTabla() {
+    this.dataSource.data = this.moviles;
+    this.dataSource.sort = this.sort;
   }
+
+// tslint:disable-next-line:typedef
+estado(moviId: number, borrado: number){
+  if (moviId !== null && borrado == 0 ) {return 'Movil Borrado'; }
+  else if (moviId !== null && borrado == 1){return 'Movil Registrado'; } 
+  else if (moviId == null){return 'Movil No Registrado'; }
+  }
+  cancelar() {
+    this.formularioAlta = false;
+  }
+
 }
