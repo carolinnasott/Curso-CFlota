@@ -34,7 +34,7 @@ export class MovilGrupoComponent implements OnInit {
   constructor( private movilgrupoService: MovilGrupoService,
                private grupoService: GrupoService,
                private formBouilder: FormBuilder,
-               private matDialog: MatDialog
+               public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -83,8 +83,19 @@ export class MovilGrupoComponent implements OnInit {
   }
 
 
-  delete(row: MovilGrupo) {
+  delete(fila: MovilGrupo) {
 
+    const dialogRef = this.dialog.open(ConfirmarComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        fila.mogrBorrado = true;
+        this.actualizarTabla();
+      }
+
+    });
   }
 
   edit(seleccionado: MovilGrupo) {

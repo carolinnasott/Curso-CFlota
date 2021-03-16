@@ -22,4 +22,5 @@ export class Movil {
     peso: number = 0;  
     tienePatrullaje: boolean= false;
     CUIT: number = 0;
+    activa: boolean = false;
 }

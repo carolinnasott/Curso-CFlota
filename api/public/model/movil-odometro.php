@@ -13,15 +13,17 @@ class MovilOdometro
     public $join = " LEFT OUTER JOIN Movil  ON modoMoviId  = moviId";
     
     public function get ($db) {
-        $sql = "SELECT TOP (1000) $this->fields FROM $this->table
-                $this->join
-                WHERE modoBorrado = 0";
+        $sql = "SELECT TOP 5 $this->fields FROM $this->table
+        $this->join
+        WHERE modoBorrado = 0";
 
         $params = null;
         if (isset( $_GET["modoMoviId"])){
             $params = [$_GET["modoMoviId"]];
-            $sql = $sql . " AND modoMoviId = ? ";
+            $sql = $sql . " AND modoMoviId = ?";
         };
+
+        $sql = $sql . " ORDER BY modoId desc";
         
 
         $stmt = SQL::query($db, $sql, $params);

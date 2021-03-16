@@ -1,9 +1,11 @@
 
     <div [hidden]="mostrarFormulario">
         <br>
+        <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Agregar Grupo</b></h3></div></div>
+
             <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
             
-              
+
                 <!-- columnas -->
                 <ng-container matColumnDef="grupNombre">
                   <th mat-header-cell *matHeaderCellDef>
@@ -19,11 +21,11 @@
     
                   <td mat-cell *matCellDef="let movilgrup">
                      
-                    <button mat-icon-button color="success" title="editar" (click)="edit(movilgrup)">
+                    <button mat-icon-button color="editar" title="editar" (click)="edit(movilgrup)">
                           <mat-icon>brush</mat-icon>
                       </button>
                       &nbsp;
-                      <button mat-icon-button color="success" title="borrar" (click)="delete(movilgrup)">
+                      <button mat-icon-button color="borrar" title="borrar" (click)="delete(movilgrup)">
                           <mat-icon>delete_sweep</mat-icon>
                       </button>
                 </ng-container>
@@ -42,11 +44,12 @@
       </div>
     
   <div *ngIf="mostrarFormulario">
+    <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Agregar Grupo</b></h3></div></div>
 
     <form [formGroup]="form">
 
-        <div style="text-align: center;">
-            <h2>Seleccione un grupo</h2>
+        <div style="text-align: center;" style="color:#2271b3;" >
+            <h3>Seleccione un grupo</h3>
             <mat-form-field appearance="outline">
                 <mat-label>Grupo</mat-label>
                 <mat-select formControlName="mogrGrupId" required>

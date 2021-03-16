@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Grupo } from 'src/app/modelo/grupo';
 import { Movil } from 'src/app/modelo/movil';
+import { MovilGrupo } from 'src/app/modelo/movil-grupo';
 import { GrupoService } from 'src/app/servicios/grupo.service';
 import { MovilGrupoService } from 'src/app/servicios/movil-grupo.service';
 import { MovilService } from 'src/app/servicios/movil.service';
@@ -27,10 +28,13 @@ export class MovilAltaComponent implements OnInit, AfterViewInit {
   movil = new Movil();
 
   dataSource = new MatTableDataSource<Movil>();
-  columna: string[] = ['patente', 'descripcion','dependencia','estado','accion'];
+  columna: string[] = ['patente', 'descripcion','dependencia','estado','acciones'];
   movilseleccionado = new Movil();
+  gruposeleccionado = new MovilGrupo();
   formularioAlta = false;
+  formularioGrupo = false;
   formulario = new FormGroup({});
+  formularioG = new FormGroup({});
   @Input() mogrMoviId= 0;
 
   constructor(private movilServ: MovilService,
@@ -52,6 +56,13 @@ export class MovilAltaComponent implements OnInit, AfterViewInit {
       moviBorrado: [''],
       moviFechaAlta: ['']
     });
+    this.formularioG = this.formBouilder.group({
+      mogrId: [''],
+      mogrMoviId: [''],
+      mogrGrupId: [''],
+      mogrFechaAlta: [''],
+      mogrBorrado: ['']
+    })
 
     this.movilServ.get().subscribe(
       (movil) => {
@@ -73,18 +84,49 @@ export class MovilAltaComponent implements OnInit, AfterViewInit {
   }
 // tslint:disable-next-line:typedef
 agregar(movilseleccionado: Movil) {
+  const dialogRef = this.matDialog.open(ConfirmarComponent);
+  dialogRef.afterClosed().subscribe(
+    result => {console.log(`Dialog result: ${result}`);
+
+               if (result) {
+
+      this.formularioAlta = true;
+      this.movilseleccionado = movilseleccionado;
+      this.movilseleccionado.moviId = this.movilseleccionado.movilID;
+      this.movilServ.post(this.movilseleccionado).subscribe();
+      this.formularioG.reset();
+      this.gruposeleccionado = new MovilGrupo();
+
+    }else{
+      this.cancelar();
+    }
+  });
+  
+}
+// tslint:disable-next-line:typedef
+guardarG() {
+
+  this.gruposeleccionado.mogrGrupId = this.formularioG.value.mogrGrupId;
+  this.gruposeleccionado.mogrMoviId = this.movilseleccionado.moviId;
+  this.movilgServ.post(this.gruposeleccionado).subscribe();
+}
+
+reactivar(movilseleccionado: Movil) {
   this.formulario.reset();
   this.movilseleccionado = movilseleccionado;
   this.movil.moviId = movilseleccionado.movilID;
   this.movilServ.post(this.movilseleccionado).subscribe();
 
   this.formularioAlta = true;
-  
+
 }
 
-  accion(movilseleccionado: Movil) {
+  accion(movilseleccionado: Movil, estado:string) {
     this.formularioAlta = true;
     this.movilseleccionado = movilseleccionado;
+    if (estado == 'Movil No Registrado') {
+      this.formularioGrupo = true;
+    }
   }
   
 // tslint:disable-next-line:typedef
@@ -95,10 +137,11 @@ actualizarTabla() {
 
 // tslint:disable-next-line:typedef
 estado(moviId: number, borrado: number){
-  if (moviId !== null && borrado == 0 ) {return 'Movil Borrado'; }
-  else if (moviId !== null && borrado == 1){return 'Movil Registrado'; } 
-  else if (moviId == null){return 'Movil No Registrado'; }
+  if (moviId !== null && borrado == 0 ) {return 'Movil Registrado'; }
+  else if (moviId !== null && borrado == 1){return 'Movil Borrado'; } 
+  else if (borrado == null){return 'Movil No Registrado'; }
   }
+
   cancelar() {
     this.formularioAlta = false;
   }

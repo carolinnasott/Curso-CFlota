@@ -8,6 +8,8 @@ import { MovilOdometro } from '../../modelo/movil-odometro';
 import { MovilOdometroService } from '../../servicios/movil-odometro.service';
 import { Servicio } from '../../modelo/servicio';
 import { ServicioService } from '../../servicios/servicio.service';
+import { Movil } from 'src/app/modelo/movil';
+import { MovilService } from 'src/app/servicios/movil.service';
 
 @Component({
   selector: 'app-movil-odometro',
@@ -20,6 +22,9 @@ export class MovilOdometroComponent implements OnInit {
 
   movilodometros: MovilOdometro[] = []
   seleccionado = new MovilOdometro();
+  moviles = new Movil();
+  movil: Movil[] = [];
+  
 
   columnas: string[] = ['modoFecha','modoOdometro','acciones'];
   dataSource = new MatTableDataSource<MovilOdometro>();
@@ -31,7 +36,7 @@ export class MovilOdometroComponent implements OnInit {
 
   constructor(
     private movilodometroService: MovilOdometroService,
-    private servicioService: ServicioService,
+    private movilService: MovilService,
     private formBouilder: FormBuilder,
     private matDialog: MatDialog
   ) { }
@@ -53,9 +58,9 @@ export class MovilOdometroComponent implements OnInit {
       }
     );
 
-    this.servicioService.get().subscribe(
-      (servicio) => {
-        this.servicios = servicio;
+    this.movilService.get().subscribe(
+      (movil) => {
+        this.movil = movil;
       }
     );
   }
@@ -70,11 +75,24 @@ export class MovilOdometroComponent implements OnInit {
   }
 
   agregar() {
-    
+    this.seleccionado = new MovilOdometro();
+    this.form.setValue(this.seleccionado);
+    this.mostrarFormulario = true;
   }
 
-  delete(row: MovilOdometro) {
-
+  delete(seleccionado: MovilOdometro) {
+    const dialogRef = this.matDialog.open(ConfirmarComponent);
+    dialogRef.afterClosed().subscribe(
+      result =>{
+        console.log(`Dialog resulr: ${result}`);
+        if (result) {
+          this.movilodometroService.delete(seleccionado.modoId).subscribe(
+            () => {
+              this.movilodometros = this.movilodometros.filter( dato => dato.modoId !== seleccionado.modoId);
+              this.actualizarTabla();
+            });
+        }
+      });
   }
 
   edit(seleccionado: MovilOdometro) {

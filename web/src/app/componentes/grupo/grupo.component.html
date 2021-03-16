@@ -1,10 +1,11 @@
 <mat-card style="width: 97,5%;">
 <div [hidden]="mostrarFormulario">
+  <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Grupo de Moviles</b></h3></div></div>
 
-   <mat-form-field style="width: 30%;">
-     <mat-label><i><b> Buscar</b></i></mat-label>
-     <input matInput (keyup)="filter($event)" placeholder="..." #input>
-    </mat-form-field>
+  <mat-form-field style="width: 50%;">
+    <mat-label><i><b>Buscar Grupo</b></i></mat-label>
+    <input matInput (keyup)="filter($event)" placeholder="..." #input>
+   </mat-form-field>
     
 <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Grupo</button>
 
@@ -29,11 +30,11 @@
           <th mat-header-cell *matHeaderCellDef><div style="color: #2271b3;"><h3><b>Acciones </b></h3></div></th>
           <td mat-cell *matCellDef="let grupo">
              
-            <button mat-icon-button color="success" title="editar"  (click)="edit(grupo)">
+            <button mat-icon-button color="editar" title="editar"  (click)="edit(grupo)">
                   <mat-icon>brush</mat-icon>
               </button>
               &nbsp;
-              <button mat-icon-button color="success" title="borrar"  (click)="delete(grupo)">
+              <button mat-icon-button color="borrar" title="borrar"  (click)="delete(grupo)">
                   <mat-icon>delete_sweep</mat-icon>
               </button>
         </ng-container>
@@ -43,7 +44,7 @@
         <tr mat-row *matRowDef='let row; columns: columna'></tr>
       </table>
       <br>
-      <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
 
   </div>
@@ -60,7 +61,7 @@
     <div style = "width: 100%" >
        <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Ingrese datos del Grupo</b></h3></div></div>
 
-        <form [formGroup]="form">
+        <form [formGroup]="form" style="text-align: center;">
           <div>
             <mat-form-field appearance="outline" style = "width: 90%">
               <mat-label>Nombre</mat-label>
@@ -85,7 +86,6 @@
      [colspan]="1"
      [rowspan]="1">
      <div style = "width: 100%" >
-      <h3><b>Agregar Servicio</b></h3>
       <div *ngIf="seleccionado && seleccionado.grupId && mostrarFormulario">
         <app-grupo-servicio [grupId]="seleccionado.grupId"></app-grupo-servicio> </div>
       </div>

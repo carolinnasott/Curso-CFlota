@@ -1,12 +1,14 @@
 <mat-card style="width: 97,5%;">
 <div [hidden]="formularioAlta">
+  <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Agregar Movil a Mantenimiento</b></h3></div></div>
+
 
     
   <mat-form-field style="width: 50%;">
     <mat-label><i><b>Buscar por Patente/Descripcion</b></i></mat-label>
     <input matInput (keyup)="filter($event)" placeholder="..." #input>
-   </mat-form-field>
-    <button mat-raised-button color="success" a routerLink="/movil" style="float:right;">Volver</button>
+   </mat-form-field>    
+    <button mat-raised-button color="" a routerLink="/movil" style="float:right;">Volver</button> &nbsp; &nbsp;
 
 <br>
 
@@ -40,13 +42,15 @@
           
             
           <!-- ACCIONES -->
-            <ng-container matColumnDef="accion">
+            <ng-container matColumnDef="acciones">
               <th mat-header-cell *matHeaderCellDef>
-                <div style="color: #2271b3;"><h3><b>Seleccione movil</b></h3></div></th>
+                <div style="color: #2271b3;"><h3><b>Seleccionar Accion</b></h3></div></th>
                 <td mat-cell *matCellDef="let movil">
-                <button type="button" [disabled]="movil.moviId !== null && movil.moviBorrado == 1" mat-raised-button color="success" title="accion" (click)="accion(movil)">
-                  Agregar
-                </button>
+                <button type="button" [disabled]="movil.moviBorrado == 1 || movil.moviBorrado == 0" mat-raised-button color="add"  title="agregar" (click)="agregar(movil)">
+                 Agregar</button>&nbsp;
+
+                <button type="button" [disabled]="movil.moviBorrado == 0 || movil.moviBorrado == null" mat-raised-button color="editar" title="reactivar" (click)="reactivar(movil)">
+                Reactivar</button>
             </ng-container>
 
 
@@ -60,14 +64,11 @@
        
 </div>
 
+<!-- Formulario -->
 <div *ngIf="formularioAlta">
-
-  <mat-grid-list cols="2" rowHeight="3:2">
-  <mat-grid-tile
-  [colspan]="1"
-  [rowspan]="1">
-  <div style = "width: 100%" >
-     <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Detalles del Movil</b></h3></div></div>
+  <mat-horizontal-stepper linear>
+    <mat-step label="Detalles de Movil">
+  
       <table style="width: 100%;">
         <tr><td style="color: #2271b3;"><b>Patente</b></td><td><b>{{movilseleccionado.patente}}</b></td></tr>
         <mat-divider></mat-divider>
@@ -87,28 +88,45 @@
         <mat-divider></mat-divider>
       </table>
     <br>
-  </div>
-  <br>
-   </mat-grid-tile>
-   <mat-grid-tile
-   [colspan]="1"
-   [rowspan]="1">
-   <div style = "width: 100%" >
-    <div style="color:#2271b3;"><div style='text-align:center' ><h3><b>Agregar Grupo</b></h3></div></div>
+    <div>
+      <button type="button" mat-raised-button color="success" mat-button matStepperNext>Siguiente</button>
+    </div>  
+</mat-step>
+
+<mat-step label="Agregar Grupo">
+
+
+  <div style = "width: 100%" >
     <div *ngIf="movilseleccionado && movilseleccionado.moviId && formularioAlta">
       <app-movil-grupo [moviId]="movilseleccionado.moviId"></app-movil-grupo> </div>
     </div>
-  </mat-grid-tile>
-  </mat-grid-list>
-<br>
-<div style="text-align: center">
-  <button type="button" mat-raised-button color="success" title="accion" (click)="agregar()">
-  Agregar
-  </button> &nbsp; &nbsp;
-  <button type="button" mat-raised-button color="" title="accion" (click)="cancelar()">
-  Cancelar
-  </button>
 
-</div>
+    <div>
+      <button type="button" mat-raised-button (click)="cancelar()">Aceptar</button>
+      &nbsp;
+      <button type="button" mat-raised-button color="success" mat-button matStepperNext>Siguiente</button>
+    </div> 
+</mat-step>
+<mat-step label="Agregar Odometro(opcional)">
+  <app-movil-odometro [moviId]="movilseleccionado.moviId"></app-movil-odometro>
+  <button type="button" mat-raised-button color="success" mat-button matStepperNext>Siguiente</button>
+
+</mat-step>
+<mat-step>
+  <ng-template matStepLabel>Fin</ng-template>
+  <br>
+  <div style="color:#2271b3;">
+    <div style='text-align:center' ><h3><b>El movil se agrego exitosamente</b></h3></div></div>
+
+  <br>
+    <button type="button" mat-raised-button color="success" a routerLink="/movil" >Salir</button>
+
+</mat-step>
+
+
+<br>
+
+
+</mat-horizontal-stepper>
 </div>
 </mat-card> 

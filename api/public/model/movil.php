@@ -25,7 +25,8 @@ class Movil
                     ,A.numeroMotor
                     ,A.peso      
                     ,A.tienePatrullaje
-                    ,A.CUIT'; 
+                    ,A.CUIT
+                    ,A.Activa';
     
     public function get ($db) {
         $sql = "SELECT TOP 100 $this->fields
@@ -39,12 +40,12 @@ class Movil
         $params = null;
 
         if (isset( $_GET["patente"])){
-            $params = ["%" . $_GET["patente"] . "%"];
+            $params[] = ["%" . $_GET["patente"] . "%"];
             $sql = $sql . " AND A.patente LIKE ? ";
         };
 
         if (isset( $_GET["descripcion"])){
-            $params = ["%" . $_GET["descripcion"] . "%"];
+            $params[] = ["%" . $_GET["descripcion"] . "%"];
             $sql = $sql . " AND A.descripcion LIKE ? ";
         };
 
@@ -53,7 +54,7 @@ class Movil
         };
 
         if (isset( $_GET["dependencia"])){
-            $params = ["%" . $_GET["dependencia"] . "%"];
+            $params[] = ["%" . $_GET["dependencia"] . "%"];
             $sql = $sql . " AND C.Nombre LIKE ? ";
         };
 

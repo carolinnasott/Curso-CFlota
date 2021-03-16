@@ -33,6 +33,34 @@ table {
     color: #f0fff3;
     background-color: #d68058
   }
+  .mat-icon-button.mat-editar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: #f0fff3;
+    background-color: #78a77e
+  }
+  .mat-icon-button.mat-borrar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: #f0fff3;
+    background-color: #b93838
+  }
+  .mat-raised-button.mat-add {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: #f0fff3;
+    background-color:  #145e9b
+  }
+  .mat-raised-button.mat-editar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: #f0fff3;
+    background-color:  #78a77e
+  }
   
   .mat-form-field {
     margin-top: 16px;

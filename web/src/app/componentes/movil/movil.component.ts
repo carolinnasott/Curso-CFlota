@@ -9,6 +9,10 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
 import { Movil } from 'src/app/modelo/movil';
 import { MovilService } from 'src/app/servicios/movil.service';
+import { GrupoService } from 'src/app/servicios/grupo.service';
+import { Grupo } from 'src/app/modelo/grupo';
+import { MovilGrupo } from 'src/app/modelo/movil-grupo';
+import { MovilGrupoService } from 'src/app/servicios/movil-grupo.service';
 @Component({
   selector: 'app-movil',
   templateUrl: './movil.component.html',
@@ -19,18 +23,21 @@ export class MovilComponent implements OnInit, AfterViewInit {
   seleccionado = new Movil();
   form = new FormGroup({});
   mostrarFormulario = false;
+  formularioEditar = false ;
   dataSource = new MatTableDataSource<Movil>();
   columna: string[] = ['patente', 'descripcion', 'dependencia', 'marcamodeloanio', 'patrullaje', 'accion'];
   minDate: Date = new Date();
   mostrarFormularioGrupo = false;
-  
+  grupos: MovilGrupo [] = [];
+
   @ViewChild(MatTable) tabla: MatTable<Movil> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private movilService: MovilService,
               private formBuilder: FormBuilder,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private movilgrupoService: MovilGrupoService) { }
 
   // tslint:disable-next-line:typedef
   ngAfterViewInit() {
@@ -63,12 +70,19 @@ export class MovilComponent implements OnInit, AfterViewInit {
       numeroMotor: [''],
       peso: [''],
       tienePatrullaje: [''],
-      CUIT: ['']
+      CUIT: [''],
+      activa: ['']
     });
 
     this.movilService.get("activos=1").subscribe(
       (movil) => {
         this.moviles = movil;
+        this.actualizarTabla();
+      }
+    );
+    this.movilgrupoService.get().subscribe(
+      (grupos) => {
+        this.grupos = grupos;
         this.actualizarTabla();
       }
     );
@@ -97,9 +111,17 @@ export class MovilComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line:typedef
   edit(seleccionado: Movil) {
-    this.mostrarFormularioGrupo = true;
+    this.formularioEditar = true;
     this.seleccionado = seleccionado;
+    this.form.setValue(seleccionado);
 
+  }
+
+  // tslint:disable-next-line:typedef
+estado(moviId: number, borrado: number){
+  if (moviId !== null && borrado == 0 ) {return 'Movil Registrado en Control de Flota'; }
+  else if (moviId !== null && borrado == 1){return 'Movil Borrado'; } 
+  else if (borrado == null){return 'Movil No Registrado'; }
   }
 
   // tslint:disable-next-line:typedef
@@ -110,7 +132,8 @@ export class MovilComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line:typedef
   cancelar() {
-
+    this.mostrarFormulario = false;
+    this.formularioEditar = false;
   }
 }
 
