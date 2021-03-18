@@ -168,9 +168,10 @@ GET http://localhost:8888/index.php/movil-odometro HTTP/1.1
 GET http://localhost:8888/index.php/movil-bitacora HTTP/1.1
 
 ###
-###  -------------------- Test Movil Mantenimiento
+
+###  -------------------- Test Bitacora Tarea
 
 
-GET http://localhost:8888/index.php/movil-mantenimiento HTTP/1.1
+GET http://localhost:8888/index.php/bitacora-tarea HTTP/1.1
 
 ###

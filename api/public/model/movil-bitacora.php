@@ -21,7 +21,7 @@ class MovilBitacora
 
     public $join = " LEFT OUTER JOIN Servicio  ON mobiServId  = servId
                     LEFT OUTER JOIN Movil  ON mobiMoviId  = moviId
-                    LEFT OUTER JOIN MovilServicio  ON mobiMoseId  = moseId";
+                    LEFT OUTER JOIN MovilServicio  ON mobiMoseId  = mobiId";
     
     public function get ($db) {
         $sql = "SELECT TOP (1000) $this->fields FROM $this->table
@@ -37,9 +37,9 @@ class MovilBitacora
             $params = [$_GET["mobiServId"]];
             $sql = $sql . " AND mobiServId = ? ";
         };
-        if (isset( $_GET["mobiMoseId"])){
-            $params = [$_GET["mobiMoseId"]];
-            $sql = $sql . " AND mobiMoseId = ? ";
+        if (isset( $_GET["mobiMobiId"])){
+            $params = [$_GET["mobiMobiId"]];
+            $sql = $sql . " AND mobiMobiId = ? ";
         };
         
 
@@ -54,8 +54,8 @@ class MovilBitacora
 
     public function delete ($db, $id) {
         $stmt = SQL::query($db,
-        "UPDATE $this->table SET moseBorrado = 1 - moseBorrado
-        WHERE moseId = ?", [$id] );
+        "UPDATE $this->table SET mobiBorrado = 1 - mobiBorrado
+        WHERE mobiId = ?", [$id] );
 
         sqlsrv_fetch($stmt);
         return [];
@@ -63,20 +63,32 @@ class MovilBitacora
 
     public function post ($db) {
         $sql = "INSERT INTO $this->table
-            (moseMoviId
-            ,moseServId
-            ,mosePeriodo
-            ,moseKM
-            ,moseFecha
-            ,moseFechaAlta
-            ,moseBorrado)
-        VALUES (?,?,?,?,?,GETDATE(),0);
-        SELECT @@IDENTITY moseId, CONVERT(VARCHAR, GETDATE(),126 ) moseFechaAlta;";        
-        $params = [ DATA["moseMoviId"]
-        ,DATA["moseServId"]
-        ,DATA["mosePeriodo"]
-        ,DATA["moseKM"]
-        ,DATA["moseFecha"]];
+            (mobiMoviId
+            ,mobiMoseId
+            ,mobiServId
+            ,mobiFecha
+            ,mobiObservaciones
+            ,mobiOdometro
+            ,mobiProximoOdometro
+            ,mobiProximaFecha
+            ,mobiIdAnterior
+            ,mobiIdSiguiente
+            ,mobiPendiente
+            ,mobiFechaAlta
+            ,mobiBorrado)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,GETDATE(),0);
+        SELECT @@IDENTITY mobiId, CONVERT(VARCHAR, GETDATE(),126 ) mobiFechaAlta;";        
+        $params = [ DATA["mobiMoviId"]
+        ,DATA["mobiMoseId"]
+        ,DATA["mobiServId"]
+        ,DATA["mobiFecha"]
+        ,DATA["mobiObservaciones"]
+        ,DATA["mobiOdometro"]
+        ,DATA["mobiProximoOdometro"]
+        ,DATA["mobiProximaFecha"]
+        ,DATA["mobiIdAnterior"]
+        ,DATA["mobiIdSiguiente"]
+        ,DATA["mobiPendiente"]];
 
         $stmt = SQL ::query($db,$sql, $params);
         sqlsrv_fetch($stmt); // INSERT
@@ -84,20 +96,20 @@ class MovilBitacora
         $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 
         $results = DATA;
-        $results["moseId"] = $row["moseId"];
-        $results["moseFechaAlta"] = $row["moseFechaAlta"];
-        $results["moseBorrado"] = 0;
+        $results["mobiId"] = $row["mobiId"];
+        $results["mobiFechaAlta"] = $row["mobiFechaAlta"];
+        $results["mobiBorrado"] = 0;
         return DATA;
     }
 
     public function put ($db) {
         $stmt = SQL::query($db,
         "UPDATE $this->table
-        SET moseServId  = ?
-        WHERE moseId  = ?",
+        SET mobiServId  = ?
+        WHERE mobiId  = ?",
         [
-            DATA["moseMoviId"],
-            DATA["moseId"]
+            DATA["mobiMoviId"],
+            DATA["mobiId"]
         ] );
 
         sqlsrv_fetch($stmt);
