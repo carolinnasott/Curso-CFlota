@@ -29,6 +29,9 @@ export class MovilComponent implements OnInit, AfterViewInit {
   minDate: Date = new Date();
   mostrarFormularioGrupo = false;
   grupos: MovilGrupo [] = [];
+  patente : string = "";
+  descripcion : string = "";
+  dependencia : string = "";
 
   @ViewChild(MatTable) tabla: MatTable<Movil> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
@@ -87,34 +90,43 @@ export class MovilComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  // tslint:disable-next-line:typedef
+
   actualizarTabla() {
     this.dataSource.data = this.moviles;
     this.dataSource.sort = this.sort;
   }
+
   accion(seleccionado: Movil) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
   }
+
   filter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  // tslint:disable-next-line:typedef
-  agregar() {
 
+
+  delete(seleccionado : Movil) {
+    const dialogRef = this.dialog.open(ConfirmarComponent);
+    dialogRef.afterClosed().subscribe(
+      result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.seleccionado = seleccionado;
+        this.movilService.delete(this.seleccionado.moviId).subscribe();
+        this.moviles = this.moviles.filter(dato => dato.moviId != this.seleccionado.moviId);
+        this.actualizarTabla();
+      }else{
+        this.cancelar();
+      }
+    });
   }
-  // tslint:disable-next-line:typedef
-  delete(row: Movil) {
 
-  }
-
-  // tslint:disable-next-line:typedef
   edit(seleccionado: Movil) {
     this.formularioEditar = true;
     this.seleccionado = seleccionado;
-    this.form.setValue(seleccionado);
-
   }
 
   // tslint:disable-next-line:typedef
@@ -124,16 +136,90 @@ estado(moviId: number, borrado: number){
   else if (borrado == null){return 'Movil No Registrado'; }
   }
 
-  // tslint:disable-next-line:typedef
   guardar() {
+    if (!this.form.valid) {
+      return;
+    }
 
+    Object.assign(this.seleccionado, this.form.value);
+
+    if (this.seleccionado.moviId) {
+      this.movilService.put(this.seleccionado)
+        .subscribe((movil) => {
+          this.mostrarFormulario = false;
+        });
+
+    } else {
+      this.movilService.post(this.seleccionado)
+        .subscribe((movil) => {
+          this.moviles.push(movil);
+          this.mostrarFormulario = false;
+          this.actualizarTabla();
+        });
+
+    }
 
   }
 
-  // tslint:disable-next-line:typedef
   cancelar() {
     this.mostrarFormulario = false;
     this.formularioEditar = false;
+  }
+  buscar(){
+    if(this.patente && !this.dependencia && !this.descripcion){
+      //patente
+      this.movilService.get(`patente=${this.patente}`).subscribe(
+        (movil) => {
+        this.moviles = movil;
+        this.actualizarTabla();
+      }
+      )
+    }else if(!this.patente && !this.dependencia && this.descripcion){
+      //descripcion
+      this.movilService.get(`descripcion=${this.descripcion}`).subscribe(
+        (movil) => {
+        this.moviles = movil;
+        this.actualizarTabla();
+      }
+      )
+    }else{
+      //depentencia
+      this.movilService.get(`dependencia=${this.dependencia}`).subscribe(
+      (movil) => {
+        this.moviles = movil;
+        this.actualizarTabla();
+      }
+      )
+    }
+    if(this.patente && this.descripcion){
+      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}`).subscribe(
+        (movil) => {
+        this.moviles = movil;
+        this.actualizarTabla();
+      }
+      )
+    }else if(this.patente && this.dependencia){
+      this.movilService.get(`patente=${this.patente}&dependencia=${this.dependencia}`).subscribe(
+        (movil) => {
+        this.moviles = movil;
+        this.actualizarTabla();
+      }
+      )
+    }else if(this.dependencia && this.descripcion){
+      this.movilService.get(`descripcion=${this.descripcion}&dependencia=${this.dependencia}`).subscribe(
+        (movil) => {
+        this.moviles = movil;
+        this.actualizarTabla();
+      }
+      )
+    }else if(this.patente && this.descripcion && this.dependencia){
+      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}&dependencia=${this.dependencia}`).subscribe(
+        (movil) => {
+        this.moviles = movil;
+        this.actualizarTabla();
+      }
+      )
+    }
   }
 }
 

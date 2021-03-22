@@ -6,12 +6,15 @@
       </div>
     </div>
 
+    <div style="float:left;">
+        <div style="display:inline-flex;">
+            <mat-form-field> <input matInput type="text" placeholder="Patente"[(ngModel)]="patente"> </mat-form-field>
+            <mat-form-field> <input matInput type="text" placeholder="Descripcion"[(ngModel)]="descripcion"> </mat-form-field>
+            <mat-form-field> <input matInput type="text" placeholder="Dependencia" [(ngModel)]="dependencia"> </mat-form-field>    
+          </div>
+        <button mat-icon-button color="add" (click)="buscar()"> <mat-icon>search</mat-icon></button>
+    </div>
 
-
-    <mat-form-field style="width: 50%;">
-      <mat-label><i><b>Buscar por Patente/Descripcion</b></i></mat-label>
-      <input matInput (keyup)="filter($event)" placeholder="..." #input>
-    </mat-form-field>
     <div style="float:right;">
       <button mat-raised-button color="success" a routerLink="/agregar">Agregar movil</button> &nbsp; &nbsp;
     </div>
@@ -82,6 +85,10 @@
           &nbsp;
           <button mat-icon-button color="editar" title="editar" (click)="edit(movil)">
             <mat-icon>brush</mat-icon>
+          </button>
+          &nbsp;
+          <button mat-icon-button color="borrar" title="borrar" (click)="delete(movil)">
+            <mat-icon>delete_sweep</mat-icon>
           </button>
       </ng-container>
 
@@ -342,7 +349,7 @@
         <div style='text-align:center'>
           <button mat-raised-button color="" (click)="cancelar()" mat-button>Cancelar</button> &nbsp; &nbsp;
           &nbsp;
-          <button type="button" mat-raised-button color="success" mat-button matStepperNext>Siguiente</button>
+          <button type="button" mat-raised-button color="success" (click)="guardar()" mat-button matStepperNext>Siguiente</button>
         </div>
 
       </mat-step>
@@ -355,14 +362,14 @@
         <br> 
         <div style='text-align:center'>
           <button mat-raised-button color="" (click)="cancelar()" mat-button>Cancelar</button> &nbsp; &nbsp;
-          &nbsp;
+
           <button type="button" mat-raised-button color="success" mat-button matStepperNext>Siguiente</button>
         </div>
       </mat-step>
       <mat-step label="Fin">
         <br>
         <div style="color:#2271b3;">
-          <div style='text-align:center' ><h3><b>El movil se edito exitosamente</b></h3></div></div>
+          <div style='text-align:center' ><h3><b>El movil se editó exitosamente</b></h3></div></div>
       
         <br>
         <div style='text-align:center'>

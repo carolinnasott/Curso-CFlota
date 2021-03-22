@@ -4,10 +4,14 @@
 
 
     
-  <mat-form-field style="width: 50%;">
-    <mat-label><i><b>Buscar por Patente/Descripcion</b></i></mat-label>
-    <input matInput (keyup)="filter($event)" placeholder="..." #input>
-   </mat-form-field>    
+  <div style="float:left;">
+    <div style="display:inline-flex;">
+        <mat-form-field> <input matInput type="text" placeholder="Patente"[(ngModel)]="patente"> </mat-form-field>
+        <mat-form-field> <input matInput type="text" placeholder="Descripcion"[(ngModel)]="descripcion"> </mat-form-field>
+        <mat-form-field> <input matInput type="text" placeholder="Dependencia" [(ngModel)]="dependencia"> </mat-form-field>    
+      </div>
+    <button mat-icon-button color="add" (click)="buscar()"> <mat-icon>search</mat-icon></button>
+</div>  
     <button mat-raised-button color="" a routerLink="/movil" style="float:right;">Volver</button> &nbsp; &nbsp;
 
 <br>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,18 +9,30 @@ import { Grupo } from '../../modelo/grupo';
 import { GrupoService } from '../../servicios/grupo.service';
 import { MovilService } from 'src/app/servicios/movil.service';
 import { MovilGrupoService } from 'src/app/servicios/movil-grupo.service';
+import { MovilServicio } from 'src/app/modelo/movil-servicio';
+import { GrupoServicio } from 'src/app/modelo/grupo-servicio';
+import { GrupoServicioService } from 'src/app/servicios/grupo-servicio.service';
+import { MovilServicioService } from 'src/app/servicios/movil-servicio.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-movil-grupo',
   templateUrl: './movil-grupo.component.html',
   styleUrls: ['./movil-grupo.component.css']
 })
+
 export class MovilGrupoComponent implements OnInit {
 
   @Input() moviId= 0;
   
   movilgrupos: MovilGrupo[] = [];
   seleccionado = new MovilGrupo();
+  grupos: Grupo[] = [];
+  serv: number[]=[];
+  movilservicios= new MovilServicio();
+  gruposervicios: GrupoServicio[] = [];
 
   columnas: string[] = ['grupNombre','acciones'];
   dataSource = new MatTableDataSource<MovilGrupo>();
@@ -28,15 +40,23 @@ export class MovilGrupoComponent implements OnInit {
   form = new FormGroup({});
 
   mostrarFormulario = false;
-  grupos: Grupo[] = [];
 
-  idAuxiliar = -1;
-  constructor( private movilgrupoService: MovilGrupoService,
+
+  constructor( private movilservService: MovilServicioService,
+               private movilgrupoService: MovilGrupoService,
                private grupoService: GrupoService,
+               private gruposervicioService: GrupoServicioService,
                private formBouilder: FormBuilder,
                public dialog: MatDialog
   ) { }
+  
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
   ngOnInit(): void {
     this.form = this.formBouilder.group({
       mogrId: [''],
@@ -45,13 +65,11 @@ export class MovilGrupoComponent implements OnInit {
       mogrFechaAlta: [''],
       mogrBorrado: [''],
       grupNombre: ['']
-      
-
     });
 
     this.movilgrupoService.get(`mogrMoviId=${this.moviId}`).subscribe(
       (movilgrupos) => {
-        this.movilgrupoService.movilgrup = movilgrupos;
+        this.movilgrupos = movilgrupos;
         this.actualizarTabla();
       }
     );
@@ -61,10 +79,22 @@ export class MovilGrupoComponent implements OnInit {
         this.grupos = grupo;
       }
     );
+  
+    this.grupoService.get().subscribe(
+      (grupos) => {
+        this.grupos = grupos;
+      }
+    );
+    this.gruposervicioService.get().subscribe(
+      (grupos) => {
+        this.gruposervicios = grupos;
+      }
+    )
   }
-
+  
   actualizarTabla() {
-    this.dataSource.data = this.movilgrupoService.movilgrup.filter(borrado => borrado.mogrBorrado==false);
+    this.dataSource.data = this.movilgrupos;
+    this.dataSource.paginator = this.paginator;
   }
 
   filter(event: Event) {
@@ -73,64 +103,70 @@ export class MovilGrupoComponent implements OnInit {
   }
 
   agregar() {
-    this.idAuxiliar--;
+    this.form.reset();
     this.seleccionado = new MovilGrupo();
-    this.seleccionado.mogrId = this.idAuxiliar;
-
-    this.form.setValue(this.seleccionado);
-
     this.mostrarFormulario = true;
   }
 
 
-  delete(fila: MovilGrupo) {
-
+  delete(seleccionado: MovilGrupo) {
     const dialogRef = this.dialog.open(ConfirmarComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-        fila.mogrBorrado = true;
-        this.actualizarTabla();
+        this.movilgrupoService.delete(seleccionado.mogrId).subscribe(
+          () => {
+            this.movilgrupos = this.movilgrupos.filter(dato => dato.mogrId !== seleccionado.mogrId);
+            this.actualizarTabla();
+          });
       }
-
     });
-  }
+}
 
   edit(seleccionado: MovilGrupo) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-   
+    this.seleccionado = seleccionado;
+    this.form.setValue(seleccionado);
   }
 
   guardar() {
     if (!this.form.valid) {
       return;
     }
-
-    Object.assign(this.seleccionado, this.form.value);
-    // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.grupNombre = this.grupos.find(grupo => grupo.grupId == this.seleccionado.mogrGrupId)!.grupNombre;
-    if (this.seleccionado.mogrId  > 0) {
-      const elemento = this.movilgrupos.find(movilgrup => movilgrup.mogrId  == this.seleccionado.mogrId );
-      // tslint:disable-next-line:no-non-null-assertion
-      this.movilgrupos.splice(this.seleccionado.mogrId , 1, elemento!);
-
+    if (this.seleccionado.mogrId) {
+      this.seleccionado.mogrGrupId = this.form.value.mogrGrupId;
+      this.movilgrupoService.put(this.seleccionado).subscribe();
+      this.movilgrupos = this.movilgrupos.filter(dato => dato.mogrId != this.seleccionado.mogrId);
+      this.movilgrupos.push(this.seleccionado);
     } else {
-      this.movilgrupoService.movilgrup.push(this.seleccionado);
+      this.seleccionado.mogrMoviId = this.moviId;
+      this.seleccionado.mogrGrupId = this.form.value.mogrGrupId;
+      this.gruposervicios = this.gruposervicios.filter(dato => dato.grusGrupId == this.seleccionado.mogrGrupId);
+      //setear servicios
+      this.gruposervicios.forEach((x) => {
+        this.movilservicios.moseMoviId = this.moviId;
+        this.movilservicios.moseServId = x.grusServId;
+        this.movilservicios.mosePeriodo = x.grusPeriodo;
+        this.movilservicios.moseKM = x.grusKM;
+        this.movilservicios.moseFecha = x.grusFecha;
+        this.movilservService.post(this.movilservicios).subscribe();
+      });
+    
+      this.movilgrupoService.post(this.seleccionado).subscribe();
+      this.movilgrupos = this.movilgrupos.filter(dato => dato.mogrId != this.seleccionado.mogrId);
+      this.seleccionado.grupNombre = this.grupos.find(dato => dato.grupId = this.seleccionado.mogrGrupId)!.grupNombre;
+      this.movilgrupos.push(this.seleccionado);
+      this.form.reset();
     }
     this.mostrarFormulario = false;
     this.actualizarTabla();
 
   }
-  // tslint:disable-next-line:typedef
+
   cancelar() {
     this.mostrarFormulario = false;
   }
-
-
- 
-
-
 }
