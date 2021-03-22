@@ -139,7 +139,7 @@ actualizarTabla() {
   }
 
 // tslint:disable-next-line:typedef
-estado({ moviId, borrado }: { moviId: number; borrado: number; }){
+estado (moviId: number, borrado: number){
   if (moviId !== null && borrado == 0 ) {return 'Movil Registrado'; }
   else if (moviId !== null && borrado == 1){return 'Movil Borrado'; } 
   else if (borrado == null){return 'Movil No Registrado'; }
