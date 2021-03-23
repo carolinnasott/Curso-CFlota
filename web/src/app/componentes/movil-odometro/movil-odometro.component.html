@@ -1,84 +1,90 @@
+<div [hidden]="mostrarFormulario">
 
-    <div [hidden]="mostrarFormulario">
-    
 
-         
-     <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Odometro</button>
-     <br>
-         <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
-         
-           
-             <!-- Name Column -->
-             <ng-container matColumnDef="modoFecha">
-               <th mat-header-cell *matHeaderCellDef>
-                 <div style="color: #2271b3;"><h3><b>Fecha</b> </h3></div></th>
-               <td mat-cell *matCellDef="let movilodometro"> <b>{{movilodometro.modoFecha}} </b> </td>
-             </ng-container>
-           
-             <!-- Weight Column -->
-             <ng-container matColumnDef="modoOdometro">
-               <th mat-header-cell *matHeaderCellDef> 
-                 <div style="color: #2271b3;"><h3><b>Odometro Diario </b></h3></div></th>
-               <td mat-cell *matCellDef="let movilodometro"> <b>{{movilodometro.modoOdometro}}</b> </td>
-             </ng-container>
- 
- 
-               <!-- ACCIONES -->
-             <ng-container matColumnDef="acciones">
-               <th mat-header-cell *matHeaderCellDef>                <div style="color: #2271b3;"><h3><b>Acciones </b></h3></div></th>
- 
-               <td mat-cell *matCellDef="let tarea">
-                  
-                 <button mat-icon-button color="editar" title="editar" (click)="edit(tarea)">
-                       <mat-icon>brush</mat-icon>
-                   </button>
-                   &nbsp;
-                   <button mat-icon-button color="borrar" title="borrar" (click)="delete(tarea)">
-                       <mat-icon>delete_sweep</mat-icon>
-                   </button>
-             </ng-container>
-       
-           
-             <tr mat-header-row *matHeaderRowDef='columnas'></tr>
-             <tr mat-row *matRowDef='let row; columns: columnas'></tr>
-           </table>
-           <br>
-           <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
-     
-   </div>
 
-   <div *ngIf="mostrarFormulario">
+  <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Odometro</button>
+  <br>
+  <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
 
-    <form [formGroup]="form">
 
-        <div [hidden]="true">
-            <input type="text" formControlName="modoMoviId" [(ngModel)]="moviId"> 
+    <!-- Name Column -->
+    <ng-container matColumnDef="modoFecha">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Fecha</b> </h3>
         </div>
+      </th>
+      <td mat-cell *matCellDef="let movilodometro"> <b>{{movilodometro.modoFecha}} </b> </td>
+    </ng-container>
 
-        <div style="text-align: center;">
-            <mat-form-field appearance="fill">
-                <mat-label>Seleccione una fecha</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="modoFecha" required>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              
+    <!-- Weight Column -->
+    <ng-container matColumnDef="modoOdometro">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Odometro Diario </b></h3>
         </div>
+      </th>
+      <td mat-cell *matCellDef="let movilodometro"> <b>{{movilodometro.modoOdometro}}</b> </td>
+    </ng-container>
 
-        <div style="text-align: center;">
-            <mat-form-field appearance="outline">
-                <mat-label>Odometro</mat-label>
-                <input matInput formControlName="modoOdometro" required>
-                <mat-error>El campo no puede ser vacio</mat-error>
-            </mat-form-field>
-        </div>
 
-        <div style="text-align: center;">
-            <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
-            &nbsp;
-            <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+    <!-- ACCIONES -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Acciones </b></h3>
         </div>
-    </form>
+      </th>
+
+      <td mat-cell *matCellDef="let odometro">
+
+        <button mat-icon-button color="editar" title="editar" (click)="edit(odometro)">
+          <mat-icon>brush</mat-icon>
+        </button>
+        &nbsp;
+        <button mat-icon-button color="borrar" title="borrar" (click)="delete(odometro)">
+          <mat-icon>delete_sweep</mat-icon>
+        </button>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef='columnas'></tr>
+    <tr mat-row *matRowDef='let row; columns: columnas'></tr>
+  </table>
+  <br>
+  <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
 
 </div>
- 
+
+<div *ngIf="mostrarFormulario">
+  <div style="color:#2271b3;">
+    <div style='text-align:center'><h3><b>Ingrese Datos del Odometro</b></h3></div>
+  </div>
+  <br>
+
+  <form [formGroup]="form">
+
+    <div style="text-align: center;">
+      <mat-form-field appearance="outline" style="width: 45%;">
+        <mat-label>Seleccione una fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="modoFecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+&nbsp;&nbsp;
+      <mat-form-field appearance="outline" style="width: 45%;">
+        <mat-label>Odometro</mat-label>
+        <input matInput formControlName="modoOdometro" required>
+        <mat-error>El campo no puede ser vacio</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+      &nbsp;
+      <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
+    </div>
+  </form>
+  <br>
+
+</div>
