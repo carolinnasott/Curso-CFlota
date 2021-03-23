@@ -97,13 +97,15 @@ class Movil
         
         $stmt = SQL::query($db,
         "UPDATE $this->table
-        SET moviNombre = ?
-            ,moviDescripcion = ?
+        SET moviBorrado = ?,
+            moviModoOdometro = ?,
+            moviModoFecha = ?
         WHERE moviId = ?",
         [
-            DATA["moviNombre"],
-            DATA["moviDescripcion"],
-            DATA["moviId"]
+            DATA["moviBorrado"]
+            ,DATA["moviModoOdometro"]
+            ,DATA["moviModoFecha"]
+            ,DATA["moviId"]
         ] );
 
         sqlsrv_fetch($stmt);
