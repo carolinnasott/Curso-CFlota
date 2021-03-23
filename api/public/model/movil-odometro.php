@@ -72,10 +72,14 @@ class MovilOdometro
     public function put ($db) {
         $stmt = SQL::query($db,
         "UPDATE $this->table
-        SET modoMoviId  = ?
+        SET modoMoviId  = ?,
+            CONVERT(VARCHAR, modoFecha, 126) modoFecha = ?,
+            modoOdometro = ?
         WHERE modoId  = ?",
         [
             DATA["modoMoviId"],
+            DATA["modoFecha"],
+            DATA["modoOdometro"],
             DATA["modoId"]
         ] );
 
