@@ -1,59 +1,126 @@
-
-    <div [hidden]="mostrarFormulario">
-    
-        
-    <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Bitacora</button>
-    <br>
-        <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
-        
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="servNombre">
-              <th mat-header-cell *matHeaderCellDef>
-                <div style="color: #2271b3;"><h3><b>Servicio</b> </h3></div></th>
-              <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.servNombre}} </b> </td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="mobiFecha">
-              <th mat-header-cell *matHeaderCellDef> 
-                <div style="color: #2271b3;"><h3><b>Fecha Servicio </b></h3></div></th>
-              <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.mobiFecha}}</b> </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="mobiObservaciones">
-                <th mat-header-cell *matHeaderCellDef> 
-                  <div style="color: #2271b3;"><h3><b>Observaciones</b></h3></div></th>
-                <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.mobiObservaciones}}</b> </td>
-              </ng-container>
-
-              <ng-container matColumnDef="mobiOdometro">
-                <th mat-header-cell *matHeaderCellDef> 
-                  <div style="color: #2271b3;"><h3><b>Odometro del movil</b></h3></div></th>
-                <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.mobiOdometro}}</b> </td>
-              </ng-container>
+<div [hidden]="mostrarFormulario">
 
 
-              <!-- ACCIONES -->
-            <ng-container matColumnDef="acciones">
-              <th mat-header-cell *matHeaderCellDef>                <div style="color: #2271b3;"><h3><b>Acciones </b></h3></div></th>
+  <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Bitacora</button>
+  <br>
+  <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
 
-              <td mat-cell *matCellDef="let tarea">
-                 
-                <button mat-icon-button color="editar" title="editar" (click)="edit(tarea)">
-                      <mat-icon>brush</mat-icon>
-                  </button>
-                  &nbsp;
-                  <button mat-icon-button color="borrar" title="borrar" (click)="delete(tarea)">
-                      <mat-icon>delete_sweep</mat-icon>
-                  </button>
-            </ng-container>
-      
-          
-            <tr mat-header-row *matHeaderRowDef='columnas'></tr>
-            <tr mat-row *matRowDef='let row; columns: columnas'></tr>
-          </table>
-          <br>
-          <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
-    
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="servNombre">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Servicio</b> </h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.servNombre}} </b> </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="mobiFecha">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Fecha Servicio </b></h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.mobiFecha}}</b> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mobiObservaciones">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Observaciones</b></h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.mobiObservaciones}}</b> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mobiOdometro">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Odometro del movil</b></h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilbitacora"> <b>{{movilbitacora.mobiOdometro}}</b> </td>
+    </ng-container>
+
+
+    <!-- ACCIONES -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Acciones </b></h3>
+        </div>
+      </th>
+
+      <td mat-cell *matCellDef="let servicio">
+
+        <button mat-icon-button color="editar" title="editar" (click)="edit(servicio)">
+          <mat-icon>brush</mat-icon>
+        </button>
+        &nbsp;
+        <button mat-icon-button color="borrar" title="borrar" (click)="delete(servicio)">
+          <mat-icon>delete_sweep</mat-icon>
+        </button>
+        &nbsp;
+        <button [disabled]="servicio.mobiPendiente == 0" mat-icon-button color="add" title="servicios"
+          (click)="servicio(servicio)">
+          <mat-icon>content_paste</mat-icon>
+        </button>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef='columnas'></tr>
+    <tr mat-row *matRowDef='let row; columns: columnas'></tr>
+  </table>
+  <br>
+  <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
+
+</div>
+
+<!--Agregar nueva bitacora-->
+<div *ngIf="mostrarFormulario">
+
+  <div style="color:#2271b3;">
+    <div style='text-align:center'><h3><b>Ingrese Datos de la Bitacora</b></h3></div>
   </div>
+  <br>
+  <form [formGroup]="form" style="text-align: center;">
+    <div>
+      <mat-form-field appearance="outline" style="width: 45%;">
+        <mat-label>Servicio</mat-label>
+        <mat-select formControlName="mobiServId">
+          <mat-option *ngFor="let serv of servicios" [value]="serv.servId">
+            {{serv.servNombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      &nbsp;
+      <mat-form-field appearance="outline" style="width: 45%;">
+        <mat-label>Fecha bitacora</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="mobiFecha">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline" style="width: 45%;">
+        <mat-label>Observaciones</mat-label>
+        <input matInput formControlName="mobiObservaciones">
+      </mat-form-field>
+      &nbsp;
+      <mat-form-field appearance="outline" style="width: 45%;">
+        <mat-label>Odometro del movil</mat-label>
+        <input matInput formControlName="mobiOdometro">
+      </mat-form-field>
+    </div>
+    <br>
+    <br><br>
+    <div>
+      <button type="button" mat-raised-button (click)="cancelar()">Cancelar</button>
+      &nbsp;
+      <button type="button" mat-raised-button color="add" (click)="guardar()">Guardar</button>
+    </div>
+  </form>
+  <br>
+</div>

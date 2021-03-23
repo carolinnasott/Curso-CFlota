@@ -17,6 +17,7 @@ import { ServicioService } from '../../servicios/servicio.service';
 export class MovilBitacoraComponent implements OnInit {
 
   @Input() moviId= 0;
+  @Input() moseId=0;
 
   movilbitacoras: MovilBitacora[] = []
   seleccionado = new MovilBitacora();
@@ -27,6 +28,7 @@ export class MovilBitacoraComponent implements OnInit {
   form = new FormGroup({});
 
   mostrarFormulario = false;
+  mostrarBitacora = false;
   servicios: Servicio[] = [];
 
   constructor(
@@ -77,17 +79,39 @@ export class MovilBitacoraComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-  agregar() {
-    
+  servicio(seleccionado: MovilBitacora){
+    this.mostrarBitacora = true;
+    this.seleccionado = seleccionado;
+    this.form.reset();
+    this.form.get('mobiServId')!.setValue(this.seleccionado.mobiServId);
   }
 
-  delete(row: MovilBitacora) {
+  agregar() {
+    this.seleccionado = new MovilBitacora();
+    this.form.setValue(this.seleccionado);
+    this.mostrarFormulario = true;
+  
+  }
 
+  delete(seleccionado: MovilBitacora) {
+    const dialogRef = this.matDialog.open(ConfirmarComponent);
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        
+        if(result) {
+          this.movilBitacoraService.delete(seleccionado.mobiId).subscribe(
+            () => {
+              this.movilbitacoras = this.movilbitacoras.filter(dato => dato.mobiId !== seleccionado.mobiId);
+              this.actualizarTabla();
+            });
+        }
+      });
   }
 
   edit(seleccionado: MovilBitacora) {
-   
+      this.mostrarFormulario = true;
+      this.seleccionado = seleccionado;
+      this.form.setValue(seleccionado);
   }
 
   guardar() {
