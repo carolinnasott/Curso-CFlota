@@ -12,8 +12,9 @@ class BitacoraTarea
             ,CONVERT(VARCHAR, bitaFechaAlta, 126) bitaFechaAlta
             ,bitaBorrado
             ,tareNombre'; 
-
-    public $join = " LEFT OUTER JOIN Tarea  ON bitaTareId  = tareId";
+            
+    public $join = " LEFT OUTER JOIN Tarea  ON bitaTareId  = tareId
+                   LEFT OUTER JOIN MovilBitacora  ON bitaMobiId  = mobiId";
     
     public function get ($db) {
         $sql = "SELECT TOP (1000) $this->fields FROM $this->table
@@ -22,9 +23,9 @@ class BitacoraTarea
 
         $params = null;
 
-        if (isset( $_GET["bitaTareId"])){
-            $params = [$_GET["bitaTareId"]];
-            $sql = $sql . " AND bitaTareId = ? ";
+        if (isset( $_GET["bitaMobiId"])){
+            $params = [$_GET["bitaMobiId"]];
+            $sql = $sql . " AND bitaMobiId  = ? ";
         };
         
 
@@ -79,9 +80,15 @@ class BitacoraTarea
         $stmt = SQL::query($db,
         "UPDATE $this->table
         SET bitaTareId  = ?
+            ,bitaObservaciones = ?
+            ,bitaCantidad = ?
+            ,bitaCosto = ?
         WHERE bitaId  = ?",
         [
-            DATA["bitaMobiId"],
+            DATA["bitaTareId"],
+            DATA["bitaObservaciones"],
+            DATA["bitaCantidad"],
+            DATA["bitaCosto"],
             DATA["bitaId"]
         ] );
 
