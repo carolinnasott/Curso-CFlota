@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MovilServicio } from 'src/app/modelo/movil-servicio';
 import { Servicio } from 'src/app/modelo/servicio';
@@ -19,7 +21,6 @@ export class MovilServicioComponent implements OnInit {
 
   @Input() moviId = 0;
 
-
   movilservicios: MovilServicio[] = [];
   seleccionado = new MovilServicio();
 
@@ -29,6 +30,7 @@ export class MovilServicioComponent implements OnInit {
 
   form = new FormGroup({});
   mostrarFormulario = false;
+  formularioBitacora = false;
 
   servicios: Servicio[] = [];
   idAux = -1;
@@ -39,7 +41,14 @@ export class MovilServicioComponent implements OnInit {
               private formBuilder: FormBuilder,
               public dialog: MatDialog) { }
 
-
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+            
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+            
+  }
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
@@ -55,8 +64,8 @@ export class MovilServicioComponent implements OnInit {
     });
 
     this.movilServicioService.get(`moseMoviId=${this.moviId}`).subscribe(
-      (movilServicio) => {
-        this.movilServicioService.movilserv = movilServicio;
+      (movil) => {
+        this.movilservicios = movil;
         this.actualizarTabla();
       }
     );
@@ -70,21 +79,16 @@ export class MovilServicioComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   actualizarTabla() {
-    this.dataSource.data = this.movilServicioService.movilserv.filter(borrado => borrado.moseBorrado == false);
+    this.dataSource.data = this.movilservicios;
+    this.dataSource.paginator = this.paginator;
   }
 
-  // tslint:disable-next-line:typedef
   agregar() {
-    this.idAux--;
+    this.form.reset();
     this.seleccionado = new MovilServicio();
-    this.seleccionado.moseId = this.idAux;
-
-    this.form.setValue(this.seleccionado);
-
     this.mostrarFormulario = true;
   }
 
-  // tslint:disable-next-line:typedef
   delete(fila: MovilServicio) {
 
     const dialogRef = this.dialog.open(ConfirmarComponent);
@@ -100,13 +104,10 @@ export class MovilServicioComponent implements OnInit {
     });
   }
 
-  // tslint:disable-next-line:typedef
   editar(seleccionado: MovilServicio) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
-
     this.form.setValue(seleccionado);
-
   }
 
 
@@ -135,6 +136,10 @@ export class MovilServicioComponent implements OnInit {
   cancelar() {
     this.mostrarFormulario = false;
   }
-
+  
+  bitacora(movilserv: MovilServicio){
+    this.formularioBitacora = true;
+    this.seleccionado = movilserv;    
+  }
 
 }

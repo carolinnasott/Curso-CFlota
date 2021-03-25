@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,10 @@ import { MovilBitacora } from '../../modelo/movil-bitacora';
 import { MovilBitacoraService } from '../../servicios/movil-bitacora.service';
 import { Servicio } from '../../modelo/servicio';
 import { ServicioService } from '../../servicios/servicio.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MovilServicio } from 'src/app/modelo/movil-servicio';
+import { MovilServicioService } from 'src/app/servicios/movil-servicio.service';
 
 @Component({
   selector: 'app-movil-bitacora',
@@ -18,6 +22,8 @@ export class MovilBitacoraComponent implements OnInit {
 
   @Input() moviId= 0;
   @Input() moseId=0;
+  @Input() servId= 0;
+  @Input() programado= false;
 
   movilbitacoras: MovilBitacora[] = []
   seleccionado = new MovilBitacora();
@@ -28,16 +34,27 @@ export class MovilBitacoraComponent implements OnInit {
   form = new FormGroup({});
 
   mostrarFormulario = false;
-  mostrarBitacora = false;
+
   servicios: Servicio[] = [];
+  movilservicios: MovilServicio[] = [];
+  servprogramado = false;
 
   constructor(
-    private movilBitacoraService: MovilBitacoraService,
+    private movilbitacoraService: MovilBitacoraService,
+    private movilservicioService: MovilServicioService,
     private servicioService: ServicioService,
     private formBouilder: FormBuilder,
     private matDialog: MatDialog
   ) { }
+  
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+
+  }
   ngOnInit(): void {
     this.form = this.formBouilder.group({
       mobiId: [''],
@@ -57,33 +74,58 @@ export class MovilBitacoraComponent implements OnInit {
       servNombre: ['']
     });
 
-    this.movilBitacoraService.get(`mobiMoviId=${this.moviId}`).subscribe(
+    this.movilbitacoraService.get(`mobiMoviId=${this.moviId}`).subscribe(
       (movil) => {
         this.movilbitacoras = movil;
         this.actualizarTabla();
       }
     );
 
-    this.servicioService.get().subscribe(
-      (serv) => {
-        this.servicios = serv;
+    this.movilservicioService.get(`moseMoviId=${this.moviId}`).subscribe(
+      (movil) => {
+        this.movilservicios = movil;
       }
     );
+
+    this.servicioService.get().subscribe(
+      (servicio) => {
+        this.servicios = servicio;
+      }
+    );
+
+    if(this.programado){
+      this.servprogramado = false;
+      this.movilbitacoraService.movilbitac.mobiServId = this.moseId;
+      this.mostrarFormulario = true;
+      this.form.get('mobiServId')?.setValue(this.servId);
+    }
   }
 
   actualizarTabla() {
     this.dataSource.data = this.movilbitacoras;
+    this.dataSource.paginator = this.paginator;
   }
 
   filter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  //programado
   servicio(seleccionado: MovilBitacora){
-    this.mostrarBitacora = true;
+    this.servprogramado = false;
+    this.movilbitacoras.mobiServId = seleccionado.mobiServId;
+    this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
     this.form.reset();
     this.form.get('mobiServId')!.setValue(this.seleccionado.mobiServId);
+  }
+  //no programado
+  servicioN() {
+    this.servprogramado = true;
+    this.form.reset();
+    this.seleccionado = new MovilBitacora();
+    this.mostrarFormulario = true;
   }
 
   agregar() {
@@ -99,7 +141,7 @@ export class MovilBitacoraComponent implements OnInit {
       (result) => {
         
         if(result) {
-          this.movilBitacoraService.delete(seleccionado.mobiId).subscribe(
+          this.movilbitacoraService.delete(seleccionado.mobiId).subscribe(
             () => {
               this.movilbitacoras = this.movilbitacoras.filter(dato => dato.mobiId !== seleccionado.mobiId);
               this.actualizarTabla();
@@ -109,10 +151,10 @@ export class MovilBitacoraComponent implements OnInit {
   }
 
   edit(seleccionado: MovilBitacora) {
-      this.mostrarFormulario = true;
-      this.seleccionado = seleccionado;
-      this.form.setValue(seleccionado);
-  }
+    this.mostrarFormulario = true;
+    this.seleccionado = seleccionado;
+    this.form.setValue(seleccionado);
+}
 
   guardar() {
 
@@ -121,8 +163,6 @@ export class MovilBitacoraComponent implements OnInit {
   cancelar() {
     this.mostrarFormulario = false;
   }
-
- 
 
 
 }

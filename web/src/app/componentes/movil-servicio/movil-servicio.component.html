@@ -1,5 +1,5 @@
 
-    <div [hidden]="mostrarFormulario">
+    <div [hidden]="mostrarFormulario || formularioBitacora">
     
         
         <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Servicio</button>
@@ -48,8 +48,8 @@
                           <mat-icon>delete_sweep</mat-icon>
                       </button>
                       &nbsp;
-                      <button mat-raised-button color="add" title="agregar" a routerLink = '/movil-bitacora'>
-                          Realizar Servicio
+                      <button mat-icon-button color="add" title="realizar servicio" (click)="bitacora(movilserv)">
+                        <mat-icon>content_paste</mat-icon>
                       </button>
                 </ng-container>
           
@@ -63,11 +63,13 @@
       </div>
     
   <div *ngIf="mostrarFormulario">
-
+    <div style="color:#2271b3;">
+      <div style='text-align:center'><h3><b>Seleccione un Servicio</b></h3></div>
+    </div>
+    <br>
     <form [formGroup]="form">
 
         <div style="text-align: center;">
-            <h2>Seleccione un servicio</h2>
             <mat-form-field appearance="outline">
                 <mat-label>Servicio</mat-label>
                 <mat-select formControlName="moseServId" required>
@@ -78,12 +80,16 @@
                 <mat-error>Selecciona una opcion valida</mat-error>
             </mat-form-field>
         </div>
-
+<br>
         <div style="text-align: center;">
-            <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
-            &nbsp;
-            <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+          <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+           &nbsp;
+          <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
+
         </div>
     </form>
-
+</div>
+<br>
+<div *ngIf="formularioBitacora">
+  <app-movil-bitacora [moviId]="moviId" [servId]="this.seleccionado.moseServId" [moseId]="seleccionado.moseId" [programado]="true"></app-movil-bitacora>
 </div>
