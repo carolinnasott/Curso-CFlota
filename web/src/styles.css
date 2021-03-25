@@ -4,8 +4,10 @@ html, body { height: 100%; }
 body { 
     margin: 8px;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-style: italic;
     background-color: whitesmoke;
 }
+
 table {
     width: 100%;
   }
@@ -16,6 +18,7 @@ table {
   
   .mat-form-field {
     margin-top: 16px;
+
   }
 
   .mat-raised-button.mat-success {
@@ -67,9 +70,4 @@ table {
     z-index: 1;
     color: #f0fff3;
     background-color:  #78a77e
-  }
-  
-  .mat-form-field {
-    margin-top: 16px;
-    
   }
