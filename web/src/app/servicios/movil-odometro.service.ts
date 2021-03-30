@@ -16,5 +16,5 @@ export class MovilOdometroService  extends ApiService<MovilOdometro>{
     super('movil-odometro', http, app);
 
 }
-  movilodomet: MovilOdometro[] = [];
+  movilodomet= new MovilOdometro();
 }

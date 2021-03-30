@@ -13,6 +13,7 @@ import { MovilGrupo } from '../modelo/movil-grupo';
 export class MovilService
 extends ApiService<Movil>{
   movilgrup: MovilGrupo[] = [];
+  movilodomet= new Movil();
   constructor(
     protected http: HttpClient,
     protected app: AppConfigService

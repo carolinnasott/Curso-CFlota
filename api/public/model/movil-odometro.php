@@ -45,19 +45,19 @@ class MovilOdometro
     }
 
     public function post ($db) {
-        $sql = "INSERT INTO $this->table
-            (modoMoviId
-            ,modoOdometro
-            ,modoFecha
-            ,modoFechaAlta
-            ,modoBorrado)
+        $stmt = SQL::query($db,
+        "INSERT INTO $this->table
+        (modoMoviId
+        ,modoFecha
+        ,modoOdometro
+        ,modoFechaAlta
+        ,modoBorrado)
         VALUES (?,?,?,GETDATE(),0);
-        SELECT @@IDENTITY modoId, CONVERT(VARCHAR, GETDATE(),126 ) modoFechaAlta;";        
-        $params = [ DATA["modoMoviId"]
-        ,DATA["modoOdometro"]
-        ,DATA["modoFecha"]];
+        SELECT @@IDENTITY modoId, CONVERT(VARCHAR, GETDATE(), 126) modoFechaAlta;
+        
+        UPDATE Movil SET moviModoOdometro = ?, moviModoFecha = ? WHERE moviId = ?;",
+        [DATA["modoMoviId"], DATA["modoFecha"],DATA["modoOdometro"]] );
 
-        $stmt = SQL ::query($db,$sql, $params);
         sqlsrv_fetch($stmt); // INSERT
         sqlsrv_next_result($stmt);// SELECT @@IDENTITY
         $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
@@ -66,18 +66,17 @@ class MovilOdometro
         $results["modoId"] = $row["modoId"];
         $results["modoFechaAlta"] = $row["modoFechaAlta"];
         $results["modoBorrado"] = 0;
-        return DATA;
+        return $results;
     }
 
     public function put ($db) {
         $stmt = SQL::query($db,
         "UPDATE $this->table
-        SET modoMoviId  = ?,
-            CONVERT(VARCHAR, modoFecha, 126) modoFecha = ?,
-            modoOdometro = ?
-        WHERE modoId  = ?",
+        SET modoMoviId = ?
+            ,CONVERT(VARCHAR, modoFecha, 126) modoFecha = ?
+            ,modoOdometro = ?
+        WHERE modoId = ?",
         [
-            DATA["modoMoviId"],
             DATA["modoFecha"],
             DATA["modoOdometro"],
             DATA["modoId"]
