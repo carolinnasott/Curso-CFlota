@@ -6,12 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
 import { MovilOdometro } from '../../modelo/movil-odometro';
 import { MovilOdometroService } from '../../servicios/movil-odometro.service';
-import { Servicio } from '../../modelo/servicio';
-import { ServicioService } from '../../servicios/servicio.service';
 import { Movil } from 'src/app/modelo/movil';
 import { MovilService } from 'src/app/servicios/movil.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { AlertaOdometroComponent } from 'src/app/shared/alerta-odometro/alerta-odometro.component';
 
 @Component({
   selector: 'app-movil-odometro',
@@ -24,8 +23,8 @@ export class MovilOdometroComponent implements OnInit {
 
   movilodometros: MovilOdometro[] = []
   seleccionado = new MovilOdometro();
-  moviles = new Movil();
   movil: Movil[] = [];
+  moviles= new Movil();
   
 
   columnas: string[] = ['modoFecha','modoOdometro','acciones'];
@@ -34,14 +33,13 @@ export class MovilOdometroComponent implements OnInit {
   form = new FormGroup({});
 
   mostrarFormulario = false;
-  servicios: Servicio[] = [];
   
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private movilodometroService: MovilOdometroService,
-    private movilService: MovilService,
+    public movilService: MovilService,
     private formBouilder: FormBuilder,
     private matDialog: MatDialog
   ) { }
@@ -49,7 +47,6 @@ export class MovilOdometroComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-
   }
 
   ngOnInit(): void {
@@ -63,15 +60,15 @@ export class MovilOdometroComponent implements OnInit {
     });
 
     this.movilodometroService.get(`modoMoviId=${this.moviId}`).subscribe(
-      (movil) => {
-        this.movilodometros = movil;
+      (movilodometro) => {
+        this.movilodometros = movilodometro;
         this.actualizarTabla();
       }
     );
 
     this.movilService.get().subscribe(
-      (movil) => {
-        this.movil = movil;
+      (moviles) => {
+        this.movil = moviles;
       }
     );
   }
@@ -118,33 +115,52 @@ export class MovilOdometroComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    if(this.seleccionado.modoId){
 
-      this.seleccionado.modoOdometro = this.form.value.modoOdometro;
-      this.seleccionado.modoFecha = this.form.value.modoFecha;
-      this.movilodometroService.put(this.seleccionado).subscribe();
-      this.movilodometros = this.movilodometros.filter(dato => dato.modoId != this.seleccionado.modoId);
-      this.movilodometros.push(this.seleccionado);
-    }else{
-      this.seleccionado.modoOdometro = this.form.value.modoOdometro;
-      this.seleccionado.modoFecha = this.form.value.modoFecha;
-      this.seleccionado.modoMoviId = this.moviId;
+    Object.assign(this.seleccionado, this.form.value);
+    this.movilService.movilodomet.moviId = this.seleccionado.modoMoviId;
+    this.movilService.movilodomet.moviModoOdometro = this.seleccionado.modoOdometro;
+    this.movilService.movilodomet.moviModoFecha = this.seleccionado.modoFecha;
+    
+    const odometro = this.movilodometros.find(dato => dato.modoMoviId == this.seleccionado.modoMoviId)!.modoOdometro;
+    
+    //comparar el que ingresa con el existente
+    if(odometro > this.seleccionado.modoOdometro){
+      this.matDialog.open(AlertaOdometroComponent);
 
-      let primero = this.movilodometros[0];
-
-      if(primero.modoOdometro > this.form.value.modoOdometro){
-        this.cancelar();
-
-      }else{
-        this.movilodometroService.post(this.seleccionado).subscribe();
-        this.movilodometros = this.movilodometros.filter(dato => dato.modoId != this.seleccionado.modoId);
-        this.movilodometros.push(this.seleccionado);    
-        }
-    }
-
-    this.form.reset();
-    this.actualizarTabla();
-
+    }else if (this.seleccionado.modoOdometro>=1000){//comparar con valor mayor
+      const dialogRef = this.matDialog.open(ConfirmarComponent);
+      dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+        if (result){
+          if(this.seleccionado.modoId){
+            this.movilodometroService.put(this.seleccionado).subscribe(
+              ()=>{
+              this.mostrarFormulario = false;
+              });
+          }else{
+            this.movilodometroService.post(this.seleccionado).subscribe(
+              (movilodometro)=>{
+                this.movilodometros.push(movilodometro);
+                this.mostrarFormulario=false;
+                this.actualizarTabla();
+              });
+            }
+          }
+        });
+        }else{
+          if(this.seleccionado.modoId){
+            this.movilodometroService.put(this.seleccionado).subscribe(
+              ()=>{
+              this.mostrarFormulario = false;
+              });
+          }else{ this.movilodometroService.post(this.seleccionado).subscribe(
+            (movilodometro)=>{
+              this.movilodometros.push(movilodometro);
+              this.mostrarFormulario = false;
+              this.actualizarTabla();
+            });
+          }
+        }this.actualizarTabla();
   }
 
   cancelar() {
