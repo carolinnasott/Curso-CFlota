@@ -1,95 +1,112 @@
+<div [hidden]="mostrarFormulario || formularioBitacora">
 
-    <div [hidden]="mostrarFormulario || formularioBitacora">
-    
-        
-        <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Servicio</button>
-        <br>
-            <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
-            
-              
-                <!-- Name Column -->
-                <ng-container matColumnDef="servNombre">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <div style="color: #2271b3;"><h3><b>Servicio</b> </h3></div></th>
-                  <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.servNombre}} </b> </td>
-                </ng-container>
-              
-                <!-- Weight Column -->
-                <ng-container matColumnDef="mosePeriodo">
-                  <th mat-header-cell *matHeaderCellDef> 
-                    <div style="color: #2271b3;"><h3><b>Periodo </b></h3></div></th>
-                  <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.mosePeriodo}}</b> </td>
-                </ng-container>
-        
-                <ng-container matColumnDef="mobiObservaciones">
-                    <th mat-header-cell *matHeaderCellDef> 
-                      <div style="color: #2271b3;"><h3><b>Observaciones</b></h3></div></th>
-                    <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.mobiObservaciones}}</b> </td>
-                  </ng-container>
-    
-                  <ng-container matColumnDef="moseKM">
-                    <th mat-header-cell *matHeaderCellDef> 
-                      <div style="color: #2271b3;"><h3><b>Kilometros</b></h3></div></th>
-                    <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.moseKM}}</b> </td>
-                  </ng-container>
-    
-    
-                  <!-- ACCIONES -->
-                <ng-container matColumnDef="acciones">
-                  <th mat-header-cell *matHeaderCellDef>                <div style="color: #2271b3;"><h3><b>Acciones </b></h3></div></th>
-    
-                  <td mat-cell *matCellDef="let movilserv">
-                     
-                    <button mat-icon-button color="editar" title="editar" (click)="editar(movilserv)">
-                          <mat-icon>brush</mat-icon>
-                      </button>
-                      &nbsp;
-                      <button mat-icon-button color="borrar" title="borrar" (click)="delete(movilserv)">
-                          <mat-icon>delete_sweep</mat-icon>
-                      </button>
-                      &nbsp;
-                      <button mat-icon-button color="add" title="realizar servicio" (click)="bitacora(movilserv)">
-                        <mat-icon>content_paste</mat-icon>
-                      </button>
-                </ng-container>
-          
-              
-                <tr mat-header-row *matHeaderRowDef='columnas'></tr>
-                <tr mat-row *matRowDef='let row; columns: columnas'></tr>
-              </table>
-              <br>
-              <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
-        
-      </div>
-    
-  <div *ngIf="mostrarFormulario">
-    <div style="color:#2271b3;">
-      <div style='text-align:center'><h3><b>Seleccione un Servicio</b></h3></div>
+
+  <button mat-raised-button color="success" (click)="agregar()" style="float:right;">Agregar Servicio</button>
+  <br>
+  <table mat-table [dataSource]='dataSource' class="mat-elevation-z8" #tabla>
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="servNombre">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Servicio</b> </h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.servNombre}} </b> </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="mosePeriodo">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Periodo </b></h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.mosePeriodo}}</b> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mobiObservaciones">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Observaciones</b></h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.mobiObservaciones}}</b> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="moseKM">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Kilometros</b></h3>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let movilservicio"> <b>{{movilservicio.moseKM}}</b> </td>
+    </ng-container>
+
+
+    <!-- ACCIONES -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>
+        <div style="color: #2271b3;">
+          <h3><b>Acciones </b></h3>
+        </div>
+      </th>
+
+      <td mat-cell *matCellDef="let movilserv">
+
+        <button mat-icon-button color="editar" title="editar" (click)="editar(movilserv)">
+          <mat-icon>brush</mat-icon>
+        </button>
+        &nbsp;
+        <button mat-icon-button color="borrar" title="borrar" (click)="delete(movilserv)">
+          <mat-icon>delete_sweep</mat-icon>
+        </button>
+        &nbsp;
+        <button mat-icon-button color="add" title="realizar servicio" (click)="bitacora(movilserv)">
+          <mat-icon>content_paste</mat-icon>
+        </button>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef='columnas'></tr>
+    <tr mat-row *matRowDef='let row; columns: columnas'></tr>
+  </table>
+  <br>
+  <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
+
+</div>
+
+<div *ngIf="mostrarFormulario">
+  <div style="color:#2271b3;">
+    <div style='text-align:center'>
+      <h3><b>Seleccione un Servicio</b></h3>
+    </div>
+  </div>
+  <br>
+  <form [formGroup]="form">
+
+    <div style="text-align: center;">
+      <mat-form-field appearance="outline">
+        <mat-label>Servicio</mat-label>
+        <mat-select formControlName="moseServId" required>
+          <mat-option *ngFor="let servicio of servicios" [value]="servicio.servId">
+            {{servicio.servNombre}}: {{servicio.servDescripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error>Selecciona una opcion valida</mat-error>
+      </mat-form-field>
     </div>
     <br>
-    <form [formGroup]="form">
+    <div style="text-align: center;">
+      <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+      &nbsp;
+      <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
 
-        <div style="text-align: center;">
-            <mat-form-field appearance="outline">
-                <mat-label>Servicio</mat-label>
-                <mat-select formControlName="moseServId" required>
-                    <mat-option *ngFor="let servicio of servicios" [value]="servicio.servId">
-                        {{servicio.servNombre}}: {{servicio.servDescripcion}}
-                    </mat-option>
-                </mat-select>
-                <mat-error>Selecciona una opcion valida</mat-error>
-            </mat-form-field>
-        </div>
-<br>
-        <div style="text-align: center;">
-          <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
-           &nbsp;
-          <button mat-raised-button color="success" (click)="guardar()">Guardar</button>
-
-        </div>
-    </form>
+    </div>
+  </form>
 </div>
 <br>
 <div *ngIf="formularioBitacora">
-  <app-movil-bitacora [moviId]="moviId" [servId]="this.seleccionado.moseServId" [moseId]="seleccionado.moseId" [programado]="true"></app-movil-bitacora>
+  <app-movil-bitacora [programado]="true"></app-movil-bitacora>
 </div>

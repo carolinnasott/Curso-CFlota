@@ -16,5 +16,5 @@ export class MovilServicioService  extends ApiService<MovilServicio>{
     super('movil-servicio', http, app);
 
 }
-  movilserv: MovilServicio[] = [];
+  movilserv= new MovilServicio();
 }

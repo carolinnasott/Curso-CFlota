@@ -117,21 +117,26 @@ export class MovilServicioComponent implements OnInit {
       return;
     }
 
-    Object.assign(this.seleccionado, this.form.value);
-    // tslint:disable-next-line:no-non-null-assertion
-    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId == this.seleccionado.moseServId)!.servNombre;
-    if (this.seleccionado.moseId  > 0) {
-      const elemento = this.movilservicios.find(movilserv => movilserv.moseId  == this.seleccionado.moseId );
-      // tslint:disable-next-line:no-non-null-assertion
-      this.movilservicios.splice(this.seleccionado.moseId , 1, elemento!);
-
-    } else {
-      this.movilServicioService.movilserv.push(this.seleccionado);
+    if(this.seleccionado.moseId){
+      this.seleccionado.moseServId = this.form.value.moseServId;
+      this.movilServicioService.put(this.seleccionado).subscribe();
+      this.movilservicios = this.movilservicios.filter(dato => dato.moseId != this.seleccionado.moseId);
+      this.movilservicios.push(this.seleccionado);
+    }else{
+      this.seleccionado.moseMoviId = this.moviId;
+      this.seleccionado.moseServId = this.form.value.moseServId;
+      this.seleccionado.mosePeriodo = this.servicios.find( dato => dato.servId == this.seleccionado.moseServId)!.servPeriodo;
+      this.seleccionado.moseKM = this.servicios.find(dato => dato.servId == this.seleccionado.moseServId)!.servKM;
+      this.seleccionado.servNombre =this.servicios.find(dato => dato.servId == this.seleccionado.moseServId)!.servNombre;      
+      this.movilServicioService.post(this.seleccionado).subscribe();
+      this.movilservicios = this.movilservicios.filter(dato => dato.moseId != this.seleccionado.moseId);
+      this.movilservicios.push(this.seleccionado);
     }
+
     this.mostrarFormulario = false;
     this.actualizarTabla();
-
   }
+  
   // tslint:disable-next-line:typedef
   cancelar() {
     this.mostrarFormulario = false;
@@ -139,7 +144,8 @@ export class MovilServicioComponent implements OnInit {
   
   bitacora(movilserv: MovilServicio){
     this.formularioBitacora = true;
-    this.seleccionado = movilserv;    
+    this.seleccionado = movilserv; 
+    this.movilServicioService.movilserv = movilserv;   
   }
 
 }
