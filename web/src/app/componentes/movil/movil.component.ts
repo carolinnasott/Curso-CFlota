@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,34 +13,42 @@ import { GrupoService } from 'src/app/servicios/grupo.service';
 import { Grupo } from 'src/app/modelo/grupo';
 import { MovilGrupo } from 'src/app/modelo/movil-grupo';
 import { MovilGrupoService } from 'src/app/servicios/movil-grupo.service';
+import { MovilServicioService } from 'src/app/servicios/movil-servicio.service';
+import { MovilServicio } from 'src/app/modelo/movil-servicio';
 @Component({
   selector: 'app-movil',
   templateUrl: './movil.component.html',
   styleUrls: ['./movil.component.css']
 })
 export class MovilComponent implements OnInit, AfterViewInit {
-  moviles: Movil [] = [];
+  moviles: Movil[] = [];
   seleccionado = new Movil();
   form = new FormGroup({});
+
   mostrarFormulario = false;
-  formularioEditar = false ;
+  formularioEditar = false;
+
   dataSource = new MatTableDataSource<Movil>();
+
   columna: string[] = ['patente', 'descripcion', 'dependencia', 'marcamodeloanio', 'patrullaje', 'accion'];
-  minDate: Date = new Date();
+
   mostrarFormularioGrupo = false;
-  grupos: MovilGrupo [] = [];
-  patente : string = "";
-  descripcion : string = "";
-  dependencia : string = "";
+  grupos: MovilGrupo[] = [];
+  servicios: MovilServicio[] = [];
+
+  patente: string = "";
+  descripcion: string = "";
+  dependencia: string = "";
 
   @ViewChild(MatTable) tabla: MatTable<Movil> | undefined;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private movilService: MovilService,
-              private formBuilder: FormBuilder,
-              public dialog: MatDialog,
-              private movilgrupoService: MovilGrupoService) { }
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog,
+    private movilgrupoService: MovilGrupoService,
+    private movilservicioService: MovilServicioService) { }
 
   // tslint:disable-next-line:typedef
   ngAfterViewInit() {
@@ -83,12 +91,7 @@ export class MovilComponent implements OnInit, AfterViewInit {
         this.actualizarTabla();
       }
     );
-    this.movilgrupoService.get().subscribe(
-      (grupos) => {
-        this.grupos = grupos;
-        this.actualizarTabla();
-      }
-    );
+
   }
 
   actualizarTabla() {
@@ -99,6 +102,13 @@ export class MovilComponent implements OnInit, AfterViewInit {
   accion(seleccionado: Movil) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
+    this.movilgrupoService.get(`mogrMoviId=${this.seleccionado.moviId}`).subscribe(
+      (grupos) => {
+        this.grupos = grupos;
+        this.actualizarTabla();
+      }
+    );
+
   }
 
   filter(event: Event) {
@@ -107,21 +117,21 @@ export class MovilComponent implements OnInit, AfterViewInit {
   }
 
 
-  delete(seleccionado : Movil) {
+  delete(seleccionado: Movil) {
     const dialogRef = this.dialog.open(ConfirmarComponent);
     dialogRef.afterClosed().subscribe(
       result => {
-      console.log(`Dialog result: ${result}`);
+        console.log(`Dialog result: ${result}`);
 
-      if (result) {
-        this.seleccionado = seleccionado;
-        this.movilService.delete(this.seleccionado.moviId).subscribe();
-        this.moviles = this.moviles.filter(dato => dato.moviId != this.seleccionado.moviId);
-        this.actualizarTabla();
-      }else{
-        this.cancelar();
-      }
-    });
+        if (result) {
+          this.seleccionado = seleccionado;
+          this.movilService.delete(this.seleccionado.moviId).subscribe();
+          this.moviles = this.moviles.filter(dato => dato.moviId != this.seleccionado.moviId);
+          this.actualizarTabla();
+        } else {
+          this.cancelar();
+        }
+      });
   }
 
   edit(seleccionado: Movil) {
@@ -130,10 +140,11 @@ export class MovilComponent implements OnInit, AfterViewInit {
   }
 
   // tslint:disable-next-line:typedef
-estado(moviId: number, borrado: number){
-  if (moviId !== null && borrado == 0 ) {return 'Movil Registrado en Control de Flota'; }
-  else if (moviId !== null && borrado == 1){return 'Movil Borrado'; } 
-  else if (borrado == null){return 'Movil No Registrado'; }
+  estado(moviId: number, borrado: boolean) {
+    if (moviId !== null && borrado == false) { return 'Movil Registrado en Control de Flota'; }
+    else if (moviId !== null && borrado == true) { return 'Movil Borrado'; }
+    else if (borrado == null) { return 'Movil No Registrado'; }
+    return ''
   }
 
   guardar() {
@@ -165,59 +176,59 @@ estado(moviId: number, borrado: number){
     this.mostrarFormulario = false;
     this.formularioEditar = false;
   }
-  buscar(){
-    if(this.patente && !this.dependencia && !this.descripcion){
+  buscar() {
+    if (this.patente && !this.dependencia && !this.descripcion) {
       //patente
-      this.movilService.get(`patente=${this.patente}`).subscribe(
+      this.movilService.get(`patente=${this.patente}$activo=1`).subscribe(
         (movil) => {
-        this.moviles = movil;
-        this.actualizarTabla();
-      }
+          this.moviles = movil;
+          this.actualizarTabla();
+        }
       )
-    }else if(!this.patente && !this.dependencia && this.descripcion){
+    } else if (!this.patente && !this.dependencia && this.descripcion) {
       //descripcion
-      this.movilService.get(`descripcion=${this.descripcion}`).subscribe(
+      this.movilService.get(`descripcion=${this.descripcion}$activo=1`).subscribe(
         (movil) => {
-        this.moviles = movil;
-        this.actualizarTabla();
-      }
+          this.moviles = movil;
+          this.actualizarTabla();
+        }
       )
-    }else{
+    } else {
       //depentencia
-      this.movilService.get(`dependencia=${this.dependencia}`).subscribe(
-      (movil) => {
-        this.moviles = movil;
-        this.actualizarTabla();
-      }
+      this.movilService.get(`dependencia=${this.dependencia}$activo=1`).subscribe(
+        (movil) => {
+          this.moviles = movil;
+          this.actualizarTabla();
+        }
       )
     }
-    if(this.patente && this.descripcion){
-      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}`).subscribe(
+    if (this.patente && this.descripcion) {
+      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}$activo=1`).subscribe(
         (movil) => {
-        this.moviles = movil;
-        this.actualizarTabla();
-      }
+          this.moviles = movil;
+          this.actualizarTabla();
+        }
       )
-    }else if(this.patente && this.dependencia){
-      this.movilService.get(`patente=${this.patente}&dependencia=${this.dependencia}`).subscribe(
+    } else if (this.patente && this.dependencia) {
+      this.movilService.get(`patente=${this.patente}&dependencia=${this.dependencia}$activo=1`).subscribe(
         (movil) => {
-        this.moviles = movil;
-        this.actualizarTabla();
-      }
+          this.moviles = movil;
+          this.actualizarTabla();
+        }
       )
-    }else if(this.dependencia && this.descripcion){
-      this.movilService.get(`descripcion=${this.descripcion}&dependencia=${this.dependencia}`).subscribe(
+    } else if (this.dependencia && this.descripcion) {
+      this.movilService.get(`descripcion=${this.descripcion}&dependencia=${this.dependencia}$activo=1`).subscribe(
         (movil) => {
-        this.moviles = movil;
-        this.actualizarTabla();
-      }
+          this.moviles = movil;
+          this.actualizarTabla();
+        }
       )
-    }else if(this.patente && this.descripcion && this.dependencia){
-      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}&dependencia=${this.dependencia}`).subscribe(
+    } else if (this.patente && this.descripcion && this.dependencia) {
+      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}&dependencia=${this.dependencia}$activo=1`).subscribe(
         (movil) => {
-        this.moviles = movil;
-        this.actualizarTabla();
-      }
+          this.moviles = movil;
+          this.actualizarTabla();
+        }
       )
     }
   }

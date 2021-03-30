@@ -6,4 +6,5 @@ export class MovilGrupo {
     mogrBorrado: boolean = false;
 
     grupNombre: string = '';
+    grupDescripcion: string = '';
 }

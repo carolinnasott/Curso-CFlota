@@ -34,7 +34,7 @@ export class MovilGrupoComponent implements OnInit {
   movilservicios= new MovilServicio();
   gruposervicios: GrupoServicio[] = [];
 
-  columnas: string[] = ['grupNombre','acciones'];
+  columnas: string[] = ['grupNombre','grupDescripcion','acciones'];
   dataSource = new MatTableDataSource<MovilGrupo>();
 
   form = new FormGroup({});
@@ -64,7 +64,8 @@ export class MovilGrupoComponent implements OnInit {
       mogrGrupId: [''],
       mogrFechaAlta: [''],
       mogrBorrado: [''],
-      grupNombre: ['']
+      grupNombre: [''],
+      grupDescripcion: ['']
     });
 
     this.movilgrupoService.get(`mogrMoviId=${this.moviId}`).subscribe(
@@ -158,6 +159,8 @@ export class MovilGrupoComponent implements OnInit {
       this.movilgrupoService.post(this.seleccionado).subscribe();
       this.movilgrupos = this.movilgrupos.filter(dato => dato.mogrId != this.seleccionado.mogrId);
       this.seleccionado.grupNombre = this.grupos.find(dato => dato.grupId = this.seleccionado.mogrGrupId)!.grupNombre;
+      this.seleccionado.grupDescripcion = this.grupos.find(dato => dato.grupId = this.seleccionado.mogrGrupId)!.grupDescripcion;
+
       this.movilgrupos.push(this.seleccionado);
       this.form.reset();
     }

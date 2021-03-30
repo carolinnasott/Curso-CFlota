@@ -7,12 +7,16 @@
     </div>
 
     <div style="float:left;">
-        <div style="display:inline-flex;">
-            <mat-form-field> <input matInput type="text" placeholder="Patente"[(ngModel)]="patente"> </mat-form-field>
-            <mat-form-field> <input matInput type="text" placeholder="Descripcion"[(ngModel)]="descripcion"> </mat-form-field>
-            <mat-form-field> <input matInput type="text" placeholder="Dependencia" [(ngModel)]="dependencia"> </mat-form-field>    
-          </div>
-        <button mat-icon-button color="add" (click)="buscar()"> <mat-icon>search</mat-icon></button>
+      <div style="display:inline-flex;">
+        <mat-form-field> <input matInput type="text" placeholder="Patente" [(ngModel)]="patente"> </mat-form-field>
+        <mat-form-field> <input matInput type="text" placeholder="Descripcion" [(ngModel)]="descripcion">
+        </mat-form-field>
+        <mat-form-field> <input matInput type="text" placeholder="Dependencia" [(ngModel)]="dependencia">
+        </mat-form-field>
+      </div>
+      <button mat-icon-button color="add" (click)="buscar()">
+        <mat-icon>search</mat-icon>
+      </button>
     </div>
 
     <div style="float:right;">
@@ -108,98 +112,78 @@
 
     <mat-horizontal-stepper linear>
       <mat-step label="Detalles de Movil">
-        <mat-card>
-          <table style="width: 100%;">
-            <tr>
-              <td style="color: #2271b3;"><b>Patente</b></td>
-              <td><b>{{seleccionado.patente}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Descripcion</b></td>
-              <td><b>{{seleccionado.descripcion}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Dependencia</b></td>
-              <td><b>{{seleccionado.dependencia}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Dependencia Completa</b></td>
-              <td><b>{{seleccionado.dependenciaCompleta}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Marca</b></td>
-              <td><b>{{seleccionado.marca}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Modelo</b></td>
-              <td><b>{{seleccionado.modelo}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Año</b></td>
-              <td><b>{{seleccionado.anio}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Chasis</b></td>
-              <td><b>{{seleccionado.chasis}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Tipo Movil</b></td>
-              <td><b>{{seleccionado.tipoMovil}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Color</b></td>
-              <td><b>{{seleccionado.color}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Seguro</b></td>
-              <td><b>{{seleccionado.seguro}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Poliza</b></td>
-              <td><b>{{seleccionado.poliza}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Nro Motor</b></td>
-              <td><b>{{seleccionado.numeroMotor}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Peso</b></td>
-              <td><b>{{seleccionado.peso}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>Patrullaje</b></td>
-              <td><b>{{seleccionado.tienePatrullaje}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-            <tr>
-              <td style="color: #2271b3;"><b>CUIT</b></td>
-              <td><b>{{seleccionado.CUIT}}</b></td>
-            </tr>
-            <mat-divider></mat-divider>
-          </table>
-          <br>
-        </mat-card>
-        <div style='text-align:center'>
-          <button mat-raised-button color="" (click)="cancelar()" mat-button>Cancelar</button> &nbsp; &nbsp;
-          &nbsp;
-          <button type="button" mat-raised-button color="success" mat-button matStepperNext>Siguiente</button>
-        </div>
-
-      </mat-step>
+        <body>
+          <div class="grid">
+            <header><td style="color: #2271b3;"><b>Detalles del Movil</b></td></header>
+            <aside> <mat-card>
+              <table style="width: 100%;">
+              <tr><td style="color: #2271b3;"><b>Patente</b></td><td><b>{{seleccionado.patente}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Descripcion</b></td><td><b>{{seleccionado.descripcion}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Dependencia</b></td><td><b>{{seleccionado.dependencia}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Dependencia Completa</b></td><td><b>{{seleccionado.dependenciaCompleta}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Marca</b></td><td><b>{{seleccionado.marca}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Modelo</b></td><td><b>{{seleccionado.modelo}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Año</b></td><td><b>{{seleccionado.anio}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Chasis</b></td><td><b>{{seleccionado.chasis}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Tipo Movil</b></td><td><b>{{seleccionado.tipoMovil}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Color</b></td><td><b>{{seleccionado.color}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Seguro</b></td><td><b>{{seleccionado.seguro}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Poliza</b></td><td><b>{{seleccionado.poliza}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Nro Motor</b></td><td><b>{{seleccionado.numeroMotor}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Peso</b></td><td><b>{{seleccionado.peso}}</b></td></tr>
+              <mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>Patrullaje</b></td><td><b>{{seleccionado.tienePatrullaje}}</b></td>
+              </tr><mat-divider></mat-divider>
+              <tr><td style="color: #2271b3;"><b>CUIT</b></td><td><b>{{seleccionado.CUIT}}</b></td>
+              </tr><mat-divider></mat-divider>
+            </table></mat-card>
+            </aside>
+            <article>
+              
+              <h2><td style="color: #2271b3;"><b>Grupo del Movil</b></td></h2>
+              <p> 
+                <mat-card>     
+                  <tr>
+                    <td style="color: #2271b3;"><b>Nombre</b></td>&nbsp;&nbsp;
+                    <td><b>
+                  <tr *ngFor="let grup of grupos">
+                    <td>{{grup.grupNombre}}</td>
+                  </tr></b></td>
+                  </tr>
+                
+                <tr>
+                  <td style="color: #2271b3;"><b>Descripcion</b></td>&nbsp;&nbsp;
+                  <td><b>
+                <tr *ngFor="let grup of grupos">
+                  <td>{{grup.grupDescripcion}}</td>
+                </tr></b></td>
+                </tr>
+                
+              </mat-card>
+               </p>
+            </article>
+          </div>
+        </body>
+          <div style='text-align:center'>
+            <button mat-raised-button color="" (click)="cancelar()" mat-button>Cancelar</button> &nbsp; &nbsp;
+            &nbsp;
+            <button type="button" mat-raised-button color="success" mat-button matStepperNext>Siguiente</button>
+          </div>
+      </mat-step> 
+      
       <mat-step label="Servicios">
         <app-movil-servicio [moviId]="seleccionado.moviId"></app-movil-servicio>
         <div style='text-align:center'>
@@ -288,7 +272,7 @@
         <div style="width: 100%">
           <form [formGroup]="form" style="text-align: center;">
             <div>
-              <mat-form-field appearance="outline" style = "width: 63%">
+              <mat-form-field appearance="outline" style="width: 63%">
                 <mat-label>Descripcion</mat-label>
                 <input matInput formControlName="descripcion">
                 <mat-error>El campo no puede ser vacio</mat-error>
@@ -296,19 +280,19 @@
               &nbsp;&nbsp;&nbsp;
             </div>
             <div>
-              <mat-form-field appearance="outline" style = "width: 20%">
+              <mat-form-field appearance="outline" style="width: 20%">
                 <mat-label>Marca</mat-label>
                 <input matInput formControlName="marca" required>
                 <mat-error>El campo no puede ser vacio</mat-error>
               </mat-form-field>
               &nbsp;&nbsp;&nbsp;
-              <mat-form-field appearance="outline" style = "width: 20%">
+              <mat-form-field appearance="outline" style="width: 20%">
                 <mat-label>Modelo</mat-label>
                 <input matInput formControlName="modelo" required>
                 <mat-error>El campo no puede ser vacio</mat-error>
               </mat-form-field>
               &nbsp;&nbsp;&nbsp;
-              <mat-form-field appearance="outline" style = "width: 20%">
+              <mat-form-field appearance="outline" style="width: 20%">
                 <mat-label>Año</mat-label>
                 <input matInput formControlName="anio" required>
                 <mat-error>El campo no puede ser vacio</mat-error>
@@ -316,30 +300,30 @@
               &nbsp;&nbsp;&nbsp;
             </div>
             <div>
-              <mat-form-field appearance="outline"style = "width: 31%">
+              <mat-form-field appearance="outline" style="width: 31%">
                 <mat-label>Numero de Movil</mat-label>
                 <input matInput formControlName="numeroMovil" required>
                 <mat-error>El campo no puede ser vacio</mat-error>
               </mat-form-field>
               &nbsp;&nbsp;&nbsp;
-              <mat-form-field appearance="outline"style = "width: 31%">
+              <mat-form-field appearance="outline" style="width: 31%">
                 <mat-label>Color</mat-label>
                 <input matInput formControlName="color">
               </mat-form-field>
               &nbsp;&nbsp;&nbsp;
             </div>
             <div>
-              <mat-form-field appearance="outline"style = "width: 21%">
+              <mat-form-field appearance="outline" style="width: 21%">
                 <mat-label>Seguro</mat-label>
                 <input matInput formControlName="seguro">
               </mat-form-field>
               &nbsp;&nbsp;&nbsp;
-              <mat-form-field appearance="outline"style = "width: 21%">
+              <mat-form-field appearance="outline" style="width: 21%">
                 <mat-label>Poliza</mat-label>
                 <input matInput formControlName="poliza">
               </mat-form-field>
               &nbsp;&nbsp;&nbsp;
-              <mat-form-field appearance="outline"style = "width: 20%">
+              <mat-form-field appearance="outline" style="width: 20%">
                 <mat-label>Numero de Motor</mat-label>
                 <input matInput formControlName="numeroMotor">
               </mat-form-field>
@@ -349,7 +333,8 @@
         <div style='text-align:center'>
           <button mat-raised-button color="" (click)="cancelar()" mat-button>Cancelar</button> &nbsp; &nbsp;
           &nbsp;
-          <button type="button" mat-raised-button color="success" (click)="guardar()" mat-button matStepperNext>Siguiente</button>
+          <button type="button" mat-raised-button color="success" (click)="guardar()" mat-button
+            matStepperNext>Siguiente</button>
         </div>
 
       </mat-step>
@@ -359,7 +344,7 @@
             <app-movil-grupo [moviId]="seleccionado.moviId"></app-movil-grupo>
           </div>
         </div>
-        <br> 
+        <br>
         <div style='text-align:center'>
           <button mat-raised-button color="" (click)="cancelar()" mat-button>Cancelar</button> &nbsp; &nbsp;
 
@@ -369,8 +354,11 @@
       <mat-step label="Fin">
         <br>
         <div style="color:#2271b3;">
-          <div style='text-align:center' ><h3><b>El movil se editó exitosamente</b></h3></div></div>
-      
+          <div style='text-align:center'>
+            <h3><b>El movil se editó exitosamente</b></h3>
+          </div>
+        </div>
+
         <br>
         <div style='text-align:center'>
           <button mat-raised-button color="" (click)="cancelar()" mat-button>Salir</button> &nbsp; &nbsp;
