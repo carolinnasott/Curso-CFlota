@@ -139,10 +139,11 @@ actualizarTabla() {
   }
 
 // tslint:disable-next-line:typedef
-estado (moviId: number, borrado: number) {
-  if (moviId !== null && borrado == 0 ) {return 'Movil Registrado'; }
-  else if (moviId !== null && borrado == 1){return 'Movil Borrado'; } 
+estado (moviId: number, borrado: boolean) {
+  if (moviId !== null && borrado == false ) {return 'Movil Registrado'; }
+  else if (moviId !== null && borrado == true){return 'Movil Borrado'; } 
   else if (borrado == null){return 'Movil No Registrado'; }
+  return''
   }
 
   cancelar() {
