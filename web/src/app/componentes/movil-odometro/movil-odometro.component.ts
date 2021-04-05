@@ -85,9 +85,9 @@ export class MovilOdometroComponent implements OnInit {
   }
 
   agregar() {
-    this.seleccionado = new MovilOdometro();
-    this.form.setValue(this.seleccionado);
     this.mostrarFormulario = true;
+    this.form.reset();
+    this.seleccionado = new MovilOdometro();
   }
 
   delete(seleccionado: MovilOdometro) {

@@ -58,7 +58,9 @@
 
 <div *ngIf="mostrarFormulario">
   <div style="color:#2271b3;">
-    <div style='text-align:center'><h3><b>Ingrese Datos del Odometro</b></h3></div>
+    <div style='text-align:center'>
+      <h3><b>Ingrese Datos del Odometro</b></h3>
+    </div>
   </div>
   <br>
 
@@ -71,7 +73,7 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-&nbsp;&nbsp;
+      &nbsp;&nbsp;
       <mat-form-field appearance="outline" style="width: 45%;">
         <mat-label>Odometro</mat-label>
         <input matInput formControlName="modoOdometro" required>
