@@ -12,6 +12,12 @@ table {
     width: 100%;
   }
 
+.tabla {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
   .mat-stepper-horizontal {
     margin-top: 8px;
   }
@@ -71,3 +77,9 @@ table {
     color: #f0fff3;
     background-color:  #78a77e
   }
+  .td {
+    padding: 10px;
+  }
+  .th {
+    font-size: medium;
+}

@@ -102,6 +102,7 @@ export class MovilComponent implements OnInit, AfterViewInit {
   accion(seleccionado: Movil) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
+    this.movilService.movil= seleccionado;
     this.movilgrupoService.get(`mogrMoviId=${this.seleccionado.moviId}`).subscribe(
       (grupos) => {
         this.grupos = grupos;

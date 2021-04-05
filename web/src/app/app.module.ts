@@ -41,6 +41,8 @@ import { MovilOdometroComponent } from './componentes/movil-odometro/movil-odome
 import { MovilGrupoComponent } from './componentes/movil-grupo/movil-grupo.component';
 import { MovilAltaComponent } from './componentes/movil-alta/movil-alta.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { BitacoraTareaComponent } from './componentes/bitacora-tarea/bitacora-tarea.component';
+import { AlertaOdometroComponent } from './shared/alerta-odometro/alerta-odometro.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import {MatRadioModule} from '@angular/material/radio';
     MovilBitacoraComponent,
     MovilOdometroComponent,
     MovilGrupoComponent,
-    MovilAltaComponent
+    MovilAltaComponent,
+    BitacoraTareaComponent,
+    AlertaOdometroComponent
   ],
   imports: [
     BrowserModule,
