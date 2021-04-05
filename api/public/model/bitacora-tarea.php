@@ -13,9 +13,8 @@ class BitacoraTarea
             ,bitaBorrado
             ,tareNombre'; 
             
-    public $join = " LEFT OUTER JOIN Tarea  ON bitaTareId  = tareId
-                   LEFT OUTER JOIN MovilBitacora  ON bitaMobiId  = mobiId";
-    
+    public $join = " LEFT OUTER JOIN Tarea  ON bitaTareId  = tareId";
+
     public function get ($db) {
         $sql = "SELECT TOP (1000) $this->fields FROM $this->table
                 $this->join
@@ -39,11 +38,12 @@ class BitacoraTarea
     }
 
     public function delete ($db, $id) {
-        $stmt = SQL::query($db,
-        "UPDATE $this->table SET bitaBorrado = 1 - bitaBorrado
-        WHERE bitaId = ?", [$id] );
-
+        $sql = "UPDATE $this->table
+                SET bitaBorrado = 1 WHERE bitaId = ?";
+        $params = [$id];
+        $stmt = SQL::query($db,$sql, $params);
         sqlsrv_fetch($stmt);
+
         return [];
     }
 

@@ -91,24 +91,41 @@ class Movil
         return $results;
     }
 
+
     public function put ($db) {
-        // TODO
-        return;
-        
+       
         $stmt = SQL::query($db,
         "UPDATE $this->table
-        SET moviBorrado = ?,
-            moviModoOdometro = ?,
-            moviModoFecha = ?
-        WHERE moviId = ?",
+        SET moviModoOdometro = ?
+            ,moviModoFecha = ?
+            ,moviBorrado = ?
+        WHERE moviId = ?;
+        
+        UPDATE AVL_Estructura.dbo.Movil
+        SET descripcion = ?
+            ,marca = ?
+            ,modelo = ?
+            ,anio = ?
+            ,color = ?
+            ,numeroMovil = ?
+        WHERE MovilID = ?",
         [
-            DATA["moviBorrado"]
-            ,DATA["moviModoOdometro"]
-            ,DATA["moviModoFecha"]
-            ,DATA["moviId"]
+            DATA["moviModoOdometro"],
+            DATA["moviModoFecha"],
+            DATA["moviBorrado"],
+            DATA["moviId"],
+
+            DATA["descripcion"],
+            DATA["marca"],
+            DATA["modelo"],
+            DATA["anio"],
+            DATA["color"],
+            DATA["numeroMovil"],
+            DATA["moviId"]
         ] );
 
         sqlsrv_fetch($stmt);
+        sqlsrv_next_result($stmt);
         return DATA;
     }
 
