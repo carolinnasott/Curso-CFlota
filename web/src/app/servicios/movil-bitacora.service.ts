@@ -9,6 +9,8 @@ import { MovilBitacora } from '../modelo/movil-bitacora';
   providedIn: 'root'
 })
 export class MovilBitacoraService  extends ApiService<MovilBitacora>{
+  movilbitac= new MovilBitacora();
+  
   constructor(
     protected http: HttpClient,
     protected app: AppConfigService
@@ -16,5 +18,5 @@ export class MovilBitacoraService  extends ApiService<MovilBitacora>{
     super('movil-bitacora', http, app);
 
 }
-  movilbitac: MovilBitacora[] = [];
+
 }

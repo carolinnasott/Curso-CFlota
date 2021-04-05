@@ -9,6 +9,8 @@ import { MovilServicio } from '../modelo/movil-servicio';
   providedIn: 'root'
 })
 export class MovilServicioService  extends ApiService<MovilServicio>{
+  movilserv= new MovilServicio();
+
   constructor(
     protected http: HttpClient,
     protected app: AppConfigService
@@ -16,5 +18,4 @@ export class MovilServicioService  extends ApiService<MovilServicio>{
     super('movil-servicio', http, app);
 
 }
-  movilserv= new MovilServicio();
 }

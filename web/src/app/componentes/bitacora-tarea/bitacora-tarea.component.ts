@@ -123,15 +123,18 @@ export class BitacoraTareaComponent implements OnInit {
   }
 
   delete(seleccionado: BitacoraTarea){
-    const dialog = this.matDialog.open(ConfirmarComponent);
-    dialog.afterClosed().subscribe(
-      (result) => {
+    const dialogRef = this.matDialog.open(ConfirmarComponent);
+    dialogRef.afterClosed().subscribe(
+      result =>{
+        console.log(`Dialog resulr: ${result}`);
         if(result) {
           seleccionado.bitaBorrado = 1;
           this.actualizartabla();
         }
       });
   }
+
+
 
   cancelar(){
     this.FormularioBitaTarea = false;
