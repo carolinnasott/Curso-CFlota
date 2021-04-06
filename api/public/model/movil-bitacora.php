@@ -17,9 +17,7 @@ class MovilBitacora
             ,mobiPendiente
             ,CONVERT(VARCHAR, mobiFechaAlta, 126) mobiFechaAlta
             ,mobiBorrado
-            ,servNombre
-            ,patente
-            ,descripcion'; 
+            ,servNombre'; 
 
             public $join = "LEFT OUTER JOIN Servicio ON mobiServId = servId";
             public $joinMovil = "LEFT OUTER JOIN AVL_Estructura.dbo.Movil ON mobiMoviId = MovilId";
@@ -108,11 +106,11 @@ class MovilBitacora
     public function put($db) {
         $sql = "UPDATE $this->table
                 SET mobiServId = ?,
-                    ,CONVERT(VARCHAR, mobiFecha, 126) mobiFecha = ?
+                    mobiFecha = ?,
                     mobiObservaciones = ?,
                     mobiOdometro = ?,
                     mobiProximoOdometro = ?,
-                    ,CONVERT(VARCHAR, mobiProximaFecha, 126) mobiProximaFecha = ?,
+                    mobiProximaFecha = ?,
                     mobiPendiente = ?
                 WHERE mobiId = ?";
 

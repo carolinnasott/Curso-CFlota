@@ -180,7 +180,7 @@ export class MovilComponent implements OnInit, AfterViewInit {
   buscar() {
     if (this.patente && !this.dependencia && !this.descripcion) {
       //patente
-      this.movilService.get(`patente=${this.patente}$activo=1`).subscribe(
+      this.movilService.get(`patente=${this.patente}`).subscribe(
         (movil) => {
           this.moviles = movil;
           this.actualizarTabla();
@@ -188,7 +188,7 @@ export class MovilComponent implements OnInit, AfterViewInit {
       )
     } else if (!this.patente && !this.dependencia && this.descripcion) {
       //descripcion
-      this.movilService.get(`descripcion=${this.descripcion}$activo=1`).subscribe(
+      this.movilService.get(`descripcion=${this.descripcion}`).subscribe(
         (movil) => {
           this.moviles = movil;
           this.actualizarTabla();
@@ -196,7 +196,7 @@ export class MovilComponent implements OnInit, AfterViewInit {
       )
     } else {
       //depentencia
-      this.movilService.get(`dependencia=${this.dependencia}$activo=1`).subscribe(
+      this.movilService.get(`dependencia=${this.dependencia}`).subscribe(
         (movil) => {
           this.moviles = movil;
           this.actualizarTabla();
@@ -204,28 +204,28 @@ export class MovilComponent implements OnInit, AfterViewInit {
       )
     }
     if (this.patente && this.descripcion) {
-      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}$activo=1`).subscribe(
+      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}`).subscribe(
         (movil) => {
           this.moviles = movil;
           this.actualizarTabla();
         }
       )
     } else if (this.patente && this.dependencia) {
-      this.movilService.get(`patente=${this.patente}&dependencia=${this.dependencia}$activo=1`).subscribe(
+      this.movilService.get(`patente=${this.patente}&dependencia=${this.dependencia}`).subscribe(
         (movil) => {
           this.moviles = movil;
           this.actualizarTabla();
         }
       )
     } else if (this.dependencia && this.descripcion) {
-      this.movilService.get(`descripcion=${this.descripcion}&dependencia=${this.dependencia}$activo=1`).subscribe(
+      this.movilService.get(`descripcion=${this.descripcion}&dependencia=${this.dependencia}`).subscribe(
         (movil) => {
           this.moviles = movil;
           this.actualizarTabla();
         }
       )
     } else if (this.patente && this.descripcion && this.dependencia) {
-      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}&dependencia=${this.dependencia}$activo=1`).subscribe(
+      this.movilService.get(`patente=${this.patente}&descripcion=${this.descripcion}&dependencia=${this.dependencia}`).subscribe(
         (movil) => {
           this.moviles = movil;
           this.actualizarTabla();

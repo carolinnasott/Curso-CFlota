@@ -80,7 +80,7 @@ class MovilServicio
         SET moseServId  = ?
         WHERE moseId  = ?",
         [
-            DATA["moseMoviId"],
+            DATA["moseServId"],
             DATA["moseId"]
         ] );
 

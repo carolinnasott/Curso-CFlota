@@ -19,11 +19,11 @@ import { AlertaOdometroComponent } from 'src/app/shared/alerta-odometro/alerta-o
 })
 export class MovilOdometroComponent implements OnInit {
 
-  @Input() moviId= 0;
+  @Input() moviId: number= 0;
 
-  movilodometros: MovilOdometro[] = []
+  movilodometros: MovilOdometro[] = [];
   seleccionado = new MovilOdometro();
-  movil: Movil[] = [];
+  movil: Movil[] = []; 
   moviles= new Movil();
   
 
@@ -86,7 +86,7 @@ export class MovilOdometroComponent implements OnInit {
 
   agregar() {
     this.mostrarFormulario = true;
-    this.form.reset();
+    this.form.setValue(this.seleccionado);
     this.seleccionado = new MovilOdometro();
   }
 
@@ -111,12 +111,12 @@ export class MovilOdometroComponent implements OnInit {
     this.form.setValue(seleccionado);
   }
 
-  guardar() {
+ guardar() {
     if (!this.form.valid) {
       return;
     }
-
     Object.assign(this.seleccionado, this.form.value);
+    //guardo en memoria
     this.movilService.movilodomet.moviId = this.seleccionado.modoMoviId;
     this.movilService.movilodomet.moviModoOdometro = this.seleccionado.modoOdometro;
     this.movilService.movilodomet.moviModoFecha = this.seleccionado.modoFecha;
@@ -125,7 +125,7 @@ export class MovilOdometroComponent implements OnInit {
     
     //comparar el que ingresa con el existente
     if(odometro > this.seleccionado.modoOdometro){
-      this.matDialog.open(AlertaOdometroComponent);
+      this.matDialog.open(AlertaOdometroComponent); //error
 
     }else if (this.seleccionado.modoOdometro>=1000){//comparar con valor mayor
       const dialogRef = this.matDialog.open(ConfirmarComponent);
@@ -162,6 +162,7 @@ export class MovilOdometroComponent implements OnInit {
           }
         }this.actualizarTabla();
   }
+  
 
   cancelar() {
     this.mostrarFormulario = false;

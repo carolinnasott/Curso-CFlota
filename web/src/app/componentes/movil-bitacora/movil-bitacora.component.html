@@ -127,14 +127,14 @@
   <br>
   <form [formGroup]="form" style="text-align: center;">
     <div>
-      <mat-form-field appearance="outline" style="width: 45%;">
+      <mat-form-field appearance="outline" style="width: 50%;" > 
         <mat-label>Servicio</mat-label>
-        <mat-select formControlName="mobiServId">
-          <mat-option *ngFor="let serv of servicios" [value]="serv.servId">
-            {{serv.servNombre}}
-          </mat-option>
+        <mat-select (selectionChange)="mobiServIdChange($event)" formControlName="mobiServId">
+            <mat-option *ngFor="let servicio of movilservicios" [value]="servicio.moseServId" [disabled]="movilbitacoraService.movilbitac.mobiServId !== 0">
+                {{servicio.servNombre}}
+            </mat-option>
         </mat-select>
-      </mat-form-field>
+    </mat-form-field>
       &nbsp;
       <mat-form-field appearance="outline" style="width: 45%;">
         <mat-label>Fecha bitacora</mat-label>

@@ -23,6 +23,7 @@ import { MovilService } from 'src/app/servicios/movil.service';
 })
 export class MovilBitacoraComponent implements OnInit {
   @Input() moviId= 0;
+  @Input() moseServId=0;
   @Input() programado = false; //desde movil-servicio
 
   movilbitacoras: MovilBitacora[] = [];

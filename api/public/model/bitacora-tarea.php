@@ -38,14 +38,14 @@ class BitacoraTarea
     }
 
     public function delete ($db, $id) {
-        $sql = "UPDATE $this->table
-                SET bitaBorrado = 1 WHERE bitaId = ?";
-        $params = [$id];
-        $stmt = SQL::query($db,$sql, $params);
-        sqlsrv_fetch($stmt);
-
-        return [];
-    }
+        $stmt = SQL::query($db,
+        "UPDATE $this->table SET bitaBorrado = 1 - bitaBorrado
+        WHERE bitaId = ?", [$id] );
+                $stmt = SQL::query($db,$sql, $params);
+                sqlsrv_fetch($stmt);
+        
+                return [];
+            }
 
     public function post ($db) {
         $sql = "INSERT INTO $this->table

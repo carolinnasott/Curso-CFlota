@@ -31,7 +31,7 @@ class Movil
     public function get ($db) {
         $sql = "SELECT TOP 100 $this->fields
                 FROM AVL_Estructura.dbo.Movil A
-                LEFT OUTER JOIN SISEP_ControlFlota.dbo.Movil B ON A.MovilID = B.moviId
+                LEFT OUTER JOIN SISEP_ControlFlota.dbo.Movil B ON A.movilID = B.moviId
                 LEFT OUTER JOIN AVL_Estructura.dbo.Comp C ON A.CompID = C.CompID
                 LEFT OUTER JOIN AVL_Estructura.dbo.TipoMovil T ON T.TipoMovilID = A.TipoMovilID 
                 WHERE A.Activa = 1 AND A.Borrado = 0 ";
@@ -91,7 +91,6 @@ class Movil
         return $results;
     }
 
-
     public function put ($db) {
        
         $stmt = SQL::query($db,
@@ -108,7 +107,7 @@ class Movil
             ,anio = ?
             ,color = ?
             ,numeroMovil = ?
-        WHERE MovilID = ?",
+        WHERE movilID = ?",
         [
             DATA["moviModoOdometro"],
             DATA["moviModoFecha"],
@@ -121,15 +120,13 @@ class Movil
             DATA["anio"],
             DATA["color"],
             DATA["numeroMovil"],
-            DATA["moviId"]
+            DATA["movilID"]
         ] );
 
         sqlsrv_fetch($stmt);
         sqlsrv_next_result($stmt);
         return DATA;
     }
-
-
 }
 
 ?>
